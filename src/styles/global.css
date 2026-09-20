@@ -22,12 +22,19 @@
     box-sizing: border-box;
   }
 
+  /* Margins belong to the reset, not to the components. A component that zeroes
+   * its own margin sits in a later layer and then beats the layout rule that was
+   * meant to space it, which is how a heading ends up sitting on the list under
+   * it. Here it is harmless: the reset is the first layer, so everything later
+   * can still have its say. */
   body,
   h1,
   h2,
   h3,
   h4,
   p,
+  ul,
+  ol,
   figure,
   blockquote,
   dl,
@@ -267,6 +274,27 @@
     max-width: var(--measure);
   }
 
+  /* Questions and answers in columns. One column of short blocks leaves the
+   * same empty half that a single paragraph does, and the answers are short
+   * enough to stand next to each other. */
+  .qa-grid {
+    display: grid;
+    gap: var(--space-m) var(--space-l);
+    /* 21rem lands on three columns at the page width, two on a tablet, one on a
+     * phone. Three was the choice: the answers are short enough to stay
+     * readable, and the block sits denser than two wide columns would. */
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+    align-items: start;
+  }
+
+  .qa-grid > * {
+    max-width: none;
+  }
+
+  .qa-grid h3 {
+    margin-block-end: 0.3rem;
+  }
+
   .section {
     padding-block: var(--space-xl);
   }
@@ -320,12 +348,19 @@
     margin-block-start: var(--space-m);
   }
 
-  /* A heading belongs to what follows it, so the gap underneath is the tight
-   * one. The generous interval sits above, and the section padding supplies it.
-   * Without this every gap in a stack is the same and the rhythm goes flat. */
-  .stack > :is(h1, h2, h3, h4) + *,
-  .stack-loose > :is(h1, h2, h3, h4) + * {
+  /* A heading belongs to the text under it, so that gap is the tight one. The
+   * generous interval sits above, and the section padding supplies it. Without
+   * this every gap in a stack is the same and the rhythm goes flat. */
+  .stack > :is(h1, h2, h3, h4) + p,
+  .stack-loose > :is(h1, h2, h3, h4) + p {
     margin-block-start: var(--space-xs);
+  }
+
+  /* A section container without a stack class has no rhythm of its own, and a
+   * heading whose next sibling is a grid then sits directly on the first card
+   * like a caption. This is that missing default. */
+  .wrap:not(.stack):not(.stack-loose) > * + * {
+    margin-block-start: var(--space-m);
   }
 
   /* One authored moment, on the one element that is already on screen when the
@@ -559,7 +594,6 @@
   .marker-list {
     list-style: none;
     padding: 0;
-    margin: 0;
     display: grid;
     gap: var(--space-xs);
   }
@@ -598,6 +632,52 @@
 }
 
 @layer utilities {
+  /* Every section is one of three shapes, and each one either fills the width or
+   * is symmetric. What does neither, a short column pinned to the left edge with
+   * an empty right half, is the shape that looks unfinished.
+   *
+   * 1. The default: full width, left aligned. For tables, card grids, an image
+   *    beside its text, anything that uses the room it is given.
+   * 2. is-centered: a short statement. Column and text both centred.
+   * 3. is-column: a long document. Column centred, text left, because centred
+   *    body copy stops being readable after a few lines.
+   *
+   * These live in the last layer on purpose. As modifiers they have to beat the
+   * component that they are modifying, and a component two layers earlier wins
+   * on layer order no matter how specific the modifier is. The first attempt sat
+   * in the layout layer, where `.marker-list { margin: 0 }` quietly cancelled the
+   * centring. */
+  .is-centered {
+    text-align: center;
+  }
+
+  .is-centered > * {
+    margin-inline: auto;
+  }
+
+  .is-centered .button-row {
+    justify-content: center;
+  }
+
+  /* A bullet hanging off the left of centred text points at nothing. In a
+   * centred section the items carry their own lead-in instead and get more air
+   * between them, which is what the bullet was doing anyway. */
+  .is-centered .marker-list {
+    gap: var(--space-s);
+  }
+
+  .is-centered .marker-list li {
+    padding-left: 0;
+  }
+
+  .is-centered .marker-list li::before {
+    content: none;
+  }
+
+  .is-column > * {
+    margin-inline: auto;
+  }
+
   .button-row {
     display: flex;
     flex-wrap: wrap;

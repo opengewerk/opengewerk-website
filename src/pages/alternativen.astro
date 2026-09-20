@@ -140,7 +140,7 @@ const schema = [
   </section>
 
   <section class="section">
-    <div class="wrap measure stack-loose">
+    <div class="wrap measure stack-loose is-centered">
       <h2>Wofür OpenGewerk heute nicht die richtige Wahl ist</h2>
       <p class="lead">
         Ein Vergleich, der nur die eigenen Stärken auflistet, ist eine Anzeige. Diese
@@ -172,9 +172,9 @@ const schema = [
   </section>
 
   <section class="section section-tint">
-    <div class="wrap measure">
+    <div class="wrap">
       <h2>Häufige Fragen zum Vergleich</h2>
-      <div class="stack-loose faq">
+      <div class="qa-grid">
         {
           questions.map((entry) => (
             <div>
@@ -188,7 +188,7 @@ const schema = [
   </section>
 
   <section class="section section-dark">
-    <div class="wrap measure stack-loose">
+    <div class="wrap measure stack-loose is-centered">
       <h2>Fehlt in dieser Tabelle etwas?</h2>
       <p class="lead">
         Wer eines der genannten Systeme im Alltag benutzt, sieht Dinge, die keine
@@ -206,13 +206,6 @@ const schema = [
 </Page>
 
 <style>
-  .faq {
-    margin-block-start: var(--space-m);
-  }
-
-  .faq h3 {
-    margin-block-end: 0.3rem;
-  }
 
   table th[scope='row'] {
     font-weight: 600;

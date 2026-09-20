@@ -216,7 +216,7 @@ const schema = [
   </section>
 
   <section class="section">
-    <div class="wrap measure stack-loose">
+    <div class="wrap measure stack-loose is-centered">
       <h2>Ehrlich zum Stand</h2>
       <p>
         OpenGewerk ist in Entwicklung und noch kein fertiges Produkt. Was steht, steht
@@ -238,9 +238,9 @@ const schema = [
   </section>
 
   <section class="section section-tint">
-    <div class="wrap measure">
+    <div class="wrap">
       <h2>Häufige Fragen</h2>
-      <div class="stack-loose faq">
+      <div class="qa-grid">
         {
           questions.map((entry) => (
             <div>
@@ -254,7 +254,7 @@ const schema = [
   </section>
 
   <section class="section section-dark">
-    <div class="wrap measure stack-loose">
+    <div class="wrap measure stack-loose is-centered">
       <h2>Fachliche Rückmeldung zählt gerade mehr als Code</h2>
       <p class="lead">
         Wer einen Elektro- oder PV-Betrieb führt, weiß Dinge, die in keinem Konzept
@@ -289,11 +289,4 @@ const schema = [
     margin-block-start: var(--space-m);
   }
 
-  .faq {
-    margin-block-start: var(--space-m);
-  }
-
-  .faq h3 {
-    margin-block-end: 0.3rem;
-  }
 </style>

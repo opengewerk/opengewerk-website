@@ -125,7 +125,7 @@ const badgeFor: Record<State, { className: string; label: string }> = {
   </section>
 
   <section class="section">
-    <div class="wrap measure stack-loose">
+    <div class="wrap measure stack-loose is-centered">
       <h2>Warum der Fahrplan hier steht und nicht als Versprechen</h2>
       <p>
         Es gibt kein Datum an diesen Phasen. Das Projekt entsteht neben einem laufenden
@@ -152,10 +152,17 @@ const badgeFor: Record<State, { className: string; label: string }> = {
 </Page>
 
 <style>
+  /* A list of cards is structure, not running text, so it keeps the full page
+   * width instead of the reading measure that every other list in a section
+   * gets. And the top margin is spelled out here rather than left to the stack:
+   * a scoped style in an Astro component sits in no cascade layer and therefore
+   * beats every layer in the stylesheet, so a bare `margin: 0` would silently
+   * cancel the gap the stack put there. */
   .phases {
     list-style: none;
-    margin: 0;
+    margin: var(--space-m) 0 0;
     padding: 0;
+    max-width: none;
     display: grid;
     gap: var(--space-s);
   }
