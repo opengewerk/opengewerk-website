@@ -63,12 +63,18 @@ jobs:
       # index. The schemas of the contract are excluded: they do not come from
       # this repository, they are placed by opengewerk-assets.sh on the server,
       # and a published $id has to stay reachable.
+      #
+      # The destination carries no path. On the server the key is pinned to
+      # `rrsync -wo <webroot>` in authorized_keys, so it can do nothing but write
+      # into that one directory, and rrsync resolves the empty path to it. A key
+      # in a public repository's secrets should be able to do exactly its job and
+      # nothing else; this one cannot even open a shell.
       - name: Dateien abgleichen
         run: |
           rsync -rlptz --delete \
             --exclude='/schemas/' \
             -e "ssh -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=yes" \
-            dist/ "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/opengewerk.de/public/"
+            dist/ "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:"
 
       - name: Gegenprobe
         run: |

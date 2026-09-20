@@ -88,17 +88,34 @@ Ein Push auf `main` baut und spielt nach `/var/www/opengewerk.de/public/` aus. D
 
 Der Abgleich läuft mit `--delete`, damit eine gelöschte Seite wirklich verschwindet. **Ausgenommen ist `/schemas/`**: die JSON-Schemas des Kanzlei-Vertrags kommen nicht aus diesem Repository, sondern von `opengewerk-assets.sh` auf dem Server, und eine einmal veröffentlichte `$id` muss erreichbar bleiben.
 
-Was dafür einmalig eingerichtet sein muss:
+**Das Ziel steht nicht im Repository, sondern auf dem Server.** Der Schlüssel ist
+dort in `authorized_keys` auf `rrsync -wo <Webwurzel>` festgenagelt, kann also
+ausschließlich in dieses eine Verzeichnis schreiben und nicht einmal eine Shell
+öffnen. Deshalb trägt das Ziel im Workflow keinen Pfad, `rrsync` löst den leeren
+Pfad auf sein Wurzelverzeichnis auf. Ein Schlüssel, der in den Secrets eines
+öffentlichen Repositories liegt, soll genau seine Aufgabe können und sonst nichts.
+
+Fünf Secrets:
 
 | Secret | Inhalt |
 | --- | --- |
 | `SSH_HOST` | Der Server |
 | `SSH_PORT` | Der SSH-Port |
-| `SSH_USER` | Der Deploy-Benutzer, der in das Zielverzeichnis schreiben darf |
-| `SSH_KEY` | Sein privater Schlüssel |
+| `SSH_USER` | Der Deploy-Benutzer, hier `opengewerk` |
+| `SSH_KEY` | Sein privater Schlüssel. Liegt im Proton-Pass-Tresor unter „SSH Keys" |
 | `SSH_KNOWN_HOSTS` | Der Hostkey des Servers. Absichtlich ein Secret und kein `ssh-keyscan` zur Laufzeit: wer beim Verbinden fragt, wem er vertrauen soll, prüft nichts |
 
-Dazu auf dem Server: `rsync` installiert und das Verzeichnis `/var/www/opengewerk.de/public/` für den Deploy-Benutzer beschreibbar.
+Auf dem Server dazu: ein eigener Benutzer `opengewerk` ohne Passwort-Login, die
+Webwurzel gehört ihm mit Gruppe `www-data` und gesetztem setgid-Bit, und
+`/schemas/` bleibt bei `www-data`, weil es aus dem anderen Weg kommt. `rsync` und
+`rrsync` liegen unter `/usr/bin/`.
+
+Dass die Beschränkung wirklich greift, zeigt der Versuch, etwas anderes zu tun:
+
+```
+$ ssh -i <key> opengewerk@<host> "id"
+/usr/bin/rrsync error: SSH_ORIGINAL_COMMAND does not run rsync
+```
 
 ## Eine Eigenheit, die nach einem Fehler aussieht
 
