@@ -17,8 +17,17 @@ export const PROVIDER = {
   city: '68535 Edingen-Neckarhausen',
   country: 'Deutschland',
   email: 'info@opengewerk.de',
+  vatId: 'DE364543992',
+  // The institution's own name, which does not change with whoever holds the
+  // office. Inventing a gendered form here would be a guess.
   supervisoryAuthority:
-    'Landesbeauftragter für den Datenschutz und die Informationsfreiheit Baden-Württemberg',
+    'Der Landesbeauftragte für den Datenschutz und die Informationsfreiheit Baden-Württemberg',
+  /** The rented machine this site runs on. A processor under Art. 28 GDPR. */
+  hoster: 'netcup GmbH, Daimlerstraße 25, 76185 Karlsruhe',
+  /** How long the web server keeps its log files. */
+  logRetention: '14 Tagen',
+  /** Shown at the foot of both legal pages. */
+  legalAsOf: 'September 2026',
 } as const;
 
 export const LINKS = {
