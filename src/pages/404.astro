@@ -1,6 +1,6 @@
 ---
 import Page from '../layouts/Page.astro';
-import { NAVIGATION } from '../site';
+import { LINKS, NAVIGATION } from '../site';
 ---
 
 <Page
@@ -9,22 +9,70 @@ import { NAVIGATION } from '../site';
   noindex={true}
 >
   <section class="section section-dark">
-    <div class="wrap measure stack-loose is-centered">
+    <div class="wrap measure stack is-centered">
       <h1>Diese Seite gibt es nicht</h1>
       <p class="lead">
-        Entweder ist die Adresse verschrieben, oder die Seite hieß einmal anders. Von
-        hier aus geht es weiter:
+        Entweder ist die Adresse verschrieben, oder die Seite hieß einmal anders. Was
+        es gibt, steht hier vollständig.
       </p>
-      <ul class="marker-list">
-        <li><a href="/">Startseite</a></li>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="sr-only">Alle Seiten</h2>
+      <div class="card-grid">
+        <a class="target card stack" href="/">
+          <h3>Start</h3>
+          <p>Worum es bei OpenGewerk geht, in Kürze.</p>
+        </a>
         {
           NAVIGATION.map((entry) => (
-            <li>
-              <a href={entry.href}>{entry.label}</a>
-            </li>
+            <a class="target card stack" href={entry.href}>
+              <h3>{entry.label}</h3>
+              <p>{entry.hint}</p>
+            </a>
           ))
         }
-      </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap measure stack is-centered">
+      <h2>Kam die Adresse von einer Seite hier?</h2>
+      <p>
+        Dann ist ein Verweis kaputt, und das ist ein Fehler, über den ich Bescheid
+        wissen will.
+      </p>
+      <p class="button-row">
+        <a class="button button-outline" href={LINKS.issues} rel="noopener">
+          Kaputten Verweis melden
+        </a>
+      </p>
     </div>
   </section>
 </Page>
+
+<style>
+  /* The whole card is the target. A link that covers only its own heading leaves
+     the rest of the card looking clickable and doing nothing. */
+  .target {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .target h3 {
+    color: var(--copper-text);
+  }
+
+  .target:hover {
+    border-color: var(--copper);
+  }
+
+  .target:hover h3 {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

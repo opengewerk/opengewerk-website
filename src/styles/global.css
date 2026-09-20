@@ -358,8 +358,12 @@
 
   /* A section container without a stack class has no rhythm of its own, and a
    * heading whose next sibling is a grid then sits directly on the first card
-   * like a caption. This is that missing default. */
-  .wrap:not(.stack):not(.stack-loose) > * + * {
+   * like a caption. This is that missing default.
+   *
+   * Inside main and nowhere else: the header and the footer use the same
+   * container as a flex row, where a block margin does not separate anything,
+   * it drops the navigation below the logo. */
+  main .wrap:not(.stack):not(.stack-loose) > * + * {
     margin-block-start: var(--space-m);
   }
 

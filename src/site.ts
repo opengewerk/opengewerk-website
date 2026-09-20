@@ -37,12 +37,42 @@ export const LINKS = {
   apiSpec: 'https://github.com/opengewerk/opengewerk-api-spec',
 } as const;
 
+// The hint is what a page is about in one line. The navigation has no room for
+// it, the page that catches a wrong address has nothing but room.
 export const NAVIGATION = [
-  { href: '/funktionen/', label: 'Funktionen' },
-  { href: '/elektro-und-pv/', label: 'Elektro und PV' },
-  { href: '/buchhaltung/', label: 'Buchhaltung' },
-  { href: '/self-hosting/', label: 'Selbst hosten' },
-  { href: '/alternativen/', label: 'Vergleich' },
-  { href: '/roadmap/', label: 'Stand' },
-  { href: '/mitmachen/', label: 'Mitmachen' },
+  {
+    href: '/funktionen/',
+    label: 'Funktionen',
+    hint: 'Was gebaut ist, was teilweise steht und was noch fehlt.',
+  },
+  {
+    href: '/elektro-und-pv/',
+    label: 'Elektro und PV',
+    hint: 'Anlage bis zum Stromkreis, Prüfprotokolle, Messgeräte-Import.',
+  },
+  {
+    href: '/buchhaltung/',
+    label: 'Buchhaltung',
+    hint: 'Eigenes Journal statt Exportknopf, GoBD, E-Rechnung.',
+  },
+  {
+    href: '/self-hosting/',
+    label: 'Selbst hosten',
+    hint: 'Start über Docker, Sicherung, Update, Datenschutz.',
+  },
+  {
+    href: '/alternativen/',
+    label: 'Vergleich',
+    hint: 'Gegenüber openHandwerk, plancraft, sevdesk und Odoo.',
+  },
+  {
+    href: '/roadmap/',
+    label: 'Stand',
+    hint: 'Die sechs Phasen und wo das Projekt gerade steht.',
+  },
+  {
+    href: '/mitmachen/',
+    label: 'Mitmachen',
+    hint: 'Wobei gerade konkret geholfen werden kann.',
+  },
 ] as const;
