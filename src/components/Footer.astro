@@ -5,7 +5,7 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="footer section-dark">
-  <div class="wrap-wide">
+  <div class="wrap">
     <div class="footer-grid">
       <div class="footer-brand">
         <img
@@ -138,6 +138,8 @@ const year = new Date().getFullYear();
   }
 
   .footer-legal {
+    /* A row, not a paragraph of prose, so the measure cap does not apply. */
+    max-width: none;
     margin-block-start: var(--space-l);
     padding-block-start: var(--space-s);
     border-top: 1px solid rgb(244 241 234 / 0.14);

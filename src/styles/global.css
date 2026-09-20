@@ -95,10 +95,13 @@
     /* Side gutter. Never below 1rem on a phone, never a canyon on a desktop. */
     --gutter: clamp(1rem, 0.6rem + 2vw, 2.5rem);
 
-    /* Width per role, not per screen. */
-    --width-narrow: 44rem; /* running text, about 70 characters */
-    --width-normal: 76rem; /* the default band */
-    --width-wide: 104rem; /* grids and tables, room on WQHD and wider */
+    /* One page width, one left edge. The first draft had three container
+     * widths, and a page that used all three showed its content starting at
+     * three different x positions as the reader scrolled. Nothing about that
+     * reads as a decision. Running text is held short by capping the text
+     * itself, not by centring a narrower box inside the page. */
+    --width-page: 80rem;
+    --measure: 42rem;
 
     --radius: 10px;
     --radius-s: 6px;
@@ -215,23 +218,53 @@
     border-top: 1px solid var(--line);
     margin-block: var(--space-l);
   }
+
+  /* The surfaces the browser draws and a design system usually forgets. They
+   * ship in defaults that belong to no palette, and theming them is the
+   * cheapest sign that a page was built rather than assembled. */
+  ::selection {
+    background: var(--copper-solid);
+    color: #ffffff;
+  }
+
+  :root {
+    color-scheme: light;
+    accent-color: var(--copper-solid);
+    scrollbar-color: var(--ink-muted) var(--surface-sunken);
+  }
+
+  /* Figures in a column only line up when the digits have one width. */
+  table,
+  time {
+    font-variant-numeric: tabular-nums;
+  }
 }
 
 @layer layout {
-  /* The three bands. Each centres its child and keeps the gutter. */
+  /* The one container. Every section uses it, so every section shares one left
+   * edge from the first screen to the footer. */
   .wrap {
-    width: min(100% - 2 * var(--gutter), var(--width-normal));
+    width: min(100% - 2 * var(--gutter), var(--width-page));
     margin-inline: auto;
   }
 
-  .wrap-narrow {
-    width: min(100% - 2 * var(--gutter), var(--width-narrow));
-    margin-inline: auto;
+  /* Caps the running text inside a section without moving the section. The cap
+   * deliberately sits on the children and not on the container: a narrow box
+   * that still carries margin-inline:auto centres itself, and a centred column
+   * on a wide screen reads as pushed to the right. That was the bug. */
+  .measure > * {
+    max-width: var(--measure);
   }
 
-  .wrap-wide {
-    width: min(100% - 2 * var(--gutter), var(--width-wide));
-    margin-inline: auto;
+  /* Prose that sits straight in a full width section gets the same cap without
+   * having to be marked. A paragraph is prose wherever it stands, and a 1280 px
+   * line is unreadable even next to a table that needs the room. */
+  .wrap > p,
+  .wrap > ul,
+  .wrap > ol,
+  .wrap > :is(h1, h2, h3, h4),
+  .lead {
+    max-width: var(--measure);
   }
 
   .section {
@@ -286,6 +319,44 @@
   .stack-loose > * + * {
     margin-block-start: var(--space-m);
   }
+
+  /* A heading belongs to what follows it, so the gap underneath is the tight
+   * one. The generous interval sits above, and the section padding supplies it.
+   * Without this every gap in a stack is the same and the rhythm goes flat. */
+  .stack > :is(h1, h2, h3, h4) + *,
+  .stack-loose > :is(h1, h2, h3, h4) + * {
+    margin-block-start: var(--space-xs);
+  }
+
+  /* One authored moment, on the one element that is already on screen when the
+   * page opens. Not an entrance on every section: that is a tic, not a design.
+   * The rise is small and the easing is exponential, so it settles rather than
+   * arrives. Outside the media query nothing is hidden, so a browser that never
+   * runs it shows the finished state. */
+  @media (prefers-reduced-motion: no-preference) {
+    main > .section:first-child .wrap > * {
+      animation: settle 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    main > .section:first-child .wrap > :nth-child(2) {
+      animation-delay: 70ms;
+    }
+
+    main > .section:first-child .wrap > :nth-child(3) {
+      animation-delay: 140ms;
+    }
+
+    main > .section:first-child .wrap > :nth-child(4) {
+      animation-delay: 210ms;
+    }
+  }
+
+  @keyframes settle {
+    from {
+      opacity: 0;
+      transform: translateY(0.75rem);
+    }
+  }
 }
 
 @layer components {
@@ -336,18 +407,6 @@
   .section-dark .card {
     background: rgb(244 241 234 / 0.05);
     border-color: rgb(244 241 234 / 0.14);
-  }
-
-  .eyebrow {
-    font-size: var(--font-s);
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--copper-text);
-  }
-
-  .section-dark .eyebrow {
-    color: var(--copper-light);
   }
 
   .lead {
@@ -456,11 +515,23 @@
     }
   }
 
+  /* An aside, set apart by its surface rather than by a coloured bar down one
+   * side. The bar is the category default and adds a second, competing accent
+   * next to the copper that is already carrying the links. */
   .note {
-    border-left: 4px solid var(--copper);
     background: var(--surface-sunken);
-    padding: var(--space-s) var(--space-m);
-    border-radius: 0 var(--radius) var(--radius) 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: var(--space-m);
+  }
+
+  .section-tint .note {
+    background: var(--surface);
+  }
+
+  .section-dark .note {
+    background: rgb(244 241 234 / 0.05);
+    border-color: rgb(244 241 234 / 0.14);
   }
 
   .badge {
@@ -527,18 +598,10 @@
 }
 
 @layer utilities {
-  .center {
-    text-align: center;
-  }
-
   .button-row {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-s);
-  }
-
-  .center .button-row {
-    justify-content: center;
   }
 
   .sr-only {

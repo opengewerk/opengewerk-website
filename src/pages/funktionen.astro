@@ -106,8 +106,7 @@ const badgeFor: Record<State, { className: string; label: string }> = {
   breadcrumb="Funktionen"
 >
   <section class="section section-dark">
-    <div class="wrap-narrow stack">
-      <p class="eyebrow">Funktionsumfang</p>
+    <div class="wrap measure stack">
       <h1>Was OpenGewerk kann, und was noch nicht</h1>
       <p class="lead">
         Diese Seite führt beides auf. Eine Liste, die nur die Absicht nennt, hilft
@@ -118,7 +117,7 @@ const badgeFor: Record<State, { className: string; label: string }> = {
   </section>
 
   <section class="section section-tint">
-    <div class="wrap-wide stack-loose">
+    <div class="wrap stack-loose">
       <h2>Der Stand je Bereich</h2>
       <div class="table-scroll table-stack" tabindex="0">
         <table>
@@ -158,9 +157,8 @@ const badgeFor: Record<State, { className: string; label: string }> = {
   </section>
 
   <section class="section">
-    <div class="wrap-wide split">
+    <div class="wrap split">
       <div class="stack">
-        <p class="eyebrow">Ein Datenmodell</p>
         <h2>Kunde, Objekt, Anlage, Auftrag</h2>
         <p>
           Die meisten Systeme sind kundenzentriert: alles hängt am Kunden, und das
@@ -185,14 +183,13 @@ const badgeFor: Record<State, { className: string; label: string }> = {
   </section>
 
   <section class="section section-tint">
-    <div class="wrap-wide split">
+    <div class="wrap split">
       <Screenshot
         src={conflict}
         alt="Konfliktbildschirm mit drei Spalten: Stand auf dem Gerät, Stand auf dem Server und die Entscheidung"
         caption="Ein Konflikt bekommt einen Bildschirm und eine Entscheidung, keine stille Regel."
       />
       <div class="stack">
-        <p class="eyebrow">Offline</p>
         <h2>Die Baustelle hat kein Netz, die App rechnet trotzdem</h2>
         <p>
           Die Regeln, nach denen das Gerät entscheidet, liegen nicht im Server,
@@ -212,9 +209,8 @@ const badgeFor: Record<State, { className: string; label: string }> = {
   </section>
 
   <section class="section">
-    <div class="wrap-wide split">
+    <div class="wrap split">
       <div class="stack">
-        <p class="eyebrow">Zugänge</p>
         <h2>Rollen, zweiter Faktor, und keine Selbstregistrierung</h2>
         <p>
           Eine frische Installation zeigt keine Anmeldung, sondern die Ersteinrichtung:
@@ -239,7 +235,7 @@ const badgeFor: Record<State, { className: string; label: string }> = {
   </section>
 
   <section class="section section-tint">
-    <div class="wrap-narrow stack-loose">
+    <div class="wrap measure stack-loose">
       <h2>Was OpenGewerk bewusst nicht tut</h2>
       <ul class="marker-list">
         <li>

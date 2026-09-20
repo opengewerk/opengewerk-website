@@ -35,8 +35,7 @@ const stages = [
   breadcrumb="Buchhaltung"
 >
   <section class="section section-dark">
-    <div class="wrap-narrow stack">
-      <p class="eyebrow">Finance</p>
+    <div class="wrap measure stack">
       <h1>Buchhaltung, die nicht am Exportknopf endet</h1>
       <p class="lead">
         Viele Handwerkerprogramme schreiben Rechnungen und geben die Zahlen dann an ein
@@ -48,7 +47,7 @@ const stages = [
   </section>
 
   <section class="section section-tint">
-    <div class="wrap-wide stack-loose">
+    <div class="wrap stack-loose">
       <h2>In vier Stufen, nicht auf einmal</h2>
       <p class="lead">
         Die Buchhaltung wächst gestaffelt. Jede Stufe ist für sich benutzbar, und keine
@@ -58,8 +57,7 @@ const stages = [
         {
           stages.map((entry, number) => (
             <article class="card stack">
-              <p class="eyebrow">Stufe {number + 1}</p>
-              <h3>{entry.stage}</h3>
+              <h3>Stufe {number + 1}: {entry.stage}</h3>
               <p>{entry.detail}</p>
             </article>
           ))
@@ -69,9 +67,8 @@ const stages = [
   </section>
 
   <section class="section">
-    <div class="wrap-wide split">
+    <div class="wrap split">
       <div class="stack">
-        <p class="eyebrow">GoBD</p>
         <h2>Festschreiben statt nachbessern</h2>
         <p>
           Ein Beleg ist entweder Entwurf oder festgeschrieben. Danach ändert sich an
@@ -96,7 +93,7 @@ const stages = [
   </section>
 
   <section class="section section-tint">
-    <div class="wrap-wide">
+    <div class="wrap">
       <div class="card-grid">
         <article class="card stack">
           <h2>E-Rechnung</h2>
@@ -140,7 +137,7 @@ const stages = [
   </section>
 
   <section class="section">
-    <div class="wrap-narrow">
+    <div class="wrap measure">
       <div class="note">
         <h2 class="note-title">Stand heute</h2>
         <p>
