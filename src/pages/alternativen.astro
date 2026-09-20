@@ -1,0 +1,222 @@
+---
+import Page from '../layouts/Page.astro';
+import { LINKS } from '../site';
+
+const comparison = [
+  {
+    topic: 'Vollständige Buchhaltung',
+    others:
+      'Häufig endet der Funktionsumfang beim DATEV-Export, die eigentliche Buchhaltung läuft in einem zweiten Programm.',
+    ours: 'Eigenes Journal, offene Posten, EÜR, Umsatzsteuer-Voranmeldung, Anlagenbuchhaltung, später Bilanz und GuV.',
+  },
+  {
+    topic: 'Funktionen je Tarif',
+    others:
+      'Schnittstellen wie GAEB oder erweiterte Stammdaten liegen oft in einem höheren Tarif.',
+    ours: 'Es gibt keine Tarife und damit keine Funktion, die erst ab einer Stufe mitkommt.',
+  },
+  {
+    topic: 'Kosten',
+    others:
+      'Laufende Kosten je Benutzer und Monat, in der Recherche meist im Bereich von 25 bis 75 Euro.',
+    ours: 'Keine Lizenzkosten. Es bleibt der Aufwand für den Server und für die Einrichtung.',
+  },
+  {
+    topic: 'Wo die Daten liegen',
+    others: 'Beim Anbieter, mit dessen Rechenzentrum und dessen Zeitplan für Wartung.',
+    ours: 'Auf dem Server des Betriebs. Keine Telemetrie, kein Lizenzserver, keine Registrierung.',
+  },
+  {
+    topic: 'Elektro und PV',
+    others:
+      'Meist ein allgemeiner Gewerkefokus, die Anlage endet als Freitextfeld oder als Dateianhang.',
+    ours: 'Anlagenakte bis zum Stromkreis, Prüfprotokolle, Messgeräte-Import, PV-Dokumentation.',
+  },
+  {
+    topic: 'Steuerberater',
+    others: 'Anbindung über Export oder einen zweiten Zugang mit vollem Einblick.',
+    ours: 'Eigener Hub mit abgestuften Rechten, Zugriffslog, Rückfragen am Beleg und Vorschlägen zur Freigabe.',
+  },
+  {
+    topic: 'Offline auf der Baustelle',
+    others:
+      'Oft vorhanden, die Tiefe reicht von einem Zwischenspeicher bis zu vollem Weiterarbeiten.',
+    ours: 'Datenschicht auf dem Gerät, Postausgang, eigener Bildschirm für Konflikte, dieselben Regeln auf beiden Seiten.',
+  },
+  {
+    topic: 'Quelltext',
+    others: 'Geschlossen. Was das Programm rechnet, lässt sich nicht nachlesen.',
+    ours: 'Offen unter AGPL-3.0, einschließlich Konzept, Architekturentscheidungen und Fahrplan.',
+  },
+];
+
+const questions = [
+  {
+    question: 'Ist OpenGewerk eine Alternative zu openHandwerk oder plancraft?',
+    answer:
+      'Das Ziel ist es, für Elektro- und PV-Betriebe eine zu werden. Heute ist es keine: es fehlen Rechnung, Zeiterfassung, Regiebericht und die Buchhaltung. Wer jetzt ein einsatzfähiges System braucht, ist mit einem der etablierten Anbieter besser bedient.',
+  },
+  {
+    question: 'Ersetzt OpenGewerk sevdesk oder Lexware?',
+    answer:
+      'Später ja, das ist der ausdrückliche Anspruch des Finance-Moduls. Der Umstieg ist aber erst nach einem bestandenen Parallelbetrieb vorgesehen, bei dem beide Systeme eine Zeit lang nebeneinander laufen und dieselben Zahlen liefern müssen.',
+  },
+  {
+    question: 'Warum nicht Odoo mit einem Handwerksmodul?',
+    answer:
+      'Odoo ist quelloffen und kann vieles, bleibt aber ein allgemeines ERP. Die Tiefe, um die es hier geht, also Anlage, Stromkreis, Prüfprotokoll und Messgeräte-Import, müsste als eigenes Modul entstehen und mit jedem Versionssprung nachgezogen werden.',
+  },
+  {
+    question: 'Was, wenn das Projekt eingestellt wird?',
+    answer:
+      'Der Quelltext ist offen und die Daten liegen in einer gewöhnlichen PostgreSQL-Datenbank auf dem eigenen Server. Eine laufende Installation hört nicht auf zu laufen, und niemand kann sie abschalten. Das ist kein Versprechen auf ewige Pflege, aber es ist mehr, als ein gekündigter Vertrag übrig lässt.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: questions.map((entry) => ({
+      '@type': 'Question',
+      name: entry.question,
+      acceptedAnswer: { '@type': 'Answer', text: entry.answer },
+    })),
+  },
+];
+---
+
+<Page
+  title="OpenGewerk im Vergleich zu anderer Handwerkersoftware"
+  description="Was OpenGewerk anders macht als openHandwerk, plancraft, HERO, sevdesk, Lexware und Odoo, und wofür die etablierten Anbieter heute die bessere Wahl sind."
+  breadcrumb="Vergleich"
+  schema={schema}
+>
+  <section class="section section-dark">
+    <div class="wrap-narrow stack">
+      <p class="eyebrow">Einordnung</p>
+      <h1>OpenGewerk im Vergleich zu anderer Handwerkersoftware</h1>
+      <p class="lead">
+        Verglichen wurde vor dem ersten Entwurf mit openHandwerk, plancraft, HERO,
+        TAIFUN und STREIT, sevdesk und Lexware sowie Odoo, SAP FSM und Dynamics. Aus
+        diesem Vergleich sind die Entscheidungen entstanden, die das Projekt tragen.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap-wide stack-loose">
+      <h2>Die acht Punkte, an denen es auseinandergeht</h2>
+      <div class="table-scroll table-stack" tabindex="0">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Thema</th>
+              <th scope="col">Häufig bei anderen</th>
+              <th scope="col">In OpenGewerk</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              comparison.map((row) => (
+                <tr>
+                  <th scope="row">{row.topic}</th>
+                  <td data-label="Häufig bei anderen">{row.others}</td>
+                  <td data-label="In OpenGewerk">{row.ours}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="muted">
+        Stand der Prüfung: September 2026, zusammengefasst aus der eigenen Recherche
+        vor dem Projektstart. Anbieter ändern ihren Funktionsumfang und ihre Preise,
+        und die linke Spalte trifft nicht auf jedes Produkt in gleichem Maß zu. Wer
+        vergleicht, prüft die Punkte am besten selbst nach. Die vollständige Tabelle
+        steht in der{' '}
+        <a href={LINKS.concept} rel="noopener">Feature-Gliederung</a>, Abschnitt 11.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-narrow stack-loose">
+      <h2>Wofür OpenGewerk heute nicht die richtige Wahl ist</h2>
+      <p class="lead">
+        Ein Vergleich, der nur die eigenen Stärken auflistet, ist eine Anzeige. Diese
+        Punkte sprechen sachlich gegen OpenGewerk, und zwar heute und auf absehbare
+        Zeit.
+      </p>
+      <ul class="marker-list">
+        <li>
+          <strong>Wer sofort loslegen muss.</strong> Rechnung, Regiebericht,
+          Zeiterfassung und Buchhaltung fehlen. Ein Betrieb kann damit heute nicht
+          abrechnen.
+        </li>
+        <li>
+          <strong>Wer keinen Server betreiben will.</strong> Self-hosted heißt, dass
+          jemand die Maschine stellt, aktualisiert und die Sicherung im Blick hat. Das
+          ist Aufwand, auch wenn die Software ihn klein hält.
+        </li>
+        <li>
+          <strong>Wer Telefonsupport mit Reaktionszeit braucht.</strong> Es gibt ein
+          Projekt mit Discussions und einem Discord, keinen Vertrag und keine Hotline.
+        </li>
+        <li>
+          <strong>Wer ein anderes Gewerk führt.</strong> Kaufmännisch passt OpenGewerk
+          überall, fachlich geht es zuerst in Elektro und PV in die Tiefe. Für ein
+          Dachdecker- oder SHK-Unternehmen bringt dieser Teil heute nichts.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap-narrow">
+      <h2>Häufige Fragen zum Vergleich</h2>
+      <div class="stack-loose faq">
+        {
+          questions.map((entry) => (
+            <div>
+              <h3>{entry.question}</h3>
+              <p>{entry.answer}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-dark">
+    <div class="wrap-narrow center stack-loose">
+      <h2>Fehlt in dieser Tabelle etwas?</h2>
+      <p class="lead">
+        Wer eines der genannten Systeme im Alltag benutzt, sieht Dinge, die keine
+        Produktseite verrät. Widerspruch ist hier ausdrücklich willkommen und
+        verbessert die Einschätzung.
+      </p>
+      <div class="button-row">
+        <a class="button button-primary" href={LINKS.discussions} rel="noopener">
+          In den Discussions widersprechen
+        </a>
+        <a class="button button-outline" href="/funktionen/">Funktionsumfang ansehen</a>
+      </div>
+    </div>
+  </section>
+</Page>
+
+<style>
+  .faq {
+    margin-block-start: var(--space-m);
+  }
+
+  .faq h3 {
+    margin-block-end: 0.3rem;
+  }
+
+  table th[scope='row'] {
+    font-weight: 600;
+    min-width: 9rem;
+  }
+</style>

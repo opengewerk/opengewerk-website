@@ -1,0 +1,136 @@
+---
+import Page from '../layouts/Page.astro';
+import { PROVIDER, LINKS } from '../site';
+---
+
+<Page
+  title="Datenschutzerklärung"
+  description="Welche Daten opengewerk.de verarbeitet: nur die technisch notwendigen Server-Logdateien. Keine Cookies, kein Tracking, keine Inhalte von fremden Servern."
+  breadcrumb="Datenschutz"
+>
+  <section class="section section-dark">
+    <div class="wrap-narrow stack">
+      <h1>Datenschutzerklärung</h1>
+
+      <p class="lead">
+        Diese Website ist eine reine Informationsseite. Sie setzt keine Cookies, bindet
+        nichts von fremden Servern ein und zählt keine Besucher. Verarbeitet wird
+        ausschließlich, was beim Abruf einer Seite technisch anfällt.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-narrow stack-loose legal">
+      <div>
+        <h2>Verantwortlicher</h2>
+        <p>
+          {PROVIDER.name}<br />
+          {PROVIDER.street}<br />
+          {PROVIDER.city}<br />
+          {PROVIDER.country}<br />
+          E-Mail: <a href={`mailto:${PROVIDER.email}`}>{PROVIDER.email}</a>
+        </p>
+      </div>
+
+      <div>
+        <h2>Server-Logdateien</h2>
+        <p>
+          Beim Abruf einer Seite überträgt Ihr Browser technische Angaben, die der
+          Webserver in einer Logdatei festhält. Das sind die IP-Adresse, Datum und
+          Uhrzeit, die aufgerufene Adresse, die zuvor besuchte Seite, sofern Ihr Browser
+          sie übermittelt, sowie Browser- und Betriebssystemangabe.
+        </p>
+        <p>
+          Zweck ist der technische Betrieb: die Seite ausliefern, Störungen erkennen und
+          Angriffe abwehren. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO, mein
+          berechtigtes Interesse am sicheren und fehlerfreien Betrieb dieser Website.
+        </p>
+        <p>
+          Die Logdateien werden turnusmäßig rotiert und dabei gelöscht. Eine
+          längerfristige Archivierung findet nicht statt, ebenso wenig eine
+          Zusammenführung mit anderen Daten oder eine Auswertung zu Ihrer Person.
+        </p>
+      </div>
+
+      <div>
+        <h2>Hosting</h2>
+        <p>
+          Die Website läuft auf einem Server, den ich selbst betreibe. Es ist kein
+          Website-Baukasten, kein Content-Netzwerk und kein Analysedienst beteiligt. Die
+          Logdateien verlassen den Server nicht.
+        </p>
+      </div>
+
+      <div>
+        <h2>Keine Cookies, kein Tracking, keine externen Inhalte</h2>
+        <p>
+          Es werden keine Cookies gesetzt und keine vergleichbaren Techniken im
+          Endgerät verwendet. Es gibt keine Reichweitenmessung. Schriften, Bilder und
+          Stile liegen auf demselben Server wie die Seite selbst, es wird also auch
+          nichts von einem fremden Anbieter nachgeladen. Deshalb gibt es auf dieser
+          Seite auch keine Einwilligungsabfrage: es gibt nichts einzuwilligen.
+        </p>
+      </div>
+
+      <div>
+        <h2>Links zu anderen Anbietern</h2>
+        <p>
+          Diese Seite verlinkt auf GitHub und auf Discord. Erst wenn Sie einen solchen
+          Link anklicken, entsteht eine Verbindung zu diesem Anbieter, und ab diesem
+          Moment gilt dessen Datenschutzerklärung. Eingebunden ist von dort nichts, es
+          wird beim bloßen Betrachten dieser Seite also keine Verbindung dorthin
+          aufgebaut.
+        </p>
+        <p>
+          Betreiber sind die GitHub B.V. beziehungsweise die Discord Netherlands B.V.
+          für Nutzerinnen und Nutzer im Europäischen Wirtschaftsraum.
+        </p>
+      </div>
+
+      <div>
+        <h2>Ihre Rechte</h2>
+        <p>
+          Sie haben das Recht auf Auskunft über die zu Ihnen gespeicherten Daten
+          (Art. 15 DSGVO), auf Berichtigung (Art. 16), auf Löschung (Art. 17), auf
+          Einschränkung der Verarbeitung (Art. 18) und auf Datenübertragbarkeit
+          (Art. 20). Gegen die Verarbeitung auf Grundlage eines berechtigten Interesses
+          können Sie nach Art. 21 DSGVO Widerspruch einlegen.
+        </p>
+        <p>
+          Praktisch ist dabei zu beachten: Da keine Benutzerkonten und keine Kennungen
+          existieren, kann ich einen Logeintrag ohne Ihre Mithilfe keiner Person
+          zuordnen. Für eine Auskunft brauche ich deshalb Angaben, die eine Zuordnung
+          erlauben, etwa die IP-Adresse und den ungefähren Zeitpunkt.
+        </p>
+        <p>
+          Unabhängig davon steht Ihnen ein Beschwerderecht bei einer Aufsichtsbehörde
+          zu. Zuständig ist der {PROVIDER.supervisoryAuthority}.
+        </p>
+      </div>
+
+      <div>
+        <h2>Was diese Erklärung nicht betrifft</h2>
+        <p>
+          Sie gilt für diese Website. Sie gilt nicht für die Software OpenGewerk selbst:
+          eine Installation läuft auf dem Server des jeweiligen Betriebs, und
+          verantwortlich für die dort verarbeiteten Daten ist dieser Betrieb. Wie die
+          Software mit Daten umgeht, steht offen im{' '}
+          <a href={LINKS.repository} rel="noopener">Quelltext</a> und in den{' '}
+          <a href={LINKS.decisions} rel="noopener">Architekturentscheidungen</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</Page>
+
+<style>
+  .legal h2 {
+    font-size: var(--font-h3);
+    margin-block-end: var(--space-xs);
+  }
+
+  .legal p + p {
+    margin-block-start: var(--space-xs);
+  }
+</style>

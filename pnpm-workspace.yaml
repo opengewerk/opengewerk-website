@@ -1,0 +1,9 @@
+# Not a workspace, but since pnpm 10 this is where settings live.
+
+# pnpm does not run install scripts of foreign packages by itself. That is the
+# guard against a package that does something other than installing while it
+# installs. esbuild arrives through Astro and does not need its script: its
+# binary sits in an optional package per platform. Saying no explicitly rather
+# than leaving it unanswered, because an unanswered one fails the install.
+allowBuilds:
+  esbuild: false

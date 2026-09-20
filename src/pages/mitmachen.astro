@@ -1,0 +1,132 @@
+---
+import Page from '../layouts/Page.astro';
+import { LINKS } from '../site';
+---
+
+<Page
+  title="Bei OpenGewerk mitmachen"
+  description="Wie man zu OpenGewerk beiträgt: fachliche Rückmeldung aus dem Betriebsalltag, Discussions, Discord, Issues und Quelltext. Gesucht wird gerade vor allem Praxiswissen."
+  breadcrumb="Mitmachen"
+>
+  <section class="section section-dark">
+    <div class="wrap-narrow stack">
+      <p class="eyebrow">Mitmachen</p>
+      <h1>Praxiswissen zählt hier mehr als Quelltext</h1>
+      <p class="lead">
+        Das Projekt hat keinen Mangel an Programmierarbeit, es hat einen Mangel an
+        Rückmeldung aus dem Alltag. Wer einen Betrieb führt, in einer Kanzlei arbeitet
+        oder jeden Tag misst und protokolliert, weiß Dinge, die in keinem Konzept
+        stehen.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap-wide">
+      <h2 class="space-below">Wobei gerade konkret geholfen werden kann</h2>
+      <div class="card-grid">
+        <article class="card stack">
+          <h3>Gesetzliche Werte gegenlesen</h3>
+          <p>
+            Steuersätze, Fristen und der Basiszinssatz liegen als Regelpakete mit
+            Fundstelle vor. Bevor daraus die erste echte Rechnung entsteht, sollen
+            fachkundige Augen darüber gehen. Ein falscher Basiszinssatz hat in der
+            Prüfung schon einmal 62,50 Euro Verzugszinsen auf 10.000 Euro ausgemacht.
+          </p>
+          <p>
+            <a href={LINKS.repository + '/issues'} rel="noopener">Das Issue dazu</a> ist
+            mit „Hilfe gesucht" gekennzeichnet.
+          </p>
+        </article>
+
+        <article class="card stack">
+          <h3>Ein Messgeräte-Export</h3>
+          <p>
+            Für den Import fehlt vor allem eines: eine echte Exportdatei aus der
+            PC-Software eines Messgeräts, gern anonymisiert. Ohne sie wäre die
+            Entscheidung über den Umfang des Imports geraten.
+          </p>
+          <p>Angesehen werden IZYTRONIQ, Metrel ES Manager, Fluke DMS und Benning PC-Win.</p>
+        </article>
+
+        <article class="card stack">
+          <h3>Sagen, was im Formular fehlt</h3>
+          <p>
+            Welche Angaben ein Prüfprotokoll wirklich braucht, welche Felder in der
+            Praxis nie ausgefüllt werden und woran ein Regiebericht beim Kunden
+            scheitert: das entscheidet später darüber, ob die Software im Alltag taugt.
+          </p>
+        </article>
+
+        <article class="card stack">
+          <h3>Widersprechen</h3>
+          <p>
+            Auch das hilft. Wer eines der verglichenen Systeme benutzt und die{' '}
+            <a href="/alternativen/">Einordnung</a> für falsch hält, sollte das sagen.
+            Eine Einschätzung, die niemand geprüft hat, bleibt eine Behauptung.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-wide">
+      <h2 class="space-below">Wo was hingehört</h2>
+      <div class="card-grid-tight">
+        <article class="card stack">
+          <h3>Discussions</h3>
+          <p>Fragen, Ideen und alles ohne konkreten Vorschlag. Durchsuchbar und dauerhaft.</p>
+          <p><a href={LINKS.discussions} rel="noopener">Zu den Discussions</a></p>
+        </article>
+
+        <article class="card stack">
+          <h3>Issues</h3>
+          <p>Konkrete Fehler und Wünsche, über die Vorlagen im Repository.</p>
+          <p><a href={LINKS.issues} rel="noopener">Issue anlegen</a></p>
+        </article>
+
+        <article class="card stack">
+          <h3>Discord</h3>
+          <p>
+            Kurze Fragen und Mitreden. Ersetzt die Discussions nicht: ein Chatverlauf
+            ist nicht durchsuchbar.
+          </p>
+          <p><a href={LINKS.discord} rel="noopener">Zum Discord-Server</a></p>
+        </article>
+
+        <article class="card stack">
+          <h3>Quelltext</h3>
+          <p>
+            Beitragsregeln und Verhaltenskodex gelten für alle vier Repositories.
+            Dokumentation und Oberfläche sind deutsch, der Code ist englisch.
+          </p>
+          <p><a href={LINKS.contributing} rel="noopener">Beitragsregeln lesen</a></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-dark">
+    <div class="wrap-narrow stack-loose">
+      <h2>Was das Projekt nicht sucht</h2>
+      <p class="lead">
+        Keine Investoren, keine Nutzerzahlen und keine Feature-Liste, die länger ist als
+        das, was wirklich läuft. OpenGewerk entsteht, weil ein Betrieb eine Software
+        braucht, die ihm gehört. Alles andere ergibt sich daraus oder eben nicht.
+      </p>
+      <div class="button-row">
+        <a class="button button-primary" href={LINKS.repository} rel="noopener">
+          Quelltext ansehen
+        </a>
+        <a class="button button-outline" href="/roadmap/">Stand des Projekts</a>
+      </div>
+    </div>
+  </section>
+</Page>
+
+<style>
+  .space-below {
+    margin-block-end: var(--space-m);
+  }
+</style>

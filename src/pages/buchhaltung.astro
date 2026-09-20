@@ -1,0 +1,168 @@
+---
+import Page from '../layouts/Page.astro';
+import Screenshot from '../components/Screenshot.astro';
+import { LINKS } from '../site';
+
+import invoice from '../assets/screens/rechnung-festschreibung.png';
+
+const stages = [
+  {
+    stage: 'Belege',
+    detail:
+      'Angebot, Auftragsbestätigung, Lieferschein, Regiebericht, Abschlags- und Schlussrechnung, Storno und Gutschrift. Beträge und Steuer stehen an der Position, gerechnet wird mit dem Belegdatum.',
+  },
+  {
+    stage: 'Journal',
+    detail:
+      'Doppelte Buchführung mit eigenem Kontenrahmen, offene Posten, Mahnwesen mit Verzugszinsen, Bankanbindung und Zuordnung der Zahlungen.',
+  },
+  {
+    stage: 'Abschluss',
+    detail:
+      'Einnahmenüberschussrechnung, Umsatzsteuer-Voranmeldung, Anlagenbuchhaltung mit Abschreibung, am Ende Bilanz und Gewinn- und Verlustrechnung.',
+  },
+  {
+    stage: 'Prüfung',
+    detail:
+      'DATEV-Export für die Kanzlei und die Datenzugriffsarten Z1 bis Z3 für die Betriebsprüfung.',
+  },
+];
+---
+
+<Page
+  title="Buchhaltung in OpenGewerk: GoBD, E-Rechnung und eigenes Journal"
+  description="Vollständige Buchhaltung statt DATEV-Exportknopf: Journal, offene Posten, EÜR, Umsatzsteuer-Voranmeldung, Bilanz. GoBD als Bauprinzip, XRechnung und ZUGFeRD im Ausgang."
+  breadcrumb="Buchhaltung"
+>
+  <section class="section section-dark">
+    <div class="wrap-narrow stack">
+      <p class="eyebrow">Finance</p>
+      <h1>Buchhaltung, die nicht am Exportknopf endet</h1>
+      <p class="lead">
+        Viele Handwerkerprogramme schreiben Rechnungen und geben die Zahlen dann an ein
+        zweites Programm weiter. Der Betrieb zahlt damit zweimal, pflegt zwei
+        Stammdatensätze und hat an der Nahtstelle die Fehler. OpenGewerk führt die
+        Buchhaltung im selben Datenmodell wie den Auftrag.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap-wide stack-loose">
+      <h2>In vier Stufen, nicht auf einmal</h2>
+      <p class="lead">
+        Die Buchhaltung wächst gestaffelt. Jede Stufe ist für sich benutzbar, und keine
+        verlangt, dass die darüber schon fertig ist.
+      </p>
+      <div class="card-grid">
+        {
+          stages.map((entry, number) => (
+            <article class="card stack">
+              <p class="eyebrow">Stufe {number + 1}</p>
+              <h3>{entry.stage}</h3>
+              <p>{entry.detail}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-wide split">
+      <div class="stack">
+        <p class="eyebrow">GoBD</p>
+        <h2>Festschreiben statt nachbessern</h2>
+        <p>
+          Ein Beleg ist entweder Entwurf oder festgeschrieben. Danach ändert sich an
+          ihm nichts mehr: eine Korrektur ist ein Storno und ein neuer Beleg, beides
+          nachvollziehbar. Belegnummern sind je Kreis und Jahr lückenlos, und eine
+          Lücke wäre ein Fehler und keine Kleinigkeit.
+        </p>
+        <p>
+          Darunter liegt ein Audit-Log auf Feldebene mit einer Hashkette. Die Sicherung
+          hält den Kopf dieser Kette fest, ein Prüflauf hält ihn später gegen die
+          laufende Datenbank. Damit lässt sich zeigen, dass nachträglich nichts
+          verändert wurde, und nicht nur behaupten.
+        </p>
+      </div>
+      <Screenshot
+        src={invoice}
+        alt="Eine Rechnung im Entwurf neben derselben Rechnung nach der Festschreibung, mit gesperrten Feldern"
+        caption="Entwurf und festgeschriebener Beleg. Nach der Festschreibung gibt es nur noch den Storno."
+        draft={true}
+      />
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap-wide">
+      <div class="card-grid">
+        <article class="card stack">
+          <h2>E-Rechnung</h2>
+          <p>
+            XRechnung und ZUGFeRD im Ausgang, das Format kommt aus den Stammdaten des
+            Kunden. Öffentliche Auftraggeber verlangen die eine Fassung, Geschäftskunden
+            oft die andere, und der Betrieb soll das einmal hinterlegen und nicht bei
+            jeder Rechnung entscheiden.
+          </p>
+          <p>Der Empfang eingehender E-Rechnungen kommt später dazu.</p>
+        </article>
+
+        <article class="card stack">
+          <h2>Gesetzliche Werte als Datensatz</h2>
+          <p>
+            Steuersätze, Fristen und der Basiszinssatz nach §247 BGB stehen nicht im
+            Quelltext, sondern in versionierten Regelpaketen mit Gültigkeitszeitraum
+            und Fundstelle. Ein neuer Basiszinssatz ist damit ein Eintrag und keine
+            neue Programmfassung.
+          </p>
+          <p>
+            Für einen Tag, für den kein belegter Wert vorliegt, gibt die Engine keine
+            Antwort. Eine erfundene wäre schlimmer als keine.
+          </p>
+        </article>
+
+        <article class="card stack">
+          <h2>Der Steuerberater arbeitet mit</h2>
+          <p>
+            Statt Belege per E-Mail zu schicken, bekommt die Kanzlei einen begrenzten
+            Zugriff auf die Instanz: abgestufte Rechte, ein Zugriffslog, Rückfragen
+            direkt am Beleg und Buchungsvorschläge, die der Betrieb freigibt.
+          </p>
+          <p>
+            <a href={LINKS.kanzlei} rel="noopener">Zum Kanzlei-Hub</a>, der alle
+            Mandanten eines Beraters in einer Anwendung bündelt.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-narrow">
+      <div class="note">
+        <h2 class="note-title">Stand heute</h2>
+        <p>
+          Von der Buchhaltung ist noch nichts gebaut. Was steht, ist der Unterbau, auf
+          dem sie aufsetzt: Belegpositionen mit Beträgen und Steuer, Nummernkreise mit
+          Festschreibung, das Audit-Log mit der Hashkette und die Regel-Engine mit den
+          gesetzlichen Werten. Der produktive Einsatz beginnt im eigenen Betrieb und
+          erst nach einem bestandenen Parallelbetrieb neben der bisherigen Lösung.
+        </p>
+        <p><a href="/roadmap/">Der Fahrplan im Einzelnen</a></p>
+      </div>
+    </div>
+  </section>
+</Page>
+
+<style>
+  .note-title {
+    font-size: var(--font-h3);
+    margin-block-end: var(--space-xs);
+  }
+
+  .note p + p {
+    margin-block-start: var(--space-xs);
+  }
+</style>

@@ -1,0 +1,302 @@
+---
+import Page from '../layouts/Page.astro';
+import Screenshot from '../components/Screenshot.astro';
+import { LINKS, SITE } from '../site';
+
+import customers from '../assets/screens/kundenliste.png';
+import myJobs from '../assets/screens/meine-auftraege.png';
+import installation from '../assets/screens/anlagenstruktur.png';
+
+const questions = [
+  {
+    question: 'Was kostet OpenGewerk?',
+    answer:
+      'Nichts an Lizenzgebühren. Die Software steht unter der AGPL-3.0 und läuft auf einem Server, den der Betrieb selbst stellt oder mietet. Es gibt keine Kosten pro Benutzer und pro Monat, und es gibt keine Funktion, die hinter einem größeren Tarif liegt.',
+  },
+  {
+    question: 'Kann ich OpenGewerk heute schon im Betrieb einsetzen?',
+    answer:
+      'Noch nicht. Der Unterbau steht und es gibt eine Oberfläche, mit der sich Kunden, Objekte, Anlagen und Aufträge erfassen lassen. Rechnung, Regiebericht, Zeiterfassung und Prüfprotokoll fehlen noch. Der erste produktive Einsatz ist für den eigenen Elektrobetrieb geplant, der das Projekt als Pilotkunde begleitet.',
+  },
+  {
+    question: 'Wo liegen meine Daten?',
+    answer:
+      'Auf dem Server, auf dem die Instanz läuft. OpenGewerk telefoniert nicht nach Hause, verlangt keine Registrierung und hat keinen Anbieter, bei dem Daten zwischengespeichert würden. Auch der Steuerberater bekommt keine Kopie, sondern einen begrenzten Zugriff auf die Instanz des Betriebs.',
+  },
+  {
+    question: 'Für welche Gewerke ist OpenGewerk gedacht?',
+    answer:
+      'Kernmodul ist Elektro und Photovoltaik, dort geht die Software fachlich in die Tiefe: Anlagenakte, Stromkreisverzeichnis, Prüfprotokolle, Messgeräte-Import. Kaufmännisch passt sie auf jeden Handwerksbetrieb. Weitere Gewerke entstehen als Erweiterungen auf derselben Formular- und Fristen-Engine.',
+  },
+  {
+    question: 'Was braucht der Server?',
+    answer:
+      'Docker und wenig Speicher. Anwendung und Datenbank zusammen bleiben im Leerlauf unter 120 MiB, gemessen mit einem Limit von einem Gigabyte. Der PDF-Renderer ist ein eigener, abschaltbarer Container, weil er als Einziger nennenswert Platz braucht.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'OpenGewerk',
+    applicationCategory: 'BusinessApplication',
+    applicationSubCategory: 'Handwerkersoftware, CRM und ERP',
+    operatingSystem: 'Linux, Docker',
+    url: SITE.url + '/',
+    description:
+      'Self-hosted Open-Source-Handwerkersoftware für Elektro und PV. CRM und ERP in einem Datenmodell, offline-fähige Baustellen-App, Buchhaltung und GoBD als Bauprinzip.',
+    license: 'https://www.gnu.org/licenses/agpl-3.0.html',
+    isAccessibleForFree: true,
+    inLanguage: 'de',
+    softwareHelp: LINKS.repository,
+    codeRepository: LINKS.repository,
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'EUR',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'OpenGewerk',
+    url: SITE.url + '/',
+    logo: SITE.url + '/marke/logo.svg',
+    description:
+      'Quelloffenes Projekt für eine self-hosted Handwerkersoftware mit Kernmodul Elektro und PV.',
+    sameAs: [LINKS.github],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: questions.map((entry) => ({
+      '@type': 'Question',
+      name: entry.question,
+      acceptedAnswer: { '@type': 'Answer', text: entry.answer },
+    })),
+  },
+];
+---
+
+<Page
+  title="OpenGewerk: Open-Source-Handwerkersoftware zum Selbsthosten"
+  description="Quelloffene Handwerkersoftware für Elektro und PV. CRM, Aufträge, Belege und Buchhaltung in einem Datenmodell, offline auf der Baustelle, auf dem eigenen Server. AGPL-3.0."
+  schema={schema}
+>
+  <section class="section section-dark">
+    <div class="wrap">
+      <p class="eyebrow">Quelloffen, self-hosted, in Entwicklung</p>
+      <h1>Handwerkersoftware für Elektro und PV, die dem Betrieb gehört</h1>
+      <p class="lead hero-lead">
+        OpenGewerk führt CRM und ERP in einem einzigen Datenmodell zusammen: Kunde,
+        Objekt, Anlage, Auftrag, Beleg, Buchung. Die Baustellen-App arbeitet offline,
+        weil im Keller und am Zählerschrank kein Netz liegt. Die Software läuft auf
+        dem Server des Betriebs, nicht bei einem Anbieter.
+      </p>
+      <div class="button-row hero-buttons">
+        <a class="button button-primary" href="/funktionen/">Was die Software kann</a>
+        <a class="button button-outline" href={LINKS.repository} rel="noopener">
+          Quelltext auf GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <Screenshot
+        src={customers}
+        alt="Kundenliste im Büro mit Filter nach Gewerbe, Privat und Hausverwaltung, dazu Spalten für Objekte, offene Vorgänge, Umsatz und letzten Auftrag"
+        caption="Das Büro: Kundenliste mit Objekten, offenen Vorgängen und Umsatz je Kunde."
+        eager={true}
+      />
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap-wide">
+      <h2>Vier Punkte, an denen OpenGewerk bewusst anders ist</h2>
+      <p class="lead space-below">
+        Verglichen wurde mit openHandwerk, plancraft, HERO, TAIFUN und STREIT, sevdesk
+        und Lexware sowie Odoo, SAP FSM und Dynamics.
+      </p>
+      <div class="card-grid">
+        <article class="card stack">
+          <h3>Buchhaltung statt Exportknopf</h3>
+          <p>
+            Ein eigenes Journal in doppelter Buchführung, offene Posten, EÜR,
+            Umsatzsteuer-Voranmeldung, Anlagenbuchhaltung und am Ende Bilanz und GuV.
+            Viele Systeme hören beim DATEV-Export auf und lassen die eigentliche
+            Buchhaltung bei einem zweiten Programm liegen.
+          </p>
+          <p><a href="/buchhaltung/">Zur Buchhaltung</a></p>
+        </article>
+
+        <article class="card stack">
+          <h3>Elektro und PV als Kernmodul</h3>
+          <p>
+            Keine allgemeine Gewerkeliste, sondern fachliche Tiefe: Anlagenakte,
+            Verteiler, Feld und Stromkreis, Prüfprotokolle nach VDE 0100-600 und
+            DGUV V3, Import aus der PC-Software der Messgeräte, PV-Dokumentation.
+          </p>
+          <p><a href="/elektro-und-pv/">Zum Kernmodul</a></p>
+        </article>
+
+        <article class="card stack">
+          <h3>Kunde, Objekt, Anlage als Kern</h3>
+          <p>
+            Ein rein kundenzentriertes CRM verliert die Anlage aus dem Blick. Hier
+            hängt jede Messung, jedes Protokoll und jeder Auftrag an dem Objekt und
+            der Anlage, um die es geht, auch wenn der Kunde wechselt.
+          </p>
+          <p><a href="/funktionen/">Zum Funktionsumfang</a></p>
+        </article>
+
+        <article class="card stack">
+          <h3>Der Steuerberater ist angebunden</h3>
+          <p>
+            Statt Export per E-Mail oder eines zweiten Logins gibt es einen eigenen
+            Hub für die Kanzlei, mit abgestuften Rechten, Rückfragen direkt am Beleg
+            und Buchungsvorschlägen, die der Betrieb freigibt. Die Daten bleiben dabei
+            beim Betrieb.
+          </p>
+          <p><a href={LINKS.kanzlei} rel="noopener">Zum Kanzlei-Hub</a></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-wide split">
+      <div class="stack">
+        <p class="eyebrow">Auf der Baustelle</p>
+        <h2>Offline ist der Normalfall, nicht die Ausnahme</h2>
+        <p>
+          Im Keller, am Zählerschrank und auf dem Dachboden liegt kein Netz. Die
+          Baustellen-App hält ihre Daten deshalb auf dem Gerät und schickt jede
+          Änderung nach, sobald wieder Verbindung da ist. Eine Leiste über jedem
+          Bildschirm sagt, wie viele Vorgänge noch warten.
+        </p>
+        <p>
+          Widersprechen sich zwei Änderungen, entscheidet nicht der Server still und
+          heimlich, sondern es gibt einen eigenen Bildschirm dafür. Das Gerät rechnet
+          dieselben Regeln wie der Server, bevor es überhaupt etwas schickt.
+        </p>
+        <p><a href="/funktionen/">Was sonst noch drinsteckt</a></p>
+      </div>
+      <Screenshot
+        src={myJobs}
+        alt="Auftragsliste auf dem Telefon mit dem Hinweis, dass kein Netz vorhanden ist und drei Vorgänge auf den Abgleich warten"
+        caption="Die Baustelle: ohne Netz weiterarbeiten, der Abgleich läuft später."
+      />
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap-wide split">
+      <Screenshot
+        src={installation}
+        alt="Anlagenakte mit Verteiler, Feldern, Stromkreisen und Betriebsmitteln in einer Baumstruktur"
+        caption="Die Anlage bis zum Stromkreis, mit allem, was daran gemessen wurde."
+        draft={true}
+      />
+      <div class="stack">
+        <p class="eyebrow">Kernmodul Elektro und PV</p>
+        <h2>Bis zum einzelnen Stromkreis</h2>
+        <p>
+          Eine Anlage besteht aus Verteilern, Feldern, Stromkreisen und
+          Betriebsmitteln. Genau so liegt sie in OpenGewerk, und daran hängen die
+          Messwerte, die Prüfprotokolle und die Fristen für die nächste Wiederholung.
+        </p>
+        <p>
+          Das ist der Teil, den allgemeine Handwerkersoftware nicht hat und der sich
+          auch nicht als Freitextfeld nachbauen lässt.
+        </p>
+        <p><a href="/elektro-und-pv/">Elektro und PV im Detail</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-narrow stack-loose">
+      <h2>Ehrlich zum Stand</h2>
+      <p>
+        OpenGewerk ist in Entwicklung und noch kein fertiges Produkt. Was steht, steht
+        wirklich: Datenmodell, Mandantentrennung, Rechte und Rollen, Nummernkreise mit
+        Festschreibung, ein Audit-Log mit Hashkette, die Offline-Datenschicht, die
+        Anmeldung mit zweitem Faktor und eine Oberfläche, die von der Ersteinrichtung
+        bis zum Auftrag trägt. Betrieb, Sicherung, Rückspielen und Update laufen über
+        Docker Compose.
+      </p>
+      <p>
+        Was fehlt, fehlt ebenso deutlich: Rechnung, Regiebericht, Zeiterfassung,
+        Dokumentenablage, Prüfprotokoll und die gesamte Buchhaltung. Der Fahrplan
+        nennt beides beim Namen.
+      </p>
+      <p class="button-row">
+        <a class="button button-outline" href="/roadmap/">Stand und Fahrplan</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap-narrow">
+      <h2>Häufige Fragen</h2>
+      <div class="stack-loose faq">
+        {
+          questions.map((entry) => (
+            <div>
+              <h3>{entry.question}</h3>
+              <p>{entry.answer}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-dark">
+    <div class="wrap-narrow center stack-loose">
+      <h2>Fachliche Rückmeldung zählt gerade mehr als Code</h2>
+      <p class="lead">
+        Wer einen Elektro- oder PV-Betrieb führt, weiß Dinge, die in keinem Konzept
+        stehen. Genau diese Rückmeldung fehlt dem Projekt am meisten.
+      </p>
+      <div class="button-row">
+        <a class="button button-primary" href="/mitmachen/">Wie man mitmacht</a>
+        <a class="button button-outline" href={LINKS.discussions} rel="noopener">
+          Zu den Discussions
+        </a>
+      </div>
+    </div>
+  </section>
+</Page>
+
+<style>
+  .hero-lead {
+    max-width: 46rem;
+    margin-block-start: var(--space-s);
+  }
+
+  .hero-buttons {
+    margin-block-start: var(--space-m);
+  }
+
+  .space-below {
+    margin-block-end: var(--space-m);
+    max-width: 48rem;
+  }
+
+  h2 + .card-grid {
+    margin-block-start: var(--space-m);
+  }
+
+  .faq {
+    margin-block-start: var(--space-m);
+  }
+
+  .faq h3 {
+    margin-block-end: 0.3rem;
+  }
+</style>

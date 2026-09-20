@@ -1,0 +1,96 @@
+---
+// The one layout. Every page goes through here, so everything a search engine
+// or a social preview reads sits in exactly one place: title, description,
+// canonical, Open Graph and the structured data.
+import '@fontsource/barlow/latin-400.css';
+import '@fontsource/barlow/latin-600.css';
+import '../styles/global.css';
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../site';
+
+interface Props {
+  /** Goes into <title> and og:title. Written for the result list, not for us. */
+  title: string;
+  /** The snippet under the result. One or two sentences, up to about 155 characters. */
+  description: string;
+  /** Path of a page specific preview image, absolute on this host. */
+  image?: string;
+  /** Label in the breadcrumb. Left out on the front page. */
+  breadcrumb?: string;
+  /** schema.org objects. Rendered as one ld+json block each. */
+  schema?: Record<string, unknown>[];
+  /** Keeps a page out of the index. The legal pages do not use this, they may be found. */
+  noindex?: boolean;
+}
+
+const { title, description, image, breadcrumb, schema = [], noindex = false } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, SITE.url).href;
+const preview = new URL(image ?? SITE.socialImage, SITE.url).href;
+
+const blocks = [...schema];
+
+if (breadcrumb) {
+  blocks.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Start', item: SITE.url + '/' },
+      { '@type': 'ListItem', position: 2, name: breadcrumb, item: canonical },
+    ],
+  });
+}
+
+// JSON inside a script element has to survive a literal </script> in the data.
+// Escaping the angle bracket costs nothing and removes the whole class of bug.
+const asJson = (value: unknown) => JSON.stringify(value).replace(/</g, '\\u003c');
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/marke/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/marke/app-icon-192.png" />
+    <meta name="theme-color" content="#1b2430" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={preview} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Wort-Bild-Marke von OpenGewerk auf dunklem Grund" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    {
+      blocks.map((block) => (
+        <script type="application/ld+json" set:html={asJson(block)} />
+      ))
+    }
+  </head>
+
+  <body>
+    <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+    <Header />
+    <main id="inhalt">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

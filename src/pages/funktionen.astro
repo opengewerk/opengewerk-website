@@ -1,0 +1,275 @@
+---
+import Page from '../layouts/Page.astro';
+import Screenshot from '../components/Screenshot.astro';
+import { LINKS } from '../site';
+
+import job from '../assets/screens/auftrag.png';
+import conflict from '../assets/screens/abgleich-und-konflikt.png';
+import signIn from '../assets/screens/anmeldung.png';
+
+type State = 'done' | 'partial' | 'planned';
+
+interface Area {
+  title: string;
+  state: State;
+  detail: string;
+}
+
+// Status per area, kept in one list so the page cannot claim two different
+// things about the same feature in two places.
+const areas: Area[] = [
+  {
+    title: 'Kunde, Objekt, Anlage',
+    state: 'done',
+    detail: 'Kundenakte mit steuerlichen Angaben, dazu die Objekte des Kunden und die Anlagen im Objekt. Diese Kette ist der Kern des Datenmodells und nicht eine Ansicht darauf.',
+  },
+  {
+    title: 'Aufträge',
+    state: 'done',
+    detail: 'Auftragsliste im Büro, offene Aufträge auf der Baustelle, der Auftrag selbst mit Objekt, Anlage und Vorgängen.',
+  },
+  {
+    title: 'Anmeldung und Zugänge',
+    state: 'done',
+    detail: 'Anmeldung mit Passwort, Passkey oder zweitem Faktor, Rollen vom Inhaber bis zum Monteur, Einladung über einen Einmal-Link, Geräteliste mit Widerruf.',
+  },
+  {
+    title: 'Offline und Abgleich',
+    state: 'done',
+    detail: 'Die Baustellen-App hält ihre Daten auf dem Gerät, schickt Änderungen nach und zeigt einen Konflikt auf einem eigenen Bildschirm, statt still zu entscheiden.',
+  },
+  {
+    title: 'Nummernkreise und Festschreibung',
+    state: 'done',
+    detail: 'Lückenlose Belegnummern je Kreis und Jahr. Ein festgeschriebener Beleg ändert sich nicht mehr, er wird storniert. Das ist GoBD als Bauprinzip.',
+  },
+  {
+    title: 'Audit-Log',
+    state: 'done',
+    detail: 'Jede Änderung auf Feldebene, mit einer Hashkette darüber. Die Sicherung hält den Kopf der Kette fest, ein Prüflauf hält ihn gegen die laufende Datenbank.',
+  },
+  {
+    title: 'Belege',
+    state: 'partial',
+    detail: 'Positionen, Beträge und Steuer stehen, gerechnet wird mit dem Belegdatum. Was fehlt, ist der Bildschirm, der ein Angebot oder eine Rechnung erzeugt, und die PDF-Vorlage dahinter.',
+  },
+  {
+    title: 'Regiebericht',
+    state: 'planned',
+    detail: 'Leistung, Material und Zeit auf der Baustelle erfassen, mit der Unterschrift des Kunden auf dem Gerät.',
+  },
+  {
+    title: 'Rechnung und E-Rechnung',
+    state: 'planned',
+    detail: 'Schlussrechnung, kumulierte Abschlagsrechnung und Storno, dazu XRechnung und ZUGFeRD im Ausgang.',
+  },
+  {
+    title: 'Zeiterfassung',
+    state: 'planned',
+    detail: 'Mobil und offline, mit den Prüfungen aus Arbeitszeitgesetz und Mindestlohngesetz.',
+  },
+  {
+    title: 'Dokumentenablage',
+    state: 'planned',
+    detail: 'Dateien an Kunde, Objekt, Anlage und Auftrag, mit den Aufbewahrungsfristen, die dazugehören.',
+  },
+  {
+    title: 'Prüfprotokolle',
+    state: 'planned',
+    detail: 'Datengetriebene Formulare mit Wiederholgruppen und Versionierung, zuerst das Protokoll nach VDE 0100-600.',
+  },
+  {
+    title: 'Buchhaltung',
+    state: 'planned',
+    detail: 'Journal, offene Posten, Mahnwesen, EÜR, Umsatzsteuer-Voranmeldung, Anlagenbuchhaltung, Bilanz und GuV.',
+  },
+  {
+    title: 'Plantafel und Material',
+    state: 'planned',
+    detail: 'Disposition mit Drag and Drop, Artikelstamm, Lager und Fahrzeuglager, DATANORM und IDS-Connect.',
+  },
+];
+
+// The state is an English key, the label next to it is what the page shows.
+// Keeping them apart is what lets the state be checked by the compiler while
+// the wording stays free.
+const badgeFor: Record<State, { className: string; label: string }> = {
+  done: { className: 'badge-done', label: 'gebaut' },
+  partial: { className: 'badge-partial', label: 'teilweise' },
+  planned: { className: 'badge-planned', label: 'geplant' },
+};
+---
+
+<Page
+  title="Funktionen von OpenGewerk: CRM, Aufträge, Belege und Offline-Baustelle"
+  description="Was OpenGewerk heute kann und was noch fehlt: Kunde, Objekt und Anlage, Aufträge, Belege mit Festschreibung, Offline-Abgleich, Rollen und ein Audit-Log mit Hashkette."
+  breadcrumb="Funktionen"
+>
+  <section class="section section-dark">
+    <div class="wrap-narrow stack">
+      <p class="eyebrow">Funktionsumfang</p>
+      <h1>Was OpenGewerk kann, und was noch nicht</h1>
+      <p class="lead">
+        Diese Seite führt beides auf. Eine Liste, die nur die Absicht nennt, hilft
+        niemandem bei der Entscheidung, ob die Software für den eigenen Betrieb schon
+        in Frage kommt.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap-wide stack-loose">
+      <h2>Der Stand je Bereich</h2>
+      <div class="table-scroll table-stack" tabindex="0">
+        <table>
+          <caption class="sr-only">
+            Funktionsbereiche von OpenGewerk mit ihrem Entwicklungsstand
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Bereich</th>
+              <th scope="col">Stand</th>
+              <th scope="col">Was dahintersteckt</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              areas.map((area) => (
+                <tr>
+                  <th scope="row">{area.title}</th>
+                  <td>
+                    <span class:list={['badge', badgeFor[area.state].className]}>
+                      {badgeFor[area.state].label}
+                    </span>
+                  </td>
+                  <td data-label="Was dahintersteckt">{area.detail}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="muted">
+        Stand dieser Seite: September 2026. Der Fahrplan dahinter steht unter{' '}
+        <a href="/roadmap/">Stand und Fahrplan</a>, die Arbeit selbst liegt offen als{' '}
+        <a href={LINKS.repository + '/issues'} rel="noopener">Issues auf GitHub</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-wide split">
+      <div class="stack">
+        <p class="eyebrow">Ein Datenmodell</p>
+        <h2>Kunde, Objekt, Anlage, Auftrag</h2>
+        <p>
+          Die meisten Systeme sind kundenzentriert: alles hängt am Kunden, und das
+          Gebäude ist ein Adressfeld. Im Handwerk trägt das nicht weit. Eine
+          Hausverwaltung hat vierzig Objekte, in jedem Objekt stehen Anlagen, und die
+          Anlage überlebt den Mieterwechsel und oft genug auch den Eigentümer.
+        </p>
+        <p>
+          Deshalb sind Objekt und Anlage eigene Gegenstände mit eigener Akte. Jeder
+          Auftrag, jede Messung und jedes Protokoll hängt an der Anlage, um die es
+          geht. Wer in fünf Jahren wissen will, was an diesem Zählerschrank gemacht
+          wurde, findet es an der Anlage und nicht in der Auftragshistorie eines
+          Kunden, den es nicht mehr gibt.
+        </p>
+      </div>
+      <Screenshot
+        src={job}
+        alt="Auftragsansicht im Büro mit Kunde, Objekt, Anlage, Vorgängen und Belegen an einer Stelle"
+        caption="Der Auftrag im Büro, mit allem, was an ihm hängt."
+      />
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap-wide split">
+      <Screenshot
+        src={conflict}
+        alt="Konfliktbildschirm mit drei Spalten: Stand auf dem Gerät, Stand auf dem Server und die Entscheidung"
+        caption="Ein Konflikt bekommt einen Bildschirm und eine Entscheidung, keine stille Regel."
+      />
+      <div class="stack">
+        <p class="eyebrow">Offline</p>
+        <h2>Die Baustelle hat kein Netz, die App rechnet trotzdem</h2>
+        <p>
+          Die Regeln, nach denen das Gerät entscheidet, liegen nicht im Server,
+          sondern in einer Schicht, die beide Seiten benutzen. Das Telefon rechnet
+          also dieselbe Antwort aus wie der Server, bevor es überhaupt etwas schickt.
+          Eine Änderung, die abgelehnt würde, fällt damit auf dem Gerät auf und nicht
+          erst zwei Stunden später.
+        </p>
+        <p>
+          Widersprechen sich zwei Änderungen wirklich, entscheidet ein Mensch. Der
+          Konfliktbildschirm zeigt den Stand auf dem Gerät, den Stand auf dem Server
+          und was daraus wird. Die Entscheidung läuft anschließend durch denselben
+          Weg wie jede andere Änderung und landet im selben Audit-Log.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-wide split">
+      <div class="stack">
+        <p class="eyebrow">Zugänge</p>
+        <h2>Rollen, zweiter Faktor, und keine Selbstregistrierung</h2>
+        <p>
+          Eine frische Installation zeigt keine Anmeldung, sondern die Ersteinrichtung:
+          Name des Betriebs, Name und Adresse der Person, die ihn führt, und ein
+          Passwort. Daraus entstehen Betrieb, Konto und Zugehörigkeit in einem Zug.
+          Danach verschwindet die Einrichtung wieder, und zwar weil die Instanz nicht
+          mehr leer ist und nicht weil jemand einen Schalter umgelegt hat.
+        </p>
+        <p>
+          Jeder weitere Zugang entsteht im Büro und bekommt einen Einmal-Link, dessen
+          Passwort die eingeladene Person selbst wählt. Ein Passwort, das der Chef
+          weitergibt, ist eines, das ein Kollege kennt. Für die Rolle des Inhabers ist
+          der zweite Faktor Pflicht.
+        </p>
+      </div>
+      <Screenshot
+        src={signIn}
+        alt="Anmeldemaske mit Auswahl des Betriebs nach erfolgreicher Anmeldung"
+        caption="Anmeldung und Betriebswahl. Eine Instanz kann mehrere Betriebe tragen."
+      />
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap-narrow stack-loose">
+      <h2>Was OpenGewerk bewusst nicht tut</h2>
+      <ul class="marker-list">
+        <li>
+          Keine Funktion hinter einem größeren Tarif. Es gibt keine Tarife, also auch
+          keine Schnittstelle, die erst ab der mittleren Stufe mitkommt.
+        </li>
+        <li>
+          Keine Daten bei einem Anbieter. Es gibt keinen Anbieter. Die Instanz läuft
+          dort, wo der Betrieb sie hinstellt.
+        </li>
+        <li>
+          Kein Löschen von Belegen. Ein festgeschriebener Beleg wird storniert, und
+          beides steht im Log.
+        </li>
+        <li>
+          Keine KI, die im Hintergrund mitliest. Vorgesehen sind selbst gehostete
+          Modelle und ausschließlich dort, wo eine Abfrage die Aufgabe nicht löst.
+        </li>
+      </ul>
+      <p class="button-row">
+        <a class="button button-primary" href="/elektro-und-pv/">Kernmodul Elektro und PV</a>
+        <a class="button button-outline" href="/alternativen/">Vergleich mit anderen</a>
+      </p>
+    </div>
+  </section>
+</Page>
+
+<style>
+  table th[scope='row'] {
+    white-space: nowrap;
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,189 @@
+---
+import Page from '../layouts/Page.astro';
+import { LINKS } from '../site';
+
+type State = 'done' | 'active' | 'open' | 'planned';
+
+interface Phase {
+  number: string;
+  title: string;
+  state: State;
+  result: string;
+}
+
+const phases: Phase[] = [
+  {
+    number: '0',
+    title: 'Fundament',
+    state: 'done',
+    result:
+      'Datenmodell, Mandantentrennung in der Datenbank, Rollen und Rechte, Nummernkreise mit Festschreibung, Audit-Log mit Hashkette, Offline-Datenschicht, Regel-Engine, dazu Betrieb, Sicherung, Rückspielen und Update über Docker Compose.',
+  },
+  {
+    number: '1',
+    title: 'MVP für den Pilotbetrieb',
+    state: 'active',
+    result:
+      'Der Pilotbetrieb arbeitet produktiv damit. Gebaut sind Anmeldung, Ersteinrichtung, Benutzerverwaltung, Belegpositionen und die erste Oberfläche von Kunde bis Auftrag. Offen sind Angebot und Rechnung mit PDF, Regiebericht, E-Rechnung, Zeiterfassung, Dokumentenablage, Aufgaben, Benachrichtigungen, die Anlagenstruktur und das erste Prüfprotokoll.',
+  },
+  {
+    number: '1b',
+    title: 'Machbarkeitsnachweis Messgeräte',
+    state: 'open',
+    result:
+      'Eine echte Exportdatei aus der PC-Software des Pilotbetriebs wird zu Messwerten an der Anlage. Ergebnis ist eine begründete Entscheidung über den Umfang des Messgeräte-Imports, ausdrücklich auch gegen ihn.',
+  },
+  {
+    number: '2',
+    title: 'Elektro- und PV-Kern',
+    state: 'planned',
+    result:
+      'Der fachliche Teil in der Breite: weitere Prüfprotokolle, Messgeräte-Import, Stromkreisverzeichnis, PV-Dokumentation, Fristen für Wiederholungsprüfungen. Betrieb mit mehreren Monteuren.',
+  },
+  {
+    number: '3',
+    title: 'Buchhaltung',
+    state: 'planned',
+    result:
+      'Journal, offene Posten, Mahnwesen, Bank, EÜR und Umsatzsteuer-Voranmeldung. Der Umstieg erfolgt erst nach einem bestandenen Parallelbetrieb neben der bisherigen Lösung. Ab hier kann der Kanzlei-Hub andocken.',
+  },
+  {
+    number: '3b',
+    title: 'Zusammenarbeit mit der Kanzlei',
+    state: 'planned',
+    result:
+      'Der Monatsabschluss läuft ohne E-Mail und Telefon: Webhooks, Rückfragen am Beleg, Buchungsvorschläge zur Freigabe.',
+  },
+  {
+    number: '4',
+    title: 'Projekttiefe',
+    state: 'planned',
+    result:
+      'Plantafel, Material und Lager, Fahrzeuge und Werkzeuge mit Prüffristen, alles was ein Baustellenbetrieb über den einzelnen Auftrag hinaus braucht.',
+  },
+  {
+    number: '5',
+    title: 'Kundenportal',
+    state: 'planned',
+    result:
+      'Selbstbedienung für den Auftraggeber: Angebote freigeben, Unterlagen abrufen, Termine sehen.',
+  },
+  {
+    number: '6',
+    title: 'Bilanz und Ausbau',
+    state: 'planned',
+    result:
+      'Anlagenbuchhaltung, Bilanz und GuV, weitere Gewerke als Erweiterungen auf derselben Formular- und Fristen-Engine.',
+  },
+];
+
+// English key for the compiler, German label for the reader.
+const badgeFor: Record<State, { className: string; label: string }> = {
+  done: { className: 'badge-done', label: 'abgeschlossen' },
+  active: { className: 'badge-partial', label: 'läuft' },
+  open: { className: 'badge-planned', label: 'offen' },
+  planned: { className: 'badge-planned', label: 'geplant' },
+};
+---
+
+<Page
+  title="Stand und Fahrplan von OpenGewerk"
+  description="Wie weit OpenGewerk ist und was als Nächstes kommt: sechs Phasen vom Fundament über den MVP im Pilotbetrieb bis zu Buchhaltung, Kanzlei-Anbindung und Kundenportal."
+  breadcrumb="Stand"
+>
+  <section class="section section-dark">
+    <div class="wrap-narrow stack">
+      <p class="eyebrow">Stand September 2026</p>
+      <h1>Wo das Projekt steht</h1>
+      <p class="lead">
+        OpenGewerk wird entlang eines Pilotbetriebs gebaut, eines Elektro- und
+        PV-Unternehmens. Version 1 ist erreicht, wenn dessen Aufträge vollständig in
+        OpenGewerk laufen. Alles, was sich später nicht nachrüsten lässt, kommt
+        trotzdem zuerst: Datenmodell, Offline-Schicht, Festschreibung und
+        Mandantentrennung.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap stack-loose">
+      <h2>Die Phasen</h2>
+      <ol class="phases">
+        {
+          phases.map((phase) => (
+            <li class="card">
+              <div class="phase-head">
+                <span class="phase-number">{phase.number}</span>
+                <h3>{phase.title}</h3>
+                <span class:list={['badge', badgeFor[phase.state].className]}>{badgeFor[phase.state].label}</span>
+              </div>
+              <p>{phase.result}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-narrow stack-loose">
+      <h2>Warum der Fahrplan hier steht und nicht als Versprechen</h2>
+      <p>
+        Es gibt kein Datum an diesen Phasen. Das Projekt entsteht neben einem laufenden
+        Betrieb, und ein genanntes Datum wäre eine Zahl, die niemand einhält. Was es
+        stattdessen gibt, ist Offenheit über den Stand: jede Aufgabe liegt als Issue
+        auf GitHub, jede größere Entscheidung als Architekturentscheidung mit
+        Begründung.
+      </p>
+      <p>
+        Eine Regel dabei hat sich als wichtig erwiesen: die Liste der Issues ist nicht
+        der Fortschritt, sie ist nur so vollständig wie der letzte Schnitt. Verbindlich
+        ist der Fahrplan im Konzept, die Issues sind die Abschrift davon.
+      </p>
+      <div class="button-row">
+        <a class="button button-primary" href={LINKS.repository + '/issues'} rel="noopener">
+          Offene Aufgaben ansehen
+        </a>
+        <a class="button button-outline" href={LINKS.decisions} rel="noopener">
+          Architekturentscheidungen
+        </a>
+      </div>
+    </div>
+  </section>
+</Page>
+
+<style>
+  .phases {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .phase-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.9rem;
+    margin-block-end: var(--space-xs);
+  }
+
+  .phase-number {
+    display: inline-grid;
+    place-items: center;
+    min-width: 2.4rem;
+    height: 2.4rem;
+    padding-inline: 0.4rem;
+    border-radius: var(--radius-s);
+    background: var(--slate);
+    color: var(--ink-on-dark);
+    font-weight: 600;
+    font-size: var(--font-s);
+  }
+
+  .phase-head h3 {
+    margin: 0;
+    flex: 1 1 12rem;
+  }
+</style>

@@ -1,0 +1,82 @@
+name: Ausliefern
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Two runs at once would rsync into the same directory. They queue instead.
+concurrency:
+  group: deploy-opengewerk-de
+  cancel-in-progress: false
+
+jobs:
+  # Gate. Nothing reaches the server that has not passed the same checks a pull
+  # request has to pass.
+  ci:
+    name: CI
+    uses: ./.github/workflows/ci.yml
+
+  deploy:
+    name: Auf den Server spielen
+    needs: ci
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v7
+
+      - name: Corepack aktivieren
+        run: corepack enable
+
+      - name: Node einrichten
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Abhängigkeiten installieren
+        run: pnpm install --frozen-lockfile
+
+      # Yes, the gate built this already. Handing dist over as an artifact would
+      # save a build, but a silently incomplete upload would put a broken site
+      # on the server. A rebuild from the same commit is deterministic and takes
+      # under a minute.
+      - name: Website bauen
+        run: pnpm run build
+
+      - name: SSH-Schlüssel einrichten
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          # The host key comes from a secret rather than from ssh-keyscan.
+          # Fetching it at runtime and trusting whatever answers is not a check.
+          printf '%s\n' "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      # --delete is what keeps a removed page from staying reachable, and a page
+      # that outlives its links is exactly what a search engine keeps in the
+      # index. The schemas of the contract are excluded: they do not come from
+      # this repository, they are placed by opengewerk-assets.sh on the server,
+      # and a published $id has to stay reachable.
+      - name: Dateien abgleichen
+        run: |
+          rsync -rlptz --delete \
+            --exclude='/schemas/' \
+            -e "ssh -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=yes" \
+            dist/ "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/opengewerk.de/public/"
+
+      - name: Gegenprobe
+        run: |
+          # An HTTP 200 on the front page and on one subpage, plus the sitemap.
+          # Not a deep check, but it catches the case where the upload landed
+          # somewhere other than the document root.
+          for pfad in / /funktionen/ /sitemap-index.xml; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "https://opengewerk.de${pfad}")
+            echo "${code}  ${pfad}"
+            [ "${code}" = "200" ] || exit 1
+          done

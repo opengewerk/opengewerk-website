@@ -1,0 +1,149 @@
+---
+import { LINKS, NAVIGATION, SITE } from '../site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer section-dark">
+  <div class="wrap-wide">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img
+          src="/marke/logo-dunkel.svg"
+          alt="OpenGewerk"
+          width="476"
+          height="100"
+          loading="lazy"
+        />
+        <p class="muted">
+          {SITE.tagline}. Quelloffen, self-hosted, in Entwicklung.
+        </p>
+      </div>
+
+      <nav aria-labelledby="fuss-seiten">
+        <h2 id="fuss-seiten" class="footer-heading">Seiten</h2>
+        <ul class="footer-list">
+          <li><a href="/">Start</a></li>
+          {
+            NAVIGATION.map((entry) => (
+              <li>
+                <a href={entry.href}>{entry.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="fuss-projekt">
+        <h2 id="fuss-projekt" class="footer-heading">Projekt</h2>
+        <ul class="footer-list">
+          <li><a href={LINKS.repository} rel="noopener">Quelltext auf GitHub</a></li>
+          <li><a href={LINKS.concept} rel="noopener">Feature-Gliederung</a></li>
+          <li><a href={LINKS.decisions} rel="noopener">Architekturentscheidungen</a></li>
+          <li><a href={LINKS.kanzlei} rel="noopener">Kanzlei-Hub</a></li>
+          <li><a href={LINKS.apiSpec} rel="noopener">API-Vertrag</a></li>
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="fuss-kontakt">
+        <h2 id="fuss-kontakt" class="footer-heading">Mitreden</h2>
+        <ul class="footer-list">
+          <li><a href={LINKS.discussions} rel="noopener">Discussions</a></li>
+          <li><a href={LINKS.discord} rel="noopener">Discord</a></li>
+          <li><a href={LINKS.issues} rel="noopener">Fehler melden</a></li>
+          <li><a href="/impressum/">Impressum</a></li>
+          <li><a href="/datenschutz/">Datenschutz</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <p class="footer-legal muted">
+      <span>&copy; {year} OpenGewerk-Mitwirkende.</span>
+      <span>
+        Die Anwendungen stehen unter der{' '}
+        <a href={LINKS.license} rel="noopener">AGPL-3.0</a>, der Schnittstellenvertrag
+        unter Apache-2.0.
+      </span>
+      <span>Diese Seite setzt keine Cookies und lädt nichts von fremden Servern.</span>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: var(--space-l);
+    /* No top margin. It would show a strip of page background between the last
+     * section and the footer, and on a page whose last section is dark that
+     * strip reads as a stray white bar.
+     *
+     * The line instead: several pages end on a dark call to action, and without
+     * it that block and the footer melt into one dark area with no edge. Against
+     * a light section above it is invisible, so it can simply always be there. */
+    border-top: 1px solid rgb(244 241 234 / 0.18);
+  }
+
+  /* One column on a phone, two on a tablet. */
+  .footer-grid {
+    display: grid;
+    gap: var(--space-m);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  }
+
+  .footer-brand {
+    max-width: 24rem;
+  }
+
+  /* From a wide desktop on, the three lists size themselves to their content
+   * and the brand column takes whatever is left. That keeps them together on
+   * the right instead of spreading them across the whole width, which on an
+   * ultrawide left gaps wide enough to look like a mistake. */
+  @media (width >= 64rem) {
+    .footer-grid {
+      grid-template-columns: minmax(0, 1fr) auto auto auto;
+      column-gap: clamp(2rem, 4vw, 4.5rem);
+    }
+  }
+
+  .footer-brand img {
+    width: clamp(10rem, 16vw, 13rem);
+    height: auto;
+    margin-block-end: var(--space-s);
+  }
+
+  .footer-heading {
+    font-size: var(--font-s);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--copper-light);
+    margin-block-end: var(--space-xs);
+  }
+
+  .footer-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.3rem;
+    font-size: var(--font-s);
+  }
+
+  .footer-list a {
+    color: var(--ink-on-dark);
+    text-decoration: none;
+  }
+
+  .footer-list a:hover {
+    color: var(--copper-light);
+    text-decoration: underline;
+  }
+
+  .footer-legal {
+    margin-block-start: var(--space-l);
+    padding-block-start: var(--space-s);
+    border-top: 1px solid rgb(244 241 234 / 0.14);
+    font-size: var(--font-s);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 1.2rem;
+  }
+</style>

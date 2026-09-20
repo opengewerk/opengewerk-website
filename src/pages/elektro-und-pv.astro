@@ -1,0 +1,246 @@
+---
+import Page from '../layouts/Page.astro';
+import Screenshot from '../components/Screenshot.astro';
+import { LINKS } from '../site';
+
+import installation from '../assets/screens/anlagenstruktur.png';
+import testReport from '../assets/screens/pruefprotokoll-vde-0100-600.png';
+
+const standards = [
+  {
+    standard: 'DIN VDE 0100-600',
+    purpose: 'Erstprüfung einer neu errichteten Anlage, Besichtigen, Erproben, Messen.',
+  },
+  {
+    standard: 'DIN VDE 0105-100',
+    purpose: 'Wiederholungsprüfung ortsfester Anlagen im Betrieb.',
+  },
+  {
+    standard: 'DGUV Vorschrift 3',
+    purpose: 'Prüfung ortsveränderlicher und ortsfester Betriebsmittel als Arbeitgeberpflicht.',
+  },
+  {
+    standard: 'E-Check',
+    purpose: 'Das Prüfsiegel des Elektrohandwerks, aufbauend auf denselben Messungen.',
+  },
+  {
+    standard: 'VDE-AR-N 4105',
+    purpose: 'Erzeugungsanlagen am Niederspannungsnetz, also der PV-Teil der Dokumentation.',
+  },
+];
+
+const software = [
+  { vendor: 'Gossen Metrawatt', product: 'IZYTRONIQ' },
+  { vendor: 'Metrel', product: 'Metrel ES Manager' },
+  { vendor: 'Fluke', product: 'Fluke DMS' },
+  { vendor: 'Benning', product: 'Benning PC-Win' },
+];
+---
+
+<Page
+  title="Elektro und PV: Prüfprotokolle, Stromkreise und Messgeräte-Import"
+  description="Das Kernmodul von OpenGewerk: Anlagenakte bis zum Stromkreis, Prüfprotokolle nach VDE 0100-600 und DGUV V3, Import aus IZYTRONIQ, Metrel, Fluke und Benning, PV-Dokumentation."
+  breadcrumb="Elektro und PV"
+>
+  <section class="section section-dark">
+    <div class="wrap-narrow stack">
+      <p class="eyebrow">Kernmodul</p>
+      <h1>Elektro und Photovoltaik, nicht als Gewerkeliste</h1>
+      <p class="lead">
+        Handwerkersoftware, die alle Gewerke gleich behandelt, endet bei der Anlage
+        mit einem Freitextfeld. Für einen Elektrobetrieb ist genau dort der Anfang der
+        Arbeit. OpenGewerk bildet deshalb die Anlage als Struktur ab und nicht als
+        Notiz.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <Screenshot
+        src={installation}
+        alt="Anlagenakte mit Verteilern, Feldern, Stromkreisen und Betriebsmitteln, daneben die zugehörigen Messwerte"
+        caption="Verteiler, Feld, Stromkreis, Betriebsmittel. Die Messwerte hängen an der Stelle, an der gemessen wurde."
+        draft={true}
+        eager={true}
+      />
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap-wide">
+      <div class="card-grid">
+        <article class="card stack">
+          <h2>Die Anlage bis zum Stromkreis</h2>
+          <p>
+            Unter der Anlage liegen Verteiler, darin Felder, darin Stromkreise und
+            daran die Betriebsmittel. Das ist das Stromkreisverzeichnis, nur eben als
+            Daten und nicht als Zettel in der Tür des Zählerschranks.
+          </p>
+          <p>
+            Daran hängt alles andere: die Messwerte je Stromkreis, das Protokoll, in
+            dem sie stehen, und die Frist bis zur nächsten Wiederholungsprüfung.
+          </p>
+        </article>
+
+        <article class="card stack">
+          <h2>Die Anlage überlebt den Kunden</h2>
+          <p>
+            Ein Zählerschrank steht dreißig Jahre, der Eigentümer wechselt vielleicht
+            zweimal. Weil Objekt und Anlage eigene Gegenstände sind, bleibt die
+            Historie bei der Anlage, auch wenn der Auftraggeber ein anderer ist.
+          </p>
+          <p>
+            Ein QR-Etikett an der Anlage führt direkt auf ihre Akte, auch auf dem
+            Telefon und ohne Suche.
+          </p>
+        </article>
+
+        <article class="card stack">
+          <h2>PV-Dokumentation</h2>
+          <p>
+            Module, Wechselrichter, Speicher und Zähler gehören zur Anlage, nicht in
+            einen Ordner daneben. Die Unterlagen nach VDE-AR-N 4105 entstehen aus
+            denselben Daten.
+          </p>
+          <p>
+            Speicher und Zähler sind eigene Anlagenarten, weil sie eigene Fristen und
+            eigene Angaben haben.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-wide stack-loose">
+      <h2>Prüfprotokolle</h2>
+      <p class="lead">
+        Alle Protokolle entstehen über dieselbe Formular-Engine: ein Formular ist ein
+        Datensatz mit Wiederholgruppen und einer Version, kein fest verdrahtetes
+        Formular im Quelltext. Ändert eine Norm ihre Vorgaben, kommt eine neue Version
+        des Formulars dazu, und die alten Protokolle bleiben so, wie sie unterschrieben
+        wurden.
+      </p>
+      <div class="table-scroll table-stack" tabindex="0">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Norm oder Vorschrift</th>
+              <th scope="col">Wofür</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              standards.map((entry) => (
+                <tr>
+                  <th scope="row">{entry.standard}</th>
+                  <td data-label="Wofür">{entry.purpose}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <p>
+          <strong>Stand heute:</strong> die Anlagenstruktur und die Formular-Engine
+          sind entworfen und geschnitten, gebaut ist noch keines der Protokolle. Das
+          erste wird das nach VDE 0100-600 sein, und die Engine wird nur so weit
+          gebaut, wie dieses eine Protokoll sie braucht. Eine Engine ohne ein Formular,
+          das sie benutzt, wird an den falschen Stellen allgemein.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap">
+      <Screenshot
+        src={testReport}
+        alt="Prüfprotokoll nach VDE 0100-600 mit Messwerten je Stromkreis und Grenzwertprüfung"
+        caption="Das Protokoll nach VDE 0100-600, Messwerte je Stromkreis mit Grenzwertprüfung."
+        draft={true}
+      />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-wide split">
+      <div class="stack">
+        <p class="eyebrow">Messgeräte</p>
+        <h2>Messwerte abtippen ist verlorene Zeit</h2>
+        <p>
+          Die Geräte selbst geben selten brauchbare Rohdaten heraus. Was sich auswerten
+          lässt, sind die Exporte ihrer PC-Software, teils in einem eigenen Format,
+          teils als CSV, XML oder PDF.
+        </p>
+        <p>
+          Deshalb steht vor dem Ausbau dieses Teils ein Machbarkeitsnachweis mit einer
+          echten Exportdatei aus dem Pilotbetrieb. Das Ergebnis darf ausdrücklich auch
+          lauten, dass sich ein Format nicht lohnt. Eine Einschätzung ohne echte Datei
+          wäre geraten, und genau dafür ist ein Machbarkeitsnachweis nicht da.
+        </p>
+      </div>
+      <div class="card">
+        <h3>Zuerst angesehene PC-Software</h3>
+        <div class="table-scroll table-plain">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Hersteller</th>
+                <th scope="col">Programm</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                software.map((entry) => (
+                  <tr>
+                    <th scope="row">{entry.vendor}</th>
+                    <td>{entry.product}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+        <p class="muted small">
+          Die Namen stehen hier, weil sie in den Betrieben stehen. Eine Verbindung
+          zwischen OpenGewerk und diesen Herstellern gibt es nicht.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-dark">
+    <div class="wrap-narrow stack-loose center">
+      <h2>Sie führen einen Elektro- oder PV-Betrieb?</h2>
+      <p class="lead">
+        Dann wissen Sie besser als jedes Konzept, welche Angaben ein Protokoll wirklich
+        braucht und woran ein Import scheitert. Diese Rückmeldung ist gerade das, was
+        dem Projekt am meisten fehlt.
+      </p>
+      <div class="button-row">
+        <a class="button button-primary" href="/mitmachen/">Rückmeldung geben</a>
+        <a class="button button-outline" href={LINKS.concept} rel="noopener">
+          Fachkonzept lesen
+        </a>
+      </div>
+    </div>
+  </section>
+</Page>
+
+<style>
+  .table-plain table {
+    min-width: 0;
+  }
+
+  .small {
+    font-size: var(--font-s);
+    margin-block-start: var(--space-xs);
+  }
+
+  .card h3 {
+    margin-block-end: var(--space-xs);
+  }
+</style>

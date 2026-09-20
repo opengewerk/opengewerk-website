@@ -1,0 +1,105 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  caption: string;
+  /** Marks a screen that is designed but not built yet. Honest by default. */
+  draft?: boolean;
+  /**
+   * A phone screen gets a narrow frame, a desktop screen the full band. Left
+   * out it follows the picture itself, which is the only place where this is
+   * never wrong: a portrait export is a phone.
+   */
+  form?: 'wide' | 'phone';
+  /** The first image on a page is not lazy, it is the one being waited for. */
+  eager?: boolean;
+}
+
+const { src, alt, caption, draft = false, eager = false } = Astro.props;
+
+// Deriving this rather than asking for it: passing the shape by hand put a
+// 390 px phone screen into a 1216 px frame once, and it looked broken in a way
+// that no test would have caught. The aspect ratio is right there in the file.
+const form = Astro.props.form ?? (src.height > src.width ? 'phone' : 'wide');
+
+// The sources are 1x exports. Asking for widths above the original would only
+// make Astro upscale, so the list stops at the real width of the file.
+const widthSteps =
+  form === 'phone'
+    ? [320, 390].filter((candidate) => candidate <= src.width)
+    : [640, 960, 1280].filter((candidate) => candidate <= src.width);
+
+const sizes =
+  form === 'phone'
+    ? '(width >= 30rem) 20rem, calc(100vw - 3rem)'
+    : '(width >= 82rem) 76rem, calc(100vw - 3rem)';
+---
+
+<figure class:list={['shot', form === 'phone' && 'shot-phone']}>
+  <div class="shot-frame">
+    <Image
+      src={src}
+      alt={alt}
+      widths={widthSteps}
+      sizes={sizes}
+      loading={eager ? 'eager' : 'lazy'}
+      decoding={eager ? 'sync' : 'async'}
+    />
+  </div>
+  <figcaption>
+    {draft && <span class="badge badge-partial">Entwurf</span>}
+    <span>{caption}</span>
+  </figcaption>
+</figure>
+
+<style>
+  /* The width limit sits on the whole figure, not on the frame. With it on the
+   * frame the caption kept the full column width while the picture was narrow,
+   * and a caption wider than the thing it captions does not read as belonging
+   * to it. The exports are 1x, so beyond their own width the picture would only
+   * get soft, not bigger. */
+  .shot {
+    margin: 0;
+    max-width: 1280px;
+    margin-inline: auto;
+  }
+
+  .shot-phone {
+    max-width: 20rem;
+  }
+
+  .shot-frame {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-image);
+    background: var(--surface);
+  }
+
+  .shot-phone .shot-frame {
+    border-radius: 20px;
+  }
+
+  .shot-frame :global(img) {
+    width: 100%;
+    height: auto;
+  }
+
+  figcaption {
+    margin-block-start: var(--space-xs);
+    font-size: var(--font-s);
+    color: var(--ink-muted);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+    text-align: left;
+  }
+
+  .section-dark figcaption {
+    color: var(--ink-muted-on-dark);
+  }
+</style>

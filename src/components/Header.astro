@@ -1,0 +1,231 @@
+---
+import { NAVIGATION, LINKS } from '../site';
+
+// A page is current when its path is the one being rendered. The trailing slash
+// is part of it, the site is configured to always carry one.
+const here = Astro.url.pathname;
+---
+
+<header class="header">
+  <div class="wrap-wide header-inner">
+    <a class="header-brand" href="/" aria-label="OpenGewerk, zur Startseite">
+      <img
+        src="/marke/logo.svg"
+        alt="OpenGewerk"
+        width="476"
+        height="100"
+        fetchpriority="high"
+      />
+    </a>
+
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="main-navigation"
+      hidden
+    >
+      <svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M3 6h18M3 12h18M3 18h18" />
+      </svg>
+      <svg class="icon-close" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M5 5l14 14M19 5L5 19" />
+      </svg>
+      <span>Menü</span>
+    </button>
+
+    <nav id="main-navigation" aria-label="Hauptnavigation">
+      <ul class="header-nav">
+        {
+          NAVIGATION.map((entry) => (
+            <li>
+              <a href={entry.href} aria-current={here === entry.href ? 'page' : undefined}>
+                {entry.label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a class="header-github" href={LINKS.repository} rel="noopener">GitHub</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+{/*
+  Progressive enhancement, and the order matters. The markup ships with the
+  navigation visible and the button hidden, so a browser without JavaScript
+  keeps a working, wrapping list instead of a menu that cannot be opened. Only
+  this script turns it into a burger: it marks the header, unhides the button
+  and from then on CSS keys the collapsed state off data-js. It sits right after
+  the header so the swap happens before the first paint.
+*/}
+<script is:inline>
+  (() => {
+    const header = document.querySelector('.header');
+    const toggle = header?.querySelector('.nav-toggle');
+    if (!header || !toggle) return;
+
+    header.dataset.js = '';
+    toggle.hidden = false;
+
+    const setOpen = (open) => {
+      header.toggleAttribute('data-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+    };
+
+    toggle.addEventListener('click', () => {
+      setOpen(!header.hasAttribute('data-open'));
+    });
+
+    // Escape closes it and hands the focus back to the button, otherwise the
+    // focus would sit on a link nobody can see any more.
+    header.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && header.hasAttribute('data-open')) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+  })();
+</script>
+
+<style>
+  .header {
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+    padding-block: var(--space-s);
+  }
+
+  .header-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xs) var(--space-m);
+  }
+
+  .header-brand {
+    display: block;
+    flex: 0 0 auto;
+  }
+
+  .header-brand img {
+    /* Never below the 120 px minimum size from the brand guide. */
+    width: clamp(9rem, 13vw, 11rem);
+    height: auto;
+  }
+
+  .header-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem clamp(0.75rem, 1.4vw, 1.5rem);
+    font-size: var(--font-s);
+  }
+
+  .header-nav a {
+    color: var(--ink);
+    text-decoration: none;
+    display: inline-block;
+    padding-block: 0.4rem;
+    border-bottom: 2px solid transparent;
+    font-weight: 500;
+  }
+
+  .header-nav a:hover {
+    color: var(--copper-text);
+    border-bottom-color: var(--copper);
+  }
+
+  .header-nav a[aria-current='page'] {
+    color: var(--copper-text);
+    border-bottom-color: var(--copper);
+    font-weight: 600;
+  }
+
+  .header-github {
+    color: var(--ink-muted) !important;
+  }
+
+  /* The button exists only where the script ran, so [hidden] and this rule can
+   * never contradict each other. */
+  .nav-toggle {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-s);
+    background: var(--surface);
+    color: var(--ink);
+    font-size: var(--font-s);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .nav-toggle svg {
+    width: 1.35rem;
+    height: 1.35rem;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    fill: none;
+  }
+
+  .nav-toggle .icon-close,
+  .header[data-open] .nav-toggle .icon-open {
+    display: none;
+  }
+
+  .header[data-open] .nav-toggle .icon-close {
+    display: block;
+  }
+
+  /* Below the width at which the seven entries still fit on one line, the
+   * navigation becomes a burger menu. Measured, not guessed: at 768 px the row
+   * still fits, underneath it starts to wrap. */
+  @media (width < 48rem) {
+    .header[data-js] .nav-toggle {
+      display: inline-flex;
+    }
+
+    .header[data-js] nav {
+      display: none;
+      width: 100%;
+    }
+
+    .header[data-js][data-open] nav {
+      display: block;
+    }
+
+    .header[data-js] .header-nav {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      margin-block-start: var(--space-xs);
+      border-top: 1px solid var(--line);
+      font-size: var(--font-m);
+    }
+
+    .header[data-js] .header-nav a {
+      display: block;
+      padding: 0.75rem 0.25rem;
+      min-height: 44px;
+      border-bottom: 1px solid var(--line);
+      border-left: 3px solid transparent;
+      padding-left: 0.75rem;
+    }
+
+    .header[data-js] .header-nav a:hover,
+    .header[data-js] .header-nav a[aria-current='page'] {
+      border-bottom-color: var(--line);
+      border-left-color: var(--copper);
+      background: var(--surface-sunken);
+    }
+  }
+</style>

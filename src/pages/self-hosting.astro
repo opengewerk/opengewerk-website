@@ -1,0 +1,250 @@
+---
+import Page from '../layouts/Page.astro';
+import { LINKS } from '../site';
+
+const services = [
+  { service: 'Anwendung', image: '291 MB', memory: '81 MiB unter einem Limit von 1 GB' },
+  { service: 'PostgreSQL 18', image: '433 MB', memory: '33 MiB' },
+  { service: 'PDF-Renderer, abschaltbar', image: '3,9 GB', memory: '342 MiB' },
+];
+
+const questions = [
+  {
+    question: 'Welchen Server braucht OpenGewerk?',
+    answer:
+      'Eine Maschine mit Docker. Anwendung und Datenbank zusammen bleiben im Leerlauf unter 120 MiB Arbeitsspeicher, gemessen mit einem Limit von einem Gigabyte. Ein kleiner virtueller Server reicht für einen Betrieb aus, ein Gerät im eigenen Netz ebenso.',
+  },
+  {
+    question: 'Wie werden die Daten gesichert?',
+    answer:
+      'Mit einem mitgelieferten Sicherungslauf, der erst die Datenbank und dann den Dateispeicher sichert und dabei je Betrieb den Kopf der Audit-Hashkette festhält. Ein zweiter Lauf spielt eine Sicherung zurück, ein dritter prüft sie gegen die laufende Datenbank.',
+  },
+  {
+    question: 'Wie läuft ein Update?',
+    answer:
+      'In zwei Schritten, und die Reihenfolge ist Pflicht: erst die Migration in einem eigenen Lauf, danach der Tausch der Container. Andersherum wäre die laufende Instanz schon entfernt, wenn die Migration anfängt, und ein Fehlschlag ließe sie unten.',
+  },
+  {
+    question: 'Sendet OpenGewerk Daten nach außen?',
+    answer:
+      'Nein. Es gibt keine Telemetrie, keinen Lizenzserver und keine Registrierung. Die Instanz spricht mit niemandem, mit dem der Betrieb sie nicht sprechen lässt.',
+  },
+  {
+    question: 'Was bedeutet die AGPL für meinen Betrieb?',
+    answer:
+      'Für die Nutzung im eigenen Betrieb nichts. Die Pflicht, Änderungen zurückzugeben, greift, wenn jemand OpenGewerk verändert und als Dienst für andere betreibt. Wer die Software nur benutzt, auch gewerblich, ist davon nicht berührt.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: questions.map((entry) => ({
+      '@type': 'Question',
+      name: entry.question,
+      acceptedAnswer: { '@type': 'Answer', text: entry.answer },
+    })),
+  },
+];
+---
+
+<Page
+  title="OpenGewerk selbst hosten: Docker, Sicherung und Datenschutz"
+  description="Handwerkersoftware auf dem eigenen Server: Start über Docker Compose, unter 120 MiB Arbeitsspeicher, Sicherung und Rückspielen inklusive, keine Telemetrie, keine Cloud."
+  breadcrumb="Selbst hosten"
+  schema={schema}
+>
+  <section class="section section-dark">
+    <div class="wrap-narrow stack">
+      <p class="eyebrow">Self-Hosting</p>
+      <h1>Die Software läuft dort, wo der Betrieb sie hinstellt</h1>
+      <p class="lead">
+        Self-hosted heißt nicht, dass jemand eine Bastelanleitung abarbeitet.
+        Betriebsfähigkeit gehört zum Produkt: Start, Sicherung, Rückspielen und Update
+        sind mitgeliefert und werden mit jeder Änderung durchgetestet.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap stack-loose">
+      <h2>Der Start sind drei Zeilen</h2>
+      <p>
+        Auf einer leeren Maschine mit Docker: die Vorlage der Konfiguration kopieren,
+        die Passwörter darin ersetzen und starten.
+      </p>
+      <pre><code>cp docker/.env.example docker/.env
+openssl rand -hex 32
+docker compose -f docker/compose.yaml up -d</code></pre>
+      <p>
+        Danach läuft eine migrierte Instanz, und im Browser steht die Oberfläche.
+        Solange es weder einen Betrieb noch ein Konto gibt, zeigt sie die
+        Ersteinrichtung: Name des Betriebs, Name und Adresse der Person, die ihn führt,
+        ein Passwort und direkt danach der zweite Faktor. Keine Kommandozeile, kein
+        SQL.
+      </p>
+      <div class="note">
+        <p>
+          Ein Passwort aus <code>openssl rand -base64</code> enthält regelmäßig einen
+          Schrägstrich und zerlegt damit die Verbindungsadresse zur Datenbank. Deshalb
+          steht dort <code>-hex</code>. Die Anwendung erkennt den Fall beim Start und
+          nennt die Ursache, statt mit einer Meldung über einen unbekannten Rechner
+          liegen zu bleiben.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-wide stack-loose">
+      <h2>Was die Maschine tragen muss</h2>
+      <div class="table-scroll table-stack" tabindex="0">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Dienst</th>
+              <th scope="col">Abbild</th>
+              <th scope="col">Arbeitsspeicher im Leerlauf</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              services.map((entry) => (
+                <tr>
+                  <th scope="row">{entry.service}</th>
+                  <td data-label="Abbild">{entry.image}</td>
+                  <td data-label="Arbeitsspeicher im Leerlauf">{entry.memory}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="muted">
+        Gemessen im September 2026 auf einer leeren Instanz. Der PDF-Renderer ist ein
+        eigener Container, weil er allein mehr Speicher braucht als alles andere
+        zusammen. Er läuft nur, wenn er angefordert wird, und ohne ihn läuft der Rest
+        weiter.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap-wide">
+      <div class="card-grid">
+        <article class="card stack">
+          <h2>Sicherung</h2>
+          <p>
+            Ein Lauf sichert die Datenbank und danach den Dateispeicher, in dieser
+            Reihenfolge. Andersherum hätte alles, was dazwischen hochgeladen wird, eine
+            Zeile in der Sicherung und keine Datei im Archiv.
+          </p>
+          <p>
+            Je Betrieb wird der Kopf der Audit-Hashkette mitgeschrieben. Damit ist die
+            Sicherung der Zeuge, den die Kette braucht.
+          </p>
+        </article>
+
+        <article class="card stack">
+          <h2>Rückspielen</h2>
+          <p>
+            Ein zweiter Lauf spielt eine Sicherung zurück, ein dritter prüft sie gegen
+            die laufende Datenbank. Geprüft wird über die Prüfsummen der Dateien, nicht
+            über einen Blick auf den Zeitstempel.
+          </p>
+          <p>
+            Während des Rückspielens wird der Anwendung die Anmeldung entzogen. Offene
+            Verbindungen zu zählen genügt dafür nicht, der Verbindungspool schließt sie
+            von selbst und die Zählung steht auf null, während die Anwendung läuft.
+          </p>
+        </article>
+
+        <article class="card stack">
+          <h2>Update</h2>
+          <p>
+            Erst migrieren, dann tauschen. Schlägt die Migration fehl, läuft die alte
+            Fassung weiter, statt dass eine halb aktualisierte Instanz stehen bleibt.
+          </p>
+          <p>
+            Alle ausstehenden Migrationen laufen in einer einzigen Transaktion. Ein
+            abgebrochenes Update lässt die Datenbank deshalb auf dem Stand davor und
+            braucht kein Rückspielen.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-wide split">
+      <div class="stack">
+        <p class="eyebrow">Datenschutz</p>
+        <h2>Keine Cloud heißt hier wirklich keine Cloud</h2>
+        <p>
+          Es gibt keinen Anbieter, bei dem Daten zwischengespeichert würden, keine
+          Telemetrie und keinen Lizenzserver, der eine Instanz freischaltet. Wer eine
+          Auftragsverarbeitung nach Art. 28 DSGVO prüfen muss, prüft den Hoster des
+          Servers und nicht OpenGewerk.
+        </p>
+        <p>
+          Mehrere Betriebe auf einer Instanz sind möglich und in der Datenbank selbst
+          getrennt, nicht erst in der Anwendung. Diese Trennung gilt auch für die
+          Rolle, mit der die Anwendung arbeitet: sie darf am Schema nichts ändern, und
+          eine Instanz, die sich mit den Zugangsdaten des Eigentümers anmelden will,
+          startet gar nicht erst.
+        </p>
+      </div>
+      <div class="card stack">
+        <h3>Zwei Rollen in der Datenbank</h3>
+        <p>
+          <code>opengewerk_owner</code> besitzt die Tabellen und führt die Migrationen
+          aus. <code>opengewerk_app</code> ist die Rolle der Anwendung, für sie gilt die
+          Mandantentrennung.
+        </p>
+        <p>
+          Der Grund ist unscheinbar und wichtig: für den Eigentümer einer Tabelle greift
+          die Trennung nur mit einem zusätzlichen Schalter. Eine Anwendung, die als
+          Eigentümer verbindet, hätte eine Absicherung, die aussieht wie eine und keine
+          ist.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap-narrow">
+      <h2>Häufige Fragen zum Betrieb</h2>
+      <div class="stack-loose faq">
+        {
+          questions.map((entry) => (
+            <div>
+              <h3>{entry.question}</h3>
+              <p>{entry.answer}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p class="button-row space-above">
+        <a class="button button-primary" href={LINKS.repository} rel="noopener">
+          Anleitung im Repository
+        </a>
+        <a class="button button-outline" href="/roadmap/">Stand des Projekts</a>
+      </p>
+    </div>
+  </section>
+</Page>
+
+<style>
+  .faq {
+    margin-block-start: var(--space-m);
+  }
+
+  .faq h3 {
+    margin-block-end: 0.3rem;
+  }
+
+  .space-above {
+    margin-block-start: var(--space-l);
+  }
+</style>

@@ -1,0 +1,31 @@
+---
+import Page from '../layouts/Page.astro';
+import { NAVIGATION } from '../site';
+---
+
+<Page
+  title="Seite nicht gefunden"
+  description="Diese Adresse gibt es auf opengewerk.de nicht."
+  noindex={true}
+>
+  <section class="section section-dark">
+    <div class="wrap-narrow stack-loose">
+      <p class="eyebrow">Fehler 404</p>
+      <h1>Diese Seite gibt es nicht</h1>
+      <p class="lead">
+        Entweder ist die Adresse verschrieben, oder die Seite hieß einmal anders. Von
+        hier aus geht es weiter:
+      </p>
+      <ul class="marker-list">
+        <li><a href="/">Startseite</a></li>
+        {
+          NAVIGATION.map((entry) => (
+            <li>
+              <a href={entry.href}>{entry.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Page>

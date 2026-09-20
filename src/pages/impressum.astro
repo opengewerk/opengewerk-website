@@ -1,0 +1,104 @@
+---
+import Page from '../layouts/Page.astro';
+import { PROVIDER, LINKS } from '../site';
+---
+
+<Page
+  title="Impressum"
+  description="Anbieterkennzeichnung nach § 5 DDG für opengewerk.de."
+  breadcrumb="Impressum"
+>
+  <section class="section section-dark">
+    <div class="wrap-narrow">
+      <h1>Impressum</h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-narrow stack-loose legal">
+      <div>
+        <h2>Angaben gemäß § 5 DDG</h2>
+        <p>
+          {PROVIDER.name}<br />
+          {PROVIDER.street}<br />
+          {PROVIDER.city}<br />
+          {PROVIDER.country}
+        </p>
+      </div>
+
+      <div>
+        <h2>Kontakt</h2>
+        <p>
+          E-Mail: <a href={`mailto:${PROVIDER.email}`}>{PROVIDER.email}</a>
+        </p>
+        <p>
+          Fachliche Fragen zum Projekt sind in den{' '}
+          <a href={LINKS.discussions} rel="noopener">Discussions</a> besser aufgehoben
+          als per E-Mail, weil andere dort mitlesen und die Antwort auffindbar bleibt.
+        </p>
+      </div>
+
+      <div>
+        <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+        <p>
+          {PROVIDER.name}, Anschrift wie oben.
+        </p>
+      </div>
+
+      <div>
+        <h2>Verbraucherstreitbeilegung</h2>
+        <p>
+          Zur Teilnahme an einem Streitbeilegungsverfahren vor einer
+          Verbraucherschlichtungsstelle bin ich nicht verpflichtet und nicht bereit.
+        </p>
+      </div>
+
+      <div>
+        <h2>Haftung für Inhalte</h2>
+        <p>
+          Die Inhalte dieser Seiten werden mit Sorgfalt erstellt. Für ihre Richtigkeit,
+          Vollständigkeit und Aktualität kann ich keine Gewähr übernehmen. OpenGewerk
+          ist ein Projekt in Entwicklung, und Angaben zum Funktionsumfang beschreiben
+          den Stand zum Zeitpunkt der Veröffentlichung.
+        </p>
+      </div>
+
+      <div>
+        <h2>Haftung für Links</h2>
+        <p>
+          Diese Seite verweist auf externe Websites, auf deren Inhalte ich keinen
+          Einfluss habe. Für sie ist immer der jeweilige Anbieter verantwortlich. Zum
+          Zeitpunkt der Verlinkung waren keine Rechtsverstöße erkennbar. Wird mir einer
+          bekannt, entferne ich den Link.
+        </p>
+      </div>
+
+      <div>
+        <h2>Urheberrecht und Lizenzen</h2>
+        <p>
+          Die Software OpenGewerk steht unter der{' '}
+          <a href={LINKS.license} rel="noopener">GNU Affero General Public License v3.0</a>,
+          der Schnittstellenvertrag unter Apache-2.0. Die Texte und Abbildungen dieser
+          Website gehören zum Projekt und unterliegen denselben Bedingungen wie der
+          zugehörige Quelltext.
+        </p>
+        <p>
+          Genannte Produkt- und Firmennamen sind Kennzeichen ihrer jeweiligen Inhaber.
+          Eine geschäftliche Verbindung zwischen OpenGewerk und den auf dieser Seite
+          genannten Herstellern oder Anbietern besteht nicht.
+        </p>
+      </div>
+    </div>
+  </section>
+</Page>
+
+<style>
+  .legal h2 {
+    font-size: var(--font-h3);
+    margin-block-end: var(--space-xs);
+  }
+
+  .legal p + p {
+    margin-block-start: var(--space-xs);
+  }
+</style>
