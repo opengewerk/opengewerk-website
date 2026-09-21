@@ -6,7 +6,11 @@ interface Props {
   src: ImageMetadata;
   alt: string;
   caption: string;
-  /** Marks a screen that is designed but not built yet. Honest by default. */
+  /**
+   * Marks a picture that does not show the screen as it is built: either the
+   * screen does not exist yet, or it exists and looks different from the
+   * design. Only a picture that matches what was built goes without it.
+   */
   draft?: boolean;
   /**
    * A phone screen gets a narrow frame, a desktop screen the full band. Left

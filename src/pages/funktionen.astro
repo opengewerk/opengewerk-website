@@ -49,19 +49,19 @@ const areas: Area[] = [
     detail: 'Jede Änderung auf Feldebene, mit einer Hashkette darüber. Die Sicherung hält den Kopf der Kette fest, ein Prüflauf hält ihn gegen die laufende Datenbank.',
   },
   {
-    title: 'Belege',
-    state: 'partial',
-    detail: 'Positionen, Beträge und Steuer stehen, gerechnet wird mit dem Belegdatum. Was fehlt, ist der Bildschirm, der ein Angebot oder eine Rechnung erzeugt, und die PDF-Vorlage dahinter.',
+    title: 'Angebot und Auftragsbestätigung',
+    state: 'done',
+    detail: 'Angebot und Kostenvoranschlag am Auftrag, mit Titeln, Positionen, Texten über und unter den Positionen und Textbausteinen, daraus die Auftragsbestätigung. Jeder Beleg kommt als PDF mit dem Briefkopf des Betriebs heraus, und vor dem Festschreiben prüft die Software die Pflichtangaben nach § 14 UStG.',
   },
   {
     title: 'Regiebericht',
-    state: 'planned',
-    detail: 'Leistung, Material und Zeit auf der Baustelle erfassen, mit der Unterschrift des Kunden auf dem Gerät.',
+    state: 'done',
+    detail: 'Leistung, Arbeitszeit und Material auf der Baustelle erfassen, auch ohne Netz, mit der Unterschrift des Kunden auf dem Gerät. Unterschrieben ist genau die Seite, die er gesehen hat, und danach ändert sich der Bericht nicht mehr.',
   },
   {
     title: 'Rechnung und E-Rechnung',
-    state: 'planned',
-    detail: 'Schlussrechnung, kumulierte Abschlagsrechnung und Storno, dazu XRechnung und ZUGFeRD im Ausgang.',
+    state: 'done',
+    detail: 'Schlussrechnung, kumulierte Abschlagsrechnung und Storno, an ein Unternehmen im Inland als E-Rechnung, als XRechnung oder ZUGFeRD-PDF. Noch nicht dabei sind Teilrechnung, Gutschrift, Zahlungsbedingungen, der Versand per E-Mail und der Empfang von E-Rechnungen.',
   },
   {
     title: 'Zeiterfassung',
@@ -72,6 +72,16 @@ const areas: Area[] = [
     title: 'Dokumentenablage',
     state: 'planned',
     detail: 'Dateien an Kunde, Objekt, Anlage und Auftrag, mit den Aufbewahrungsfristen, die dazugehören.',
+  },
+  {
+    title: 'Aufgaben und E-Mail',
+    state: 'planned',
+    detail: 'Aufgaben mit Fälligkeit und Verantwortlichem an Kunde, Objekt, Anlage und Auftrag, dazu Benachrichtigungen und der Versand von Belegen per E-Mail.',
+  },
+  {
+    title: 'Anlagenstruktur',
+    state: 'planned',
+    detail: 'Verteiler, Feld, Stromkreis und Betriebsmittel unter der Anlage, als Grundlage für Messwerte und Prüfprotokolle.',
   },
   {
     title: 'Prüfprotokolle',
@@ -102,7 +112,7 @@ const badgeFor: Record<State, { className: string; label: string }> = {
 
 <Page
   title="Funktionen von OpenGewerk: CRM, Aufträge, Belege und Offline-Baustelle"
-  description="Was OpenGewerk heute kann und was noch fehlt: Kunde, Objekt und Anlage, Aufträge, Belege mit Festschreibung, Offline-Abgleich, Rollen und ein Audit-Log mit Hashkette."
+  description="Was OpenGewerk heute kann und was noch fehlt: Kunde, Objekt und Anlage, Aufträge, Angebot, Regiebericht, Rechnung und E-Rechnung, Offline-Abgleich, Rollen und ein Audit-Log mit Hashkette."
   breadcrumb="Funktionen"
 >
   <section class="section section-dark">
@@ -178,6 +188,7 @@ const badgeFor: Record<State, { className: string; label: string }> = {
         src={job}
         alt="Auftragsansicht im Büro mit Kunde, Objekt, Anlage, Vorgängen und Belegen an einer Stelle"
         caption="Der Auftrag im Büro, mit allem, was an ihm hängt."
+        draft={true}
       />
     </div>
   </section>
@@ -188,6 +199,7 @@ const badgeFor: Record<State, { className: string; label: string }> = {
         src={conflict}
         alt="Konfliktbildschirm mit drei Spalten: Stand auf dem Gerät, Stand auf dem Server und die Entscheidung"
         caption="Ein Konflikt bekommt einen Bildschirm und eine Entscheidung, keine stille Regel."
+        draft={true}
       />
       <div class="stack">
         <h2>Die Baustelle hat kein Netz, die App rechnet trotzdem</h2>
@@ -230,6 +242,7 @@ const badgeFor: Record<State, { className: string; label: string }> = {
         src={signIn}
         alt="Anmeldemaske mit Auswahl des Betriebs nach erfolgreicher Anmeldung"
         caption="Anmeldung und Betriebswahl. Eine Instanz kann mehrere Betriebe tragen."
+        draft={true}
       />
     </div>
   </section>

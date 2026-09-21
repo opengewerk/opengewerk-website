@@ -98,12 +98,18 @@ const stages = [
         <article class="card stack">
           <h2>E-Rechnung</h2>
           <p>
-            XRechnung und ZUGFeRD im Ausgang, das Format kommt aus den Stammdaten des
-            Kunden. Öffentliche Auftraggeber verlangen die eine Fassung, Geschäftskunden
-            oft die andere, und der Betrieb soll das einmal hinterlegen und nicht bei
-            jeder Rechnung entscheiden.
+            XRechnung und ZUGFeRD im Ausgang, seit September 2026 gebaut. Ob eine
+            Rechnung als E-Rechnung hinausgeht, entscheiden die Stammdaten des Kunden
+            und kein Schalter an der Rechnung: an ein Unternehmen im Inland als
+            E-Rechnung, an eine Privatperson als PDF. Nach dem Festschreiben stehen
+            beide Dateien bereit, das ZUGFeRD-PDF für Unternehmen und die XRechnung für
+            Behörden.
           </p>
-          <p>Der Empfang eingehender E-Rechnungen kommt später dazu.</p>
+          <p>
+            Jede XRechnung wird vor dem Speichern gegen das XML-Schema geprüft, und
+            Musterrechnungen laufen bei jeder Änderung gegen den Validator der KoSIT und
+            gegen Mustang. Der Empfang eingehender E-Rechnungen kommt später dazu.
+          </p>
         </article>
 
         <article class="card stack">
@@ -141,11 +147,14 @@ const stages = [
       <div class="note">
         <h2 class="note-title">Stand heute</h2>
         <p>
-          Von der Buchhaltung ist noch nichts gebaut. Was steht, ist der Unterbau, auf
-          dem sie aufsetzt: Belegpositionen mit Beträgen und Steuer, Nummernkreise mit
-          Festschreibung, das Audit-Log mit der Hashkette und die Regel-Engine mit den
-          gesetzlichen Werten. Der produktive Einsatz beginnt im eigenen Betrieb und
-          erst nach einem bestandenen Parallelbetrieb neben der bisherigen Lösung.
+          Von der Buchhaltung selbst ist noch nichts gebaut: kein Journal, keine offenen
+          Posten, kein Abschluss. Von der ersten Stufe stehen Angebot,
+          Auftragsbestätigung, Regiebericht, Abschlags- und Schlussrechnung und Storno,
+          als PDF und als E-Rechnung; Lieferschein und Gutschrift fehlen noch. Darunter
+          liegen Nummernkreise mit Festschreibung, das Audit-Log mit der Hashkette und
+          die Regel-Engine mit den gesetzlichen Werten. Der produktive Einsatz beginnt
+          im eigenen Betrieb und erst nach einem bestandenen Parallelbetrieb neben der
+          bisherigen Lösung.
         </p>
         <p><a href="/roadmap/">Der Fahrplan im Einzelnen</a></p>
       </div>

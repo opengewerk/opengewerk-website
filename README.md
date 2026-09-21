@@ -60,7 +60,9 @@ Die Seite trägt von einem 390 px breiten Telefon bis zu einem 3440 px breiten U
 
 ## Bilder der Oberfläche
 
-Die Bilder unter `src/assets/screens/` sind **Entwürfe** aus dem Oberflächen-Entwurf vom 19.09.2026, keine Fotos einer laufenden Installation. Wo ein Bild einen Bildschirm zeigt, den es noch nicht gibt, trägt es die Marke „Entwurf". Das ist die Aufgabe des Attributs `draft` an der Komponente `Screenshot`, und es gehört an jedes Bild, dessen Funktion noch aussteht.
+Die Bilder unter `src/assets/screens/` sind **Entwürfe** aus dem Oberflächen-Entwurf vom 19.09.2026, keine Fotos einer laufenden Installation. Wo ein Bild nicht zeigt, was gebaut ist, trägt es die Marke „Entwurf": weil es den Bildschirm noch nicht gibt, oder weil es ihn gibt und er anders aussieht als im Entwurf. Das ist die Aufgabe des Attributs `draft` an der Komponente `Screenshot`. Ohne die Marke darf nur ein Bild stehen, das der gebauten Oberfläche entspricht.
+
+Seit dem 21.09.2026 trägt jedes verwendete Bild die Marke. Beim Abgleich mit dem Code passte keines der Artboards zur gebauten Oberfläche: die Kundenliste zeigt Umsatz und offene Vorgänge, die Baustelle „Meine Aufträge" mit Uhrzeiten, der Auftrag eine Zeiterfassung, die Anmeldung einen Passkey-Knopf, und nichts davon gibt es so. Wer die Marke wieder ablegen will, nimmt eine Aufnahme der echten Oberfläche, etwa aus der Vorschau des Anwendungsrepositories.
 
 Sie liegen als 1x-Export vor. Der Bildrahmen hört deshalb bei 1280 px auf: darüber würde die Aufnahme nur weich, nicht größer. Wer die Artboards neu exportiert, exportiert am besten in 2x, dann kann die Grenze fallen.
 
