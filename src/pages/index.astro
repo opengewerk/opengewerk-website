@@ -16,7 +16,7 @@ const questions = [
   {
     question: 'Kann ich OpenGewerk heute schon im Betrieb einsetzen?',
     answer:
-      'Noch nicht. Der Unterbau steht und es gibt eine Oberfläche, mit der sich Kunden, Objekte, Anlagen und Aufträge erfassen lassen. Rechnung, Regiebericht, Zeiterfassung und Prüfprotokoll fehlen noch. Der erste produktive Einsatz ist für den eigenen Elektrobetrieb geplant, der das Projekt als Pilotkunde begleitet.',
+      'Noch nicht ganz. Kunden, Objekte, Anlagen und Aufträge lassen sich erfassen, im Büro und auf der Baustelle, dort auch ohne Netz. Dazu kommen Angebot und Auftragsbestätigung, der Regiebericht mit der Unterschrift des Kunden und Rechnungen mit Abschlägen und Storno, als PDF und an Unternehmen als E-Rechnung. Zeiterfassung, Prüfprotokoll, der Versand per E-Mail und die Buchhaltung fehlen noch. Der erste produktive Einsatz ist für den eigenen Elektrobetrieb geplant, der das Projekt als Pilotkunde begleitet.',
   },
   {
     question: 'Wo liegen meine Daten?',
@@ -109,6 +109,7 @@ const schema = [
         alt="Kundenliste im Büro mit Filter nach Gewerbe, Privat und Hausverwaltung, dazu Spalten für Objekte, offene Vorgänge, Umsatz und letzten Auftrag"
         caption="Das Büro: Kundenliste mit Objekten, offenen Vorgängen und Umsatz je Kunde."
         eager={true}
+        draft={true}
       />
     </div>
   </section>
@@ -187,6 +188,7 @@ const schema = [
         src={myJobs}
         alt="Auftragsliste auf dem Telefon mit dem Hinweis, dass kein Netz vorhanden ist und drei Vorgänge auf den Abgleich warten"
         caption="Die Baustelle: ohne Netz weiterarbeiten, der Abgleich läuft später."
+        draft={true}
       />
     </div>
   </section>
@@ -223,13 +225,15 @@ const schema = [
         wirklich: Datenmodell, Mandantentrennung, Rechte und Rollen, Nummernkreise mit
         Festschreibung, ein Audit-Log mit Hashkette, die Offline-Datenschicht, die
         Anmeldung mit zweitem Faktor und eine Oberfläche, die von der Ersteinrichtung
-        bis zum Auftrag trägt. Betrieb, Sicherung, Rückspielen und Update laufen über
-        Docker Compose.
+        bis zur Rechnung trägt: Angebot und Auftragsbestätigung, der Regiebericht mit
+        Unterschrift, Abschlags- und Schlussrechnung, Storno und die E-Rechnung als
+        XRechnung und ZUGFeRD-PDF. Betrieb, Sicherung, Rückspielen und Update laufen
+        über Docker Compose.
       </p>
       <p>
-        Was fehlt, fehlt ebenso deutlich: Rechnung, Regiebericht, Zeiterfassung,
-        Dokumentenablage, Prüfprotokoll und die gesamte Buchhaltung. Der Fahrplan
-        nennt beides beim Namen.
+        Was fehlt, fehlt ebenso deutlich: Zeiterfassung, Dokumentenablage,
+        Prüfprotokoll, Aufgaben, der Versand per E-Mail und die gesamte Buchhaltung.
+        Der Fahrplan nennt beides beim Namen.
       </p>
       <p class="button-row">
         <a class="button button-outline" href="/roadmap/">Stand und Fahrplan</a>
