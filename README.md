@@ -84,7 +84,7 @@ Was dafür eingebaut ist, damit es niemand erneut sucht:
 
 ## Ausliefern
 
-Ein Push auf `main` baut und spielt nach `/var/www/opengewerk.de/public/` aus. Die CI ist das Tor davor.
+Ein Push auf `main` baut und spielt in die Webwurzel auf dem Server aus. Die CI ist das Tor davor. Live ist die Seite seit dem 21.09.2026.
 
 Der Abgleich läuft mit `--delete`, damit eine gelöschte Seite wirklich verschwindet. **Ausgenommen ist `/schemas/`**: die JSON-Schemas des Kanzlei-Vertrags kommen nicht aus diesem Repository, sondern von `opengewerk-assets.sh` auf dem Server, und eine einmal veröffentlichte `$id` muss erreichbar bleiben.
 
