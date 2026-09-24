@@ -6,23 +6,24 @@ const services = [
   { service: 'Anwendung', image: '291 MB', memory: '81 MiB unter einem Limit von 1 GB' },
   { service: 'PostgreSQL 18', image: '433 MB', memory: '33 MiB' },
   { service: 'PDF-Renderer, abschaltbar', image: '3,9 GB', memory: '342 MiB' },
+  { service: 'Nächtliche Sicherung', image: '452 MB, davon 433 MB mit PostgreSQL geteilt', memory: '1,8 MiB' },
 ];
 
 const questions = [
   {
     question: 'Welchen Server braucht OpenGewerk?',
     answer:
-      'Eine Maschine mit Docker. Anwendung und Datenbank zusammen bleiben im Leerlauf unter 120 MiB Arbeitsspeicher, gemessen mit einem Limit von einem Gigabyte. Ein kleiner virtueller Server reicht für einen Betrieb aus, ein Gerät im eigenen Netz ebenso.',
+      'Eine Maschine mit Docker, auf x86_64 oder ARM64. Anwendung und Datenbank zusammen bleiben im Leerlauf unter 120 MiB Arbeitsspeicher, gemessen mit einem Limit von einem Gigabyte, mit dem PDF-Renderer unter 600 MiB. Ein kleiner virtueller Server reicht für einen Betrieb aus, ein Gerät im eigenen Netz ebenso.',
   },
   {
     question: 'Wie werden die Daten gesichert?',
     answer:
-      'Mit einem mitgelieferten Sicherungslauf, der erst die Datenbank und dann den Dateispeicher sichert und dabei je Betrieb den Kopf der Audit-Hashkette festhält. Ein zweiter Lauf spielt eine Sicherung zurück, ein dritter prüft sie gegen die laufende Datenbank.',
+      'Jede Nacht von selbst. Ein mitgelieferter Dienst sichert erst die Datenbank und dann den Dateispeicher, hält dabei je Betrieb den Kopf der Audit-Hashkette fest und verschlüsselt das Archiv auf Wunsch an einen öffentlichen Schlüssel. Das Büro zeigt, wann die letzte Sicherung fertig wurde, und warnt nach zwei Tagen ohne. Ein zweiter Lauf spielt eine Sicherung zurück, ein dritter prüft sie gegen die laufende Datenbank.',
   },
   {
     question: 'Wie läuft ein Update?',
     answer:
-      'In zwei Schritten, und die Reihenfolge ist Pflicht: erst die Migration in einem eigenen Lauf, danach der Tausch der Container. Andersherum wäre die laufende Instanz schon entfernt, wenn die Migration anfängt, und ein Fehlschlag ließe sie unten.',
+      'Mit demselben Befehl wie der erste Start. Er migriert zuerst in einem eigenen Lauf und tauscht erst danach die Container; andersherum wäre die laufende Instanz schon entfernt, wenn die Migration anfängt, und ein Fehlschlag ließe sie unten. Mit den Releases kommt die neue Fassung als Paket mit fertigen, signierten Abbildern, und auf der Maschine wird nichts mehr gebaut.',
   },
   {
     question: 'Sendet OpenGewerk Daten nach außen?',
@@ -68,28 +69,33 @@ const schema = [
 
   <section class="section section-tint">
     <div class="wrap stack-loose">
-      <h2>Der Start sind drei Zeilen</h2>
+      <h2>Der Start ist ein Befehl</h2>
       <p>
-        Auf einer leeren Maschine mit Docker: die Vorlage der Konfiguration kopieren,
-        die Passwörter darin ersetzen und starten.
+        Auf einer Maschine mit Docker, im Ordner der Installation:
       </p>
-      <pre><code>cp docker/.env.example docker/.env
-openssl rand -hex 32
-docker compose -f docker/compose.yaml up -d</code></pre>
+      <pre><code>sh docker/start.sh</code></pre>
       <p>
-        Danach läuft eine migrierte Instanz, und im Browser steht die Oberfläche.
-        Solange es weder einen Betrieb noch ein Konto gibt, zeigt sie die
-        Ersteinrichtung: Name des Betriebs, Name und Adresse der Person, die ihn führt,
-        ein Passwort und direkt danach der zweite Faktor. Keine Kommandozeile, kein
-        SQL.
+        Beim ersten Mal legt der Befehl die Konfiguration selbst an. Jedes Passwort und
+        jeder Schlüssel entsteht auf der Maschine, und in der Konsole stehen nur ihre
+        Namen, nie die Werte. Gefragt wird einzig nach der Adresse, unter der
+        OpenGewerk im Browser geöffnet wird. Danach richtet er die Datenbank ein und
+        startet die Instanz, und jeder weitere Aufruf ist zugleich das Update.
+      </p>
+      <p>
+        Im Browser steht dann die Oberfläche. Solange es weder einen Betrieb noch ein
+        Konto gibt, zeigt sie die Ersteinrichtung: Name des Betriebs, Name und Adresse
+        der Person, die ihn führt, ein Passwort und direkt danach der zweite Faktor.
+        Keine Kommandozeile, kein SQL. Alles Weitere, vom Briefkopf bis zum Mailserver,
+        wird im Büro eingestellt und nicht in einer Datei.
       </p>
       <div class="note">
         <p>
-          Ein Passwort aus <code>openssl rand -base64</code> enthält regelmäßig einen
-          Schrägstrich und zerlegt damit die Verbindungsadresse zur Datenbank. Deshalb
-          steht dort <code>-hex</code>. Die Anwendung erkennt den Fall beim Start und
-          nennt die Ursache, statt mit einer Meldung über einen unbekannten Rechner
-          liegen zu bleiben.
+          Heute startet eine Installation aus dem Quelltext des Repositorys, und der
+          Befehl baut die Abbilder dabei selbst. Releases mit fertigen, signierten
+          Abbildern für x86_64 und ARM64 sind eingerichtet: aus einem Release-Paket
+          holt derselbe Befehl die Abbilder seiner Fassung, statt zu bauen, und ein
+          Update ist das nächste Paket an derselben Stelle. Das erste Release steht
+          noch aus.
         </p>
       </div>
     </div>
@@ -123,8 +129,9 @@ docker compose -f docker/compose.yaml up -d</code></pre>
       <p class="muted">
         Gemessen im September 2026 auf einer leeren Instanz. Der PDF-Renderer ist ein
         eigener Container, weil er allein mehr Speicher braucht als alles andere
-        zusammen. Er läuft nur, wenn er angefordert wird, und ohne ihn läuft der Rest
-        weiter.
+        zusammen. Er startet von Haus aus mit, denn ohne ihn kommt kein Angebot und
+        keine Rechnung als PDF heraus, und lässt sich abschalten. Zusammen bleiben die
+        Dienste im Leerlauf unter 600 MiB.
       </p>
     </div>
   </section>
@@ -135,13 +142,16 @@ docker compose -f docker/compose.yaml up -d</code></pre>
         <article class="card stack">
           <h2>Sicherung</h2>
           <p>
-            Ein Lauf sichert die Datenbank und danach den Dateispeicher, in dieser
-            Reihenfolge. Andersherum hätte alles, was dazwischen hochgeladen wird, eine
-            Zeile in der Sicherung und keine Datei im Archiv.
+            Jede Nacht sichert ein eigener Dienst die Datenbank und danach den
+            Dateispeicher, in dieser Reihenfolge. Andersherum hätte alles, was
+            dazwischen hochgeladen wird, eine Zeile in der Sicherung und keine Datei im
+            Archiv. Das Büro zeigt, wann die letzte fertig wurde.
           </p>
           <p>
             Je Betrieb wird der Kopf der Audit-Hashkette mitgeschrieben. Damit ist die
-            Sicherung der Zeuge, den die Kette braucht.
+            Sicherung der Zeuge, den die Kette braucht. Verschlüsselt wird auf Wunsch
+            an einen öffentlichen Schlüssel, sodass die Maschine ihre eigenen älteren
+            Sicherungen nicht lesen kann.
           </p>
         </article>
 
@@ -162,8 +172,9 @@ docker compose -f docker/compose.yaml up -d</code></pre>
         <article class="card stack">
           <h2>Update</h2>
           <p>
-            Erst migrieren, dann tauschen. Schlägt die Migration fehl, läuft die alte
-            Fassung weiter, statt dass eine halb aktualisierte Instanz stehen bleibt.
+            Derselbe Befehl wie beim ersten Start: erst migrieren, dann tauschen.
+            Schlägt die Migration fehl, läuft die alte Fassung weiter, statt dass eine
+            halb aktualisierte Instanz stehen bleibt.
           </p>
           <p>
             Alle ausstehenden Migrationen laufen in einer einzigen Transaktion. Ein

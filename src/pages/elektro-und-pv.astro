@@ -78,7 +78,8 @@ const software = [
           </p>
           <p>
             Daran hängt alles andere: die Messwerte je Stromkreis, das Protokoll, in
-            dem sie stehen, und die Frist bis zur nächsten Wiederholungsprüfung.
+            dem sie stehen, und mit Phase 2 die Frist bis zur nächsten
+            Wiederholungsprüfung.
           </p>
         </article>
 
@@ -90,8 +91,8 @@ const software = [
             Historie bei der Anlage, auch wenn der Auftraggeber ein anderer ist.
           </p>
           <p>
-            Ein QR-Etikett an der Anlage führt direkt auf ihre Akte, auch auf dem
-            Telefon und ohne Suche.
+            Mit Phase 2 führt ein QR-Etikett an der Anlage direkt auf ihre Akte, auch
+            auf dem Telefon und ohne Suche.
           </p>
         </article>
 
@@ -99,8 +100,8 @@ const software = [
           <h2>PV-Dokumentation</h2>
           <p>
             Module, Wechselrichter, Speicher und Zähler gehören zur Anlage, nicht in
-            einen Ordner daneben. Die Unterlagen nach VDE-AR-N 4105 entstehen aus
-            denselben Daten.
+            einen Ordner daneben. Die Unterlagen nach VDE-AR-N 4105 sollen aus
+            denselben Daten entstehen, die PV-Struktur dafür kommt mit Phase 2.
           </p>
           <p>
             Speicher und Zähler sind eigene Anlagenarten, weil sie eigene Fristen und
@@ -155,18 +156,23 @@ const software = [
       <div class="stack">
         <h3>Stand heute</h3>
         <p>
-          Die Anlagenstruktur und die Formular-Engine sind entworfen und geschnitten,
-          gebaut ist noch keines der Protokolle. Das erste wird das nach VDE 0100-600
-          sein, und die Engine wird nur so weit gebaut, wie dieses eine Protokoll sie
-          braucht. Eine Engine ohne ein Formular, das sie benutzt, wird an den falschen
-          Stellen allgemein.
+          Gebaut sind die Anlagenstruktur mit dem Stromkreisverzeichnis als PDF, die
+          Formular-Engine und mit ihr das erste Protokoll, das der Erstprüfung nach
+          DIN VDE 0100-600. Es entsteht auf der Baustelle auch ohne Netz, mit einem
+          Messblock je Stromkreis aus dem Stromkreisverzeichnis, der Prüfer
+          unterschreibt es auf dem Gerät, und das letzte Protokoll einer Anlage ist die
+          Vorlage des nächsten. Die Engine ist nur so weit gebaut, wie dieses eine
+          Protokoll sie braucht; eine Engine ohne ein Formular, das sie benutzt, wird an
+          den falschen Stellen allgemein. Die übrigen Protokolle der Tabelle folgen
+          mit Phase 2.
         </p>
         <p>
-          Der Grenzwert im Bild kommt dabei nicht aus dem Kopf des Monteurs, sondern
-          aus dem Regelpaket: bei einem B16 muss die Schleifenimpedanz unter 2,87 Ohm
-          liegen, damit die Sicherung rechtzeitig auslöst. Ein Wert darüber ist ein
-          Mangel und sperrt das Protokoll trotzdem nicht, er steht am Ende in der
-          Zusammenfassung und im Bericht für den Kunden.
+          Der Grenzwert kommt dabei nicht aus dem Kopf des Monteurs, sondern aus dem
+          Regelpaket, jeder mit seiner Fundstelle: bei einem B16 darf die
+          Schleifenimpedanz höchstens 2,87 Ohm betragen, damit die Sicherung rechtzeitig
+          auslöst. Ein Wert darüber ist ein Befund und sperrt das Protokoll nicht, er
+          wird aufgeschrieben und im PDF markiert. Abgenommen sind die Grenzwerte noch
+          nicht; das tut vor dem ersten Einsatz eine Elektrofachkraft.
         </p>
       </div>
     </div>
