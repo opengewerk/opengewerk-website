@@ -71,7 +71,10 @@ const schema = [
     <div class="wrap stack-loose">
       <h2>Der Start ist ein Befehl</h2>
       <p>
-        Auf einer Maschine mit Docker, im Ordner der Installation:
+        Das Paket der neuesten Fassung von der{' '}
+        <a href={LINKS.repository + '/releases'} rel="noopener">Release-Seite</a>{' '}
+        herunterladen, auf einer Maschine mit Docker entpacken und im Ordner{' '}
+        <code>opengewerk</code> aufrufen:
       </p>
       <pre><code>sh docker/start.sh</code></pre>
       <p>
@@ -90,12 +93,11 @@ const schema = [
       </p>
       <div class="note">
         <p>
-          Heute startet eine Installation aus dem Quelltext des Repositorys, und der
-          Befehl baut die Abbilder dabei selbst. Releases mit fertigen, signierten
-          Abbildern für x86_64 und ARM64 sind eingerichtet: aus einem Release-Paket
-          holt derselbe Befehl die Abbilder seiner Fassung, statt zu bauen, und ein
-          Update ist das nächste Paket an derselben Stelle. Das erste Release steht
-          noch aus.
+          Die Abbilder holt der Befehl fertig und signiert, für x86_64 und ARM64;
+          gebaut wird auf der Maschine nichts. Ein Update ist das Paket der nächsten
+          Fassung an derselben Stelle, die Konfiguration bleibt dabei stehen. Wer
+          lieber den Quelltext des Repositorys auscheckt, startet mit demselben
+          Befehl, dann baut er die Abbilder selbst.
         </p>
       </div>
     </div>
