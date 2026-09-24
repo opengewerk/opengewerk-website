@@ -16,7 +16,7 @@ const questions = [
   {
     question: 'Kann ich OpenGewerk heute schon im Betrieb einsetzen?',
     answer:
-      'Noch nicht ganz. Kunden, Objekte, Anlagen und Aufträge lassen sich erfassen, im Büro und auf der Baustelle, dort auch ohne Netz. Dazu kommen Angebot und Auftragsbestätigung, der Regiebericht mit der Unterschrift des Kunden und Rechnungen mit Abschlägen und Storno, als PDF und an Unternehmen als E-Rechnung. Zeiterfassung, Prüfprotokoll, der Versand per E-Mail und die Buchhaltung fehlen noch. Der erste produktive Einsatz ist für den eigenen Elektrobetrieb geplant, der das Projekt als Pilotkunde begleitet.',
+      'Noch nicht ganz. Gebaut ist, was der Fahrplan für den ersten produktiven Einsatz vorsieht: Kunden, Objekte, Anlagen bis zum Stromkreis und Aufträge, im Büro und auf der Baustelle, dort auch ohne Netz. Dazu Angebot und Auftragsbestätigung, der Regiebericht mit der Unterschrift des Kunden, Rechnungen mit Abschlägen und Storno, als PDF und an Unternehmen als E-Rechnung, Zeiterfassung, Dokumentenablage, Aufgaben, der Versand per E-Mail und das Prüfprotokoll nach VDE 0100-600. Vor dem ersten Einsatz im eigenen Elektrobetrieb, der das Projekt als Pilotkunde begleitet, stehen noch die fachliche Abnahme der Regeln und Grenzwerte, ein Praxistest der E-Rechnung und das erste Release. Die Buchhaltung kommt danach.',
   },
   {
     question: 'Wo liegen meine Daten?',
@@ -31,7 +31,7 @@ const questions = [
   {
     question: 'Was braucht der Server?',
     answer:
-      'Docker und wenig Speicher. Anwendung und Datenbank zusammen bleiben im Leerlauf unter 120 MiB, gemessen mit einem Limit von einem Gigabyte. Der PDF-Renderer ist ein eigener, abschaltbarer Container, weil er als Einziger nennenswert Platz braucht.',
+      'Docker und wenig Speicher, auf x86_64 wie auf ARM64. Anwendung und Datenbank zusammen bleiben im Leerlauf unter 120 MiB, gemessen mit einem Limit von einem Gigabyte. Der PDF-Renderer ist ein eigener Container, weil er als Einziger nennenswert Platz braucht; er startet von Haus aus mit und lässt sich abschalten.',
   },
 ];
 
@@ -206,7 +206,8 @@ const schema = [
         <p>
           Eine Anlage besteht aus Verteilern, Feldern, Stromkreisen und
           Betriebsmitteln. Genau so liegt sie in OpenGewerk, und daran hängen die
-          Messwerte, die Prüfprotokolle und die Fristen für die nächste Wiederholung.
+          Messwerte und die Prüfprotokolle, mit Phase 2 auch die Fristen für die
+          nächste Wiederholung.
         </p>
         <p>
           Das ist der Teil, den allgemeine Handwerkersoftware nicht hat und der sich
@@ -221,19 +222,23 @@ const schema = [
     <div class="wrap measure stack-loose is-centered">
       <h2>Ehrlich zum Stand</h2>
       <p>
-        OpenGewerk ist in Entwicklung und noch kein fertiges Produkt. Was steht, steht
-        wirklich: Datenmodell, Mandantentrennung, Rechte und Rollen, Nummernkreise mit
-        Festschreibung, ein Audit-Log mit Hashkette, die Offline-Datenschicht, die
-        Anmeldung mit zweitem Faktor und eine Oberfläche, die von der Ersteinrichtung
-        bis zur Rechnung trägt: Angebot und Auftragsbestätigung, der Regiebericht mit
-        Unterschrift, Abschlags- und Schlussrechnung, Storno und die E-Rechnung als
-        XRechnung und ZUGFeRD-PDF. Betrieb, Sicherung, Rückspielen und Update laufen
+        OpenGewerk ist in Entwicklung und steht vor dem ersten produktiven Einsatz.
+        Was steht, steht wirklich: Datenmodell, Mandantentrennung, Rechte und Rollen,
+        Nummernkreise mit Festschreibung, ein Audit-Log mit Hashkette, die
+        Offline-Datenschicht, die Anmeldung mit zweitem Faktor und eine Oberfläche,
+        die von der Ersteinrichtung bis zur Rechnung trägt: Angebot und
+        Auftragsbestätigung mit Widerrufsbelehrung, der Regiebericht mit Unterschrift,
+        Abschlags- und Schlussrechnung, Storno und die E-Rechnung als XRechnung und
+        ZUGFeRD-PDF. Dazu kommen Zeiterfassung, Dokumentenablage, Aufgaben, der
+        Versand per E-Mail, die Anlage bis zum Stromkreis und das Prüfprotokoll nach
+        VDE 0100-600. Betrieb, nächtliche Sicherung, Rückspielen und Update laufen
         über Docker Compose.
       </p>
       <p>
-        Was fehlt, fehlt ebenso deutlich: Zeiterfassung, Dokumentenablage,
-        Prüfprotokoll, Aufgaben, der Versand per E-Mail und die gesamte Buchhaltung.
-        Der Fahrplan nennt beides beim Namen.
+        Was fehlt, fehlt ebenso deutlich: die fachliche Abnahme der Regeln und
+        Grenzwerte, das erste Release und danach die gesamte Buchhaltung, weitere
+        Prüfprotokolle und der Messgeräte-Import. Der Fahrplan nennt beides beim
+        Namen.
       </p>
       <p class="button-row">
         <a class="button button-outline" href="/roadmap/">Stand und Fahrplan</a>

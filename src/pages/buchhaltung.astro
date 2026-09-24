@@ -108,7 +108,8 @@ const stages = [
           <p>
             Jede XRechnung wird vor dem Speichern gegen das XML-Schema geprüft, und
             Musterrechnungen laufen bei jeder Änderung gegen den Validator der KoSIT und
-            gegen Mustang. Der Empfang eingehender E-Rechnungen kommt später dazu.
+            gegen Mustang. Auf Wunsch geht die Rechnung direkt per E-Mail an den Kunden.
+            Der Empfang eingehender E-Rechnungen kommt mit Phase 3 dazu.
           </p>
         </article>
 
@@ -149,12 +150,14 @@ const stages = [
         <p>
           Von der Buchhaltung selbst ist noch nichts gebaut: kein Journal, keine offenen
           Posten, kein Abschluss. Von der ersten Stufe stehen Angebot,
-          Auftragsbestätigung, Regiebericht, Abschlags- und Schlussrechnung und Storno,
-          als PDF und als E-Rechnung; Lieferschein und Gutschrift fehlen noch. Darunter
-          liegen Nummernkreise mit Festschreibung, das Audit-Log mit der Hashkette und
-          die Regel-Engine mit den gesetzlichen Werten. Der produktive Einsatz beginnt
-          im eigenen Betrieb und erst nach einem bestandenen Parallelbetrieb neben der
-          bisherigen Lösung.
+          Auftragsbestätigung, Regiebericht, Abschlags- und Schlussrechnung, die
+          Rechnung über mehrere Regieberichte und Storno, als PDF und als E-Rechnung.
+          An einer Abschlagsrechnung wird erfasst, was darauf eingegangen ist, und die
+          Schlussrechnung zieht genau das ab. Lieferschein und Gutschrift fehlen noch.
+          Darunter liegen Nummernkreise mit Festschreibung, das Audit-Log mit der
+          Hashkette und die Regel-Engine mit den gesetzlichen Werten. Der produktive
+          Einsatz beginnt im eigenen Betrieb und erst nach einem bestandenen
+          Parallelbetrieb neben der bisherigen Lösung.
         </p>
         <p><a href="/roadmap/">Der Fahrplan im Einzelnen</a></p>
       </div>

@@ -21,22 +21,22 @@ const areas: Area[] = [
   {
     title: 'Kunde, Objekt, Anlage',
     state: 'done',
-    detail: 'Kundenakte mit steuerlichen Angaben, dazu die Objekte des Kunden und die Anlagen im Objekt. Diese Kette ist der Kern des Datenmodells und nicht eine Ansicht darauf.',
+    detail: 'Kundenakte mit steuerlichen Angaben und Ansprechpartnern, dazu die Objekte des Kunden und die Anlagen im Objekt. Diese Kette ist der Kern des Datenmodells und nicht eine Ansicht darauf.',
   },
   {
     title: 'Aufträge',
     state: 'done',
-    detail: 'Auftragsliste im Büro, offene Aufträge auf der Baustelle, der Auftrag selbst mit Objekt, Anlage und Vorgängen.',
+    detail: 'Aufträge mit eigener Nummer, den Monteuren, die darauf eingeteilt sind, und Folgeaufträgen. Auf der Baustelle schließt der Monteur seinen Auftrag ab und schreibt Notizen daran.',
   },
   {
     title: 'Anmeldung und Zugänge',
     state: 'done',
-    detail: 'Anmeldung mit Passwort, Passkey oder zweitem Faktor, Rollen vom Inhaber bis zum Monteur, Einladung über einen Einmal-Link, Geräteliste mit Widerruf.',
+    detail: 'Anmeldung mit Passwort und zweitem Faktor, Wiederherstellungscodes, Passwort ändern und per Link zurückholen, Rollen vom Inhaber bis zum Monteur, Einladung über einen Einmal-Link, Geräteliste mit Widerruf. Passkeys sind vorerst abgeschaltet und kommen mit Phase 2 wieder.',
   },
   {
     title: 'Offline und Abgleich',
     state: 'done',
-    detail: 'Die Baustellen-App hält ihre Daten auf dem Gerät, schickt Änderungen nach und zeigt einen Konflikt auf einem eigenen Bildschirm, statt still zu entscheiden.',
+    detail: 'Die Baustellen-App hält ihre Daten auf dem Gerät, schickt Änderungen nach und zeigt einen Konflikt auf einem eigenen Bildschirm, statt still zu entscheiden. Das Gerät eines Monteurs hält nur die Aufträge, auf denen er eingeteilt ist.',
   },
   {
     title: 'Nummernkreise und Festschreibung',
@@ -51,42 +51,47 @@ const areas: Area[] = [
   {
     title: 'Angebot und Auftragsbestätigung',
     state: 'done',
-    detail: 'Angebot und Kostenvoranschlag am Auftrag, mit Titeln, Positionen, Texten über und unter den Positionen und Textbausteinen, daraus die Auftragsbestätigung. Jeder Beleg kommt als PDF mit dem Briefkopf des Betriebs heraus, und vor dem Festschreiben prüft die Software die Pflichtangaben nach § 14 UStG.',
+    detail: 'Angebot und Kostenvoranschlag am Auftrag, mit Titeln, Positionen, Texten über und unter den Positionen und Textbausteinen, daraus die Auftragsbestätigung. Jeder Beleg kommt als PDF mit dem Briefkopf des Betriebs heraus, und vor dem Festschreiben prüft die Software die Pflichtangaben nach § 14 UStG. An jedem Angebot an einen Verbraucher hängen Widerrufsbelehrung, Formular und die Hinweise zum Erlöschen des Widerrufsrechts.',
   },
   {
     title: 'Regiebericht',
     state: 'done',
-    detail: 'Leistung, Arbeitszeit und Material auf der Baustelle erfassen, auch ohne Netz, mit der Unterschrift des Kunden auf dem Gerät. Unterschrieben ist genau die Seite, die er gesehen hat, und danach ändert sich der Bericht nicht mehr.',
+    detail: 'Leistung, Arbeitszeit und Material auf der Baustelle erfassen, auch ohne Netz, dazu Felder, die der Betrieb selbst festlegt, etwa Wetter oder Anfahrt, und die Unterschrift des Kunden auf dem Gerät. Unterschrieben ist genau die Seite, die er gesehen hat, und danach ändert sich der Bericht nicht mehr.',
   },
   {
     title: 'Rechnung und E-Rechnung',
     state: 'done',
-    detail: 'Schlussrechnung, kumulierte Abschlagsrechnung und Storno, an ein Unternehmen im Inland als E-Rechnung, als XRechnung oder ZUGFeRD-PDF. Noch nicht dabei sind Teilrechnung, Gutschrift, Zahlungsbedingungen, der Versand per E-Mail und der Empfang von E-Rechnungen.',
+    detail: 'Schlussrechnung, kumulierte Abschlagsrechnung und Storno, eine Rechnung über mehrere Regieberichte, an ein Unternehmen im Inland als E-Rechnung, als XRechnung oder ZUGFeRD-PDF, und auf Wunsch direkt per E-Mail an den Kunden. Die Schlussrechnung zieht ab, was auf die Abschläge eingegangen ist. Noch nicht dabei sind Teilrechnung, Gutschrift, Zahlungsbedingungen je Kunde und Skonto und der Empfang von E-Rechnungen.',
   },
   {
     title: 'Zeiterfassung',
-    state: 'planned',
-    detail: 'Mobil und offline, mit den Prüfungen aus Arbeitszeitgesetz und Mindestlohngesetz.',
+    state: 'done',
+    detail: 'Auf der Baustelle am Auftrag gestartet und gestoppt, auch ohne Netz, mit den Warnungen aus dem Arbeitszeitgesetz und der Aufbewahrung nach dem Mindestlohngesetz. Eine Korrektur ist ein neuer Eintrag, den Standort gibt es nur mit Einwilligung. Das Zeitkonto mit Überstunden kommt mit Phase 2.',
   },
   {
     title: 'Dokumentenablage',
-    state: 'planned',
-    detail: 'Dateien an Kunde, Objekt, Anlage und Auftrag, mit den Aufbewahrungsfristen, die dazugehören.',
+    state: 'done',
+    detail: 'Dateien und Fotos an Kunde, Objekt, Anlage und Auftrag. Fotos werden auf dem Gerät verkleinert und warten ohne Netz, bis sie hochgehen, und eine neue Fassung legt sich über die alte, statt sie zu ersetzen.',
   },
   {
     title: 'Aufgaben und E-Mail',
-    state: 'planned',
-    detail: 'Aufgaben mit Fälligkeit und Verantwortlichem an Kunde, Objekt, Anlage und Auftrag, dazu Benachrichtigungen und der Versand von Belegen per E-Mail.',
+    state: 'done',
+    detail: 'Aufgaben mit Fälligkeit und verantwortlicher Person an Kunde, Objekt oder Auftrag, mit einer Erinnerung am Morgen. Belege, unterschriebene Regieberichte und Einladungen gehen per E-Mail hinaus, über den Mailserver, den der Betrieb im Büro einträgt.',
   },
   {
     title: 'Anlagenstruktur',
-    state: 'planned',
-    detail: 'Verteiler, Feld, Stromkreis und Betriebsmittel unter der Anlage, als Grundlage für Messwerte und Prüfprotokolle.',
+    state: 'done',
+    detail: 'Verteiler, Feld, Stromkreis und Betriebsmittel unter der Anlage, im Büro angelegt und auf der Baustelle auch ohne Netz ergänzt, mit dem Stromkreisverzeichnis als PDF. Die PV-Struktur und das QR-Etikett kommen mit Phase 2.',
   },
   {
     title: 'Prüfprotokolle',
-    state: 'planned',
-    detail: 'Datengetriebene Formulare mit Wiederholgruppen und Versionierung, zuerst das Protokoll nach VDE 0100-600.',
+    state: 'partial',
+    detail: 'Die Formular-Engine und mit ihr das erste Protokoll, die Erstprüfung nach DIN VDE 0100-600: je Stromkreis gemessen, jeder Wert mit seinem Grenzwert und dessen Fundstelle, vom Prüfer auf dem Gerät unterschrieben und als PDF. E-Check, VDE 0105-100, DGUV V3 und VDE-AR-N 4105 folgen mit Phase 2.',
+  },
+  {
+    title: 'Installation und Sicherung',
+    state: 'done',
+    detail: 'Start mit einem Befehl, der die Konfiguration selbst ausfüllt, eine Sicherung jede Nacht mit Anzeige im Büro, Rückspielen und Update. Releases mit signierten Abbildern für x86_64 und ARM64 sind eingerichtet, das erste steht noch aus.',
   },
   {
     title: 'Buchhaltung',
@@ -112,7 +117,7 @@ const badgeFor: Record<State, { className: string; label: string }> = {
 
 <Page
   title="Funktionen von OpenGewerk: CRM, Aufträge, Belege und Offline-Baustelle"
-  description="Was OpenGewerk heute kann und was noch fehlt: Kunde, Objekt und Anlage, Aufträge, Angebot, Regiebericht, Rechnung und E-Rechnung, Offline-Abgleich, Rollen und ein Audit-Log mit Hashkette."
+  description="Was OpenGewerk heute kann und was noch fehlt: Kunde, Objekt und Anlage, Aufträge, Angebot, Regiebericht, Rechnung und E-Rechnung, Zeiterfassung, Prüfprotokoll, Offline-Abgleich, Rollen und ein Audit-Log mit Hashkette."
   breadcrumb="Funktionen"
 >
   <section class="section section-dark">
