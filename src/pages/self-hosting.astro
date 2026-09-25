@@ -79,16 +79,21 @@ const schema = [
       <pre><code>sh docker/start.sh</code></pre>
       <p>
         Beim ersten Mal legt der Befehl die Konfiguration selbst an. Jedes Passwort und
-        jeder Schlüssel entsteht auf der Maschine, und in der Konsole stehen nur ihre
-        Namen, nie die Werte. Gefragt wird einzig nach der Adresse, unter der
-        OpenGewerk im Browser geöffnet wird. Danach richtet er die Datenbank ein und
-        startet die Instanz, und jeder weitere Aufruf ist zugleich das Update.
+        jeder Schlüssel entsteht auf der Maschine, dazu der Einrichtungscode, und in der
+        Konsole stehen nur ihre Namen, nie die Werte. Gefragt wird einzig nach der
+        Adresse, unter der OpenGewerk im Browser geöffnet wird. Danach richtet er die
+        Datenbank ein und startet die Instanz, und jeder weitere Aufruf ist zugleich das
+        Update.
       </p>
       <p>
         Im Browser steht dann die Oberfläche. Solange es weder einen Betrieb noch ein
-        Konto gibt, zeigt sie die Ersteinrichtung: Name des Betriebs, Name und Adresse
-        der Person, die ihn führt, ein Passwort und direkt danach der zweite Faktor.
-        Keine Kommandozeile, kein SQL. Alles Weitere, vom Briefkopf bis zum Mailserver,
+        Konto gibt, zeigt sie die Ersteinrichtung, und die fragt als Erstes nach dem
+        Einrichtungscode. Er steht in <code>docker/.env</code> unter{' '}
+        <code>SETUP_CODE</code>, zu sehen mit <code>grep SETUP_CODE docker/.env</code>:
+        so richtet nur ein, wer an den Server kommt, und nicht, wer die Adresse zuerst
+        findet. Danach folgen Name des Betriebs, Name und Adresse der Person, die ihn
+        führt, ein Passwort und direkt danach der zweite Faktor. Am besten geschieht das
+        gleich nach dem ersten Start. Alles Weitere, vom Briefkopf bis zum Mailserver,
         wird im Büro eingestellt und nicht in einer Datei.
       </p>
       <div class="note">
