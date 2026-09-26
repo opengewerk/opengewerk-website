@@ -33,6 +33,7 @@ export const PROVIDER = {
 export const LINKS = {
   github: 'https://github.com/opengewerk',
   repository: 'https://github.com/opengewerk/opengewerk',
+  dockerHub: 'https://hub.docker.com/r/opengewerk/opengewerk',
   discussions: 'https://github.com/opengewerk/opengewerk/discussions',
   issues: 'https://github.com/opengewerk/opengewerk/issues/new/choose',
   discord: 'https://discord.gg/NRrEvbQdxz',
