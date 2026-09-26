@@ -99,7 +99,11 @@ const schema = [
       <div class="note">
         <p>
           Die Abbilder holt der Befehl fertig und signiert, für x86_64 und ARM64;
-          gebaut wird auf der Maschine nichts. Ein Update ist das Paket der nächsten
+          gebaut wird auf der Maschine nichts. Sie kommen aus der GitHub Container
+          Registry, und dieselben Abbilder mit denselben Signaturen liegen auch auf{' '}
+          <a href={LINKS.dockerHub} rel="noopener">Docker Hub</a>, als{' '}
+          <code>opengewerk/opengewerk</code> und <code>opengewerk/backup</code>. Ein
+          Update ist das Paket der nächsten
           Fassung an derselben Stelle, die Konfiguration bleibt dabei stehen. Wer
           lieber den Quelltext des Repositorys auscheckt, startet mit demselben
           Befehl, dann baut er die Abbilder selbst.
