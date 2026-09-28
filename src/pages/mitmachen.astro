@@ -5,7 +5,7 @@ import { LINKS } from '../site';
 
 <Page
   title="Bei OpenGewerk mitmachen"
-  description="Wie man zu OpenGewerk beiträgt: fachliche Rückmeldung aus dem Betriebsalltag, Discussions, Discord, Issues und Quelltext. Gesucht wird gerade vor allem Praxiswissen."
+  description="Wie man zu OpenGewerk beiträgt: fachliche Rückmeldung aus dem Betriebsalltag, Discussions, Discord, Reddit, Issues und Quelltext. Gesucht wird gerade vor allem Praxiswissen."
   breadcrumb="Mitmachen"
 >
   <section class="section section-dark">
@@ -86,12 +86,16 @@ import { LINKS } from '../site';
         </article>
 
         <article class="card stack">
-          <h3>Discord</h3>
+          <h3>Discord und Reddit</h3>
           <p>
-            Kurze Fragen und Mitreden. Ersetzt die Discussions nicht: ein Chatverlauf
-            ist nicht durchsuchbar.
+            Kurze Fragen im Discord, Austausch unter Betrieben auf Reddit. Beides
+            ersetzt die Discussions nicht: was dort geklärt wird, gehört hinterher in
+            eine Discussion oder ein Issue.
           </p>
-          <p><a href={LINKS.discord} rel="noopener">Zum Discord-Server</a></p>
+          <p>
+            <a href={LINKS.discord} rel="noopener">Zum Discord-Server</a>,{' '}
+            <a href={LINKS.reddit} rel="noopener">zu r/OpenGewerk</a>
+          </p>
         </article>
 
         <article class="card stack">

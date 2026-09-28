@@ -37,6 +37,7 @@ export const LINKS = {
   discussions: 'https://github.com/opengewerk/opengewerk/discussions',
   issues: 'https://github.com/opengewerk/opengewerk/issues/new/choose',
   discord: 'https://discord.gg/NRrEvbQdxz',
+  reddit: 'https://www.reddit.com/r/OpenGewerk/',
   concept:
     'https://github.com/opengewerk/opengewerk/blob/main/docs/konzept/Feature-Gliederung.md',
   decisions: 'https://github.com/opengewerk/opengewerk/tree/main/docs/adr',
