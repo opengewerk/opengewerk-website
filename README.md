@@ -21,6 +21,7 @@ Die Seite ist bewusst ehrlich über den Stand. Jede Seite nennt, was gebaut ist 
 | `src/layouts/Page.astro` | Der einzige Rahmen. Titel, Beschreibung, Canonical, Open Graph und die strukturierten Daten stehen dort und nirgends sonst |
 | `src/components/` | Kopf, Fuß und der Rahmen für die Oberflächenbilder |
 | `src/site.ts` | Name, Adresse, Navigation, ausgehende Verweise und die Anbieterangaben. Alles, was auf mehr als einer Seite steht |
+| `src/last-modified.ts` | Wann eine Seite zuletzt geändert wurde, gelesen aus der Git-Historie ihrer Datei |
 | `src/styles/global.css` | Ein Stylesheet. Tokens, Layout-Bänder, Bausteine |
 | `src/assets/screens/` | Die Oberflächenbilder. Dateinamen deutsch, weil sie aus den Artboards des Entwurfs stammen und sich so zuordnen lassen |
 | `public/marke/` | Logo, Icon und Vorschaubild, siehe unten |
@@ -80,7 +81,9 @@ Was dafür eingebaut ist, damit es niemand erneut sucht:
 - `canonical` auf jeder Seite, Open Graph und Twitter-Card für die Vorschau beim Teilen.
 - `sitemap-index.xml` entsteht beim Bauen. Impressum und Datenschutz stehen nicht darin: sie sollen gefunden werden dürfen, aber sie tragen keine Suchabsicht.
 - `robots.txt` verweist auf die Sitemap.
-- Strukturierte Daten: `SoftwareApplication` und `Organization` auf der Startseite, `BreadcrumbList` auf jeder Unterseite, `FAQPage` auf den drei Seiten, die wirklich sichtbare Fragen und Antworten haben. Ausgezeichnet wird nur, was auch auf der Seite steht.
+- Strukturierte Daten: `WebSite`, `SoftwareApplication` und `Organization` auf der Startseite, `WebPage` auf jeder Seite, die gefunden werden darf, `BreadcrumbList` auf jeder Unterseite, `FAQPage` auf den drei Seiten, die wirklich sichtbare Fragen und Antworten haben. Ausgezeichnet wird nur, was auch auf der Seite steht.
+- Das Änderungsdatum je Seite steht als `dateModified` in `WebPage` und als `lastmod` in der Sitemap. Es kommt aus der Git-Historie der Seitendatei (`src/last-modified.ts`), nicht vom Zeitpunkt des Bauens: sonst hätte sich mit jedem Ausliefern jede Seite geändert. Deshalb holen die Workflows die ganze Historie (`fetch-depth: 0`); in einem flachen Klon fehlt das Datum, statt falsch zu sein.
+- `llms.txt` entsteht beim Bauen aus `src/site.ts` (`src/pages/llms.txt.ts`): was das Projekt ist, welche Seiten es gibt und was jede beantwortet. Zum Stand der Software sagt die Datei nichts, das steht auf den Seiten, auf die sie verweist.
 - Adressen tragen immer einen Schrägstrich am Ende, passend zu `trailingSlash: 'always'`. Damit läuft kein interner Verweis über eine Weiterleitung.
 - `check-links.mjs` fängt den vertippten internen Verweis, den sonst niemand bemerkt.
 
