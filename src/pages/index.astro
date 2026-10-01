@@ -1,7 +1,7 @@
 ---
 import Page from '../layouts/Page.astro';
 import Screenshot from '../components/Screenshot.astro';
-import { LINKS, SITE } from '../site';
+import { LINKS, PROVIDER, SITE } from '../site';
 
 import customers from '../assets/screens/kundenliste.png';
 import myJobs from '../assets/screens/meine-auftraege.png';
@@ -36,6 +36,17 @@ const questions = [
 ];
 
 const schema = [
+  // The site itself. Every other page refers to it through this id.
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': SITE.url + '/#website',
+    name: SITE.name,
+    url: SITE.url + '/',
+    description: SITE.description,
+    inLanguage: 'de',
+    publisher: { '@id': SITE.url + '/#organization' },
+  },
   {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
@@ -51,6 +62,7 @@ const schema = [
     inLanguage: 'de',
     softwareHelp: LINKS.repository,
     codeRepository: LINKS.repository,
+    downloadUrl: LINKS.dockerHub,
     offers: {
       '@type': 'Offer',
       price: '0',
@@ -60,12 +72,16 @@ const schema = [
   {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': SITE.url + '/#organization',
     name: 'OpenGewerk',
     url: SITE.url + '/',
     logo: SITE.url + '/marke/logo.svg',
     description:
       'Quelloffenes Projekt für eine self-hosted Handwerkersoftware mit Kernmodul Elektro und PV.',
-    sameAs: [LINKS.github],
+    // The address from the legal notice, and the places the footer links to
+    // where the project itself speaks.
+    email: PROVIDER.email,
+    sameAs: [LINKS.github, LINKS.reddit, LINKS.discord],
   },
   {
     '@context': 'https://schema.org',
@@ -81,7 +97,7 @@ const schema = [
 
 <Page
   title="OpenGewerk: Open-Source-Handwerkersoftware zum Selbsthosten"
-  description="Quelloffene Handwerkersoftware für Elektro und PV. CRM, Aufträge, Belege und Buchhaltung in einem Datenmodell, offline auf der Baustelle, auf dem eigenen Server. AGPL-3.0."
+  description={SITE.description}
   schema={schema}
 >
   <section class="section section-dark">

@@ -249,8 +249,13 @@ jobs:
       # repositories, byte for byte the same everywhere. They stay on their
       # action versions until all four are bumped together; this job is new
       # here and starts on the current ones.
+      #
+      # The full history, because the build reads from it when each page last
+      # changed. A shallow clone would hand every page the date of this commit.
       - name: Repository auschecken
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - name: Corepack aktivieren
         run: corepack enable

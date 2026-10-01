@@ -9,6 +9,7 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE } from '../site';
+import { lastModified } from '../last-modified';
 
 interface Props {
   /** Goes into <title> and og:title. Written for the result list, not for us. */
@@ -31,6 +32,23 @@ const canonical = new URL(Astro.url.pathname, SITE.url).href;
 const preview = new URL(image ?? SITE.socialImage, SITE.url).href;
 
 const blocks = [...schema];
+
+// Every page that may be found says what it is and when its text last changed.
+// The date is left out where the history cannot tell, a wrong one is worse than
+// none. isPartOf points at the WebSite object of the front page.
+if (!noindex) {
+  const modified = lastModified(Astro.url.pathname);
+  blocks.push({
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    url: canonical,
+    name: title,
+    description,
+    inLanguage: 'de',
+    isPartOf: { '@id': SITE.url + '/#website' },
+    ...(modified ? { dateModified: modified } : {}),
+  });
+}
 
 if (breadcrumb) {
   blocks.push({

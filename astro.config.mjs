@@ -2,6 +2,8 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
+import { lastModified } from './src/last-modified.ts';
+
 // https://astro.build/config
 export default defineConfig({
   // Needed for canonical URLs, the sitemap and absolute Open Graph images.
@@ -19,6 +21,12 @@ export default defineConfig({
       // sitemap. They stay reachable and indexable, they are just not announced.
       filter: (page) =>
         !page.endsWith('/impressum/') && !page.endsWith('/datenschutz/'),
+      // The date a page's text last changed, from the history of its file. An
+      // entry without a known date stays without one.
+      serialize(item) {
+        const lastmod = lastModified(new URL(item.url).pathname);
+        return lastmod ? { ...item, lastmod } : item;
+      },
     }),
   ],
 

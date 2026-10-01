@@ -6,6 +6,9 @@ export const SITE = {
   name: 'OpenGewerk',
   url: 'https://opengewerk.de',
   tagline: 'Self-hosted Handwerkersoftware für Elektro und PV',
+  /** What the project is in two sentences. The front page and llms.txt both open with it. */
+  description:
+    'Quelloffene Handwerkersoftware für Elektro und PV. CRM, Aufträge, Belege und Buchhaltung in einem Datenmodell, offline auf der Baustelle, auf dem eigenen Server. AGPL-3.0.',
   /** Falls back as the Open Graph image wherever a page brings none. */
   socialImage: '/marke/social.png',
 } as const;
