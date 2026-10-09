@@ -2,8 +2,12 @@
 import { NAVIGATION, LINKS } from '../site';
 
 // A page is current when its path is the one being rendered. The trailing slash
-// is part of it, the site is configured to always carry one.
+// is part of it, the site is configured to always carry one. A page below an
+// entry, such as the state of the Haustechnik under /haustechnik/, marks its
+// entry as the section the reader is in.
 const here = Astro.url.pathname;
+const currentFor = (href: string) =>
+  here === href ? 'page' : href !== '/' && here.startsWith(href) ? 'true' : undefined;
 ---
 
 <header class="header">
@@ -39,14 +43,14 @@ const here = Astro.url.pathname;
         {
           NAVIGATION.map((entry) => (
             <li>
-              <a href={entry.href} aria-current={here === entry.href ? 'page' : undefined}>
+              <a href={entry.href} aria-current={currentFor(entry.href)}>
                 {entry.label}
               </a>
             </li>
           ))
         }
         <li>
-          <a class="header-github" href={LINKS.repository} rel="noopener">GitHub</a>
+          <a class="header-github" href={LINKS.github} rel="noopener">GitHub</a>
         </li>
       </ul>
     </nav>
@@ -141,7 +145,7 @@ const here = Astro.url.pathname;
     border-bottom-color: var(--copper);
   }
 
-  .header-nav a[aria-current='page'] {
+  .header-nav a[aria-current] {
     color: var(--copper-text);
     border-bottom-color: var(--copper);
     font-weight: 600;
@@ -222,7 +226,7 @@ const here = Astro.url.pathname;
     }
 
     .header[data-js] .header-nav a:hover,
-    .header[data-js] .header-nav a[aria-current='page'] {
+    .header[data-js] .header-nav a[aria-current] {
       border-bottom-color: var(--line);
       border-left-color: var(--copper);
       background: var(--surface-sunken);

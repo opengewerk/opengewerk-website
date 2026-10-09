@@ -3,7 +3,7 @@ import Page from '../layouts/Page.astro';
 import Screenshot from '../components/Screenshot.astro';
 import { LINKS } from '../site';
 
-import invoice from '../assets/screens/rechnung-festschreibung.png';
+import invoice from '../assets/screens/rechnung-festgeschrieben.png';
 
 const stages = [
   {
@@ -85,8 +85,8 @@ const stages = [
       </div>
       <Screenshot
         src={invoice}
-        alt="Eine Rechnung im Entwurf neben derselben Rechnung nach der Festschreibung, mit gesperrten Feldern"
-        caption="Entwurf und festgeschriebener Beleg. Nach der Festschreibung gibt es nur noch den Storno."
+        alt="Festgeschriebene Schlussrechnung mit Positionen und abgezogenen Abschlägen, rechts die E-Rechnung als ZUGFeRD-PDF und XRechnung, die Zahlungseingänge und der Versand per E-Mail"
+        caption="Ein festgeschriebener Beleg. Ändern lässt er sich nicht mehr, nur stornieren."
         draft={true}
       />
     </div>

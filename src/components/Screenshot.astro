@@ -29,12 +29,13 @@ const { src, alt, caption, draft = false, eager = false } = Astro.props;
 // that no test would have caught. The aspect ratio is right there in the file.
 const form = Astro.props.form ?? (src.height > src.width ? 'phone' : 'wide');
 
-// The sources are 1x exports. Asking for widths above the original would only
-// make Astro upscale, so the list stops at the real width of the file.
+// The sources are 2x exports of the boards, so a sharp screen gets twice the
+// pixels of the frame. Asking for widths above the original would only make
+// Astro upscale, so the list stops at the real width of the file.
 const widthSteps =
   form === 'phone'
-    ? [320, 390].filter((candidate) => candidate <= src.width)
-    : [640, 960, 1280].filter((candidate) => candidate <= src.width);
+    ? [320, 390, 640, 780].filter((candidate) => candidate <= src.width)
+    : [640, 960, 1280, 1920, 2560].filter((candidate) => candidate <= src.width);
 
 const sizes =
   form === 'phone'

@@ -1,0 +1,197 @@
+---
+import Page from '../../layouts/Page.astro';
+import AreaTable, { type Area } from '../../components/AreaTable.astro';
+import Phases, { type Phase } from '../../components/Phases.astro';
+import { LINKS } from '../../site';
+
+// What is built, per area, as the closed and open issues of phase 1 say it.
+const areas: Area[] = [
+  {
+    title: 'Fundament und Betrieb',
+    state: 'done',
+    detail: 'Mandantentrennung in der Datenbank, Anmeldung mit zweitem Faktor, Rollen und Rechte, Abgleich ohne Netz, Änderungsprotokoll mit Hashkette und Nummernkreise. Start mit einem Befehl über Docker Compose, eine Sicherung jede Nacht, Rückspielen und Update, auf Wunsch neben der Handwerkersoftware auf demselben Server.',
+  },
+  {
+    title: 'Bereiche und Zugänge',
+    state: 'done',
+    detail: 'Zuständigkeitsbereiche, die die Datenbank durchsetzt, Zugänge mit Rolle und Bereichen und die Vertretung. Ein Gerät hält nur, was in den Bereichen seiner Person liegt.',
+  },
+  {
+    title: 'Liegenschaften und Räume',
+    state: 'partial',
+    detail: 'Liegenschaften mit Ansprechpartnern, Gebäude, Geschosse und Räume im Büro und vor Ort, dazu die Seite eines Raums. Das Lagebild je Gebäude, die Zahlen über alle Liegenschaften und die Zeitachse fehlen noch.',
+  },
+  {
+    title: 'Anlagen und Anlagenakte',
+    state: 'partial',
+    detail: 'Das Anlagenverzeichnis über alle Gebäude, die Akte einer Anlage, Anlegen und Ändern mit Prüfung auf Dubletten, der Import aus Tabellen mit Vorschau, die Bestandsaufnahme vor Ort ohne Netz und Etiketten mit Druck, Scan und Sperre. Der Tausch einer Anlage fehlt noch.',
+  },
+  {
+    title: 'Katalog und Pakete',
+    state: 'partial',
+    detail: 'Das Format der Pakete mit Lader und Prüfungen, der Katalog im Büro und auf dem Gerät mit dem Stand der Abnahme und das Paket Allgemein mit einer Anlagenart je Kostengruppe. Die Fachpakete Elektro, Brandschutz und Trinkwasser und das Landesrecht von Baden-Württemberg kommen noch.',
+  },
+  {
+    title: 'Pflichten und Fristen',
+    state: 'partial',
+    detail: 'Das Pflichtenverzeichnis, eigene Pflichten des Betreibers und die Fristen im Büro mit ihren Einstellungen. Die Vorschläge aus dem Katalog zum Bestätigen oder Verwerfen und die Übersicht der Betreiberverantwortung fehlen noch.',
+  },
+  {
+    title: 'Prüfungen und Nachweise',
+    state: 'partial',
+    detail: 'Prüfung und Wartung aus einem fälligen Termin, das Protokoll vor Ort mit Unterschrift auch ohne Netz, der Bericht einer Fremdfirma als Nachweis und im Büro das Ansehen, Berichtigen und für ungültig Erklären eines Nachweises. Das PDF aus dem eingefrorenen Stand fehlt noch.',
+  },
+  {
+    title: 'Rundgänge',
+    state: 'partial',
+    detail: 'Vorlagen im Büro mit Kapiteln und Punkten, in Fassungen und mit Punkten, die eine Pflicht erfüllen. Der Plan mit der Zuteilung, der Rundgang vor Ort und die Übersicht der Woche mit der Gegenzeichnung fehlen noch.',
+  },
+  {
+    title: 'Mängel',
+    state: 'done',
+    detail: 'Mängel mit Klasse, Frist und Stand, von Hand im Büro oder vor Ort gemeldet, mit der Nachprüfung, und die Mängelklassen im Paketformat.',
+  },
+  {
+    title: 'Aufträge',
+    state: 'partial',
+    detail: 'Aufträge im Büro aus einem Mangel oder einem Termin, mit Dringlichkeit, weiteren Beteiligten und der Abnahme. Der Auftrag vor Ort mit Notizen, Fotos und Unterschrift fehlt noch.',
+  },
+  {
+    title: 'Dokumente',
+    state: 'done',
+    detail: 'Eine Ablage mit Fassungen an Ort, Anlage und Vorgang.',
+  },
+  {
+    title: 'Zähler',
+    state: 'planned',
+    detail: 'Messstellen mit Ständen und Verbrauch, Tausch, Stilllegung und Sperre, die Ablesung vor Ort im Rundgang und als eigene Runde.',
+  },
+  {
+    title: 'Benachrichtigungen und Suche',
+    state: 'planned',
+    detail: 'Benachrichtigungen per E-Mail und Push, die Suche nach Name, Nummer und Kennzeichen, Aufgaben und die Hilfe an den Bildschirmen.',
+  },
+  {
+    title: 'Übernahme aus Altbeständen',
+    state: 'planned',
+    detail: 'Der Importweg aus der Anwendung, die der Pilotbetrieb heute nutzt: laufende Fristen, alte Nachweise, Zähler und Vorlagen.',
+  },
+];
+
+// Section 12 of the concept, the content and the result of each phase.
+const phases: Phase[] = [
+  {
+    number: '0',
+    title: 'Fundament',
+    state: 'done',
+    result:
+      'Das Fundament als Pakete im Repository der Handwerkersoftware und seine Einbindung, der Kern des Datenmodells von Ort und Anlage über Pflicht und Vorgang bis zu Nachweis und Mangel, Bereiche, Rechte und Rollen als Daten, die Regeln des Abgleichs, das Format der Pakete und die Tafeln der Oberfläche. Ergebnis ist ein Gerüst, auf dem Phase 1 ohne Umbau aufsetzt.',
+  },
+  {
+    number: '1',
+    title: 'MVP für den Pilotbetrieb',
+    state: 'active',
+    result:
+      'Liegenschaft bis Raum mit Import, Anlagen mit Akte und Etiketten, die Bestandsaufnahme vor Ort, das Pflichtenverzeichnis mit Vorschlägen und Übersicht, der Nachweis aus Protokoll oder Bericht, Rundgänge mobil und ohne Netz, Mängel, Aufträge, Zähler, Dokumente, Benachrichtigungen, die Pakete Elektro, Brandschutz, Trinkwasser und Landesrecht und der Importweg aus der bisherigen Anwendung. Am Ende arbeitet der Pilotbetrieb produktiv damit, und der Parallelbetrieb beginnt.',
+  },
+  {
+    number: '2',
+    title: 'Betreiberpflichten vollständig',
+    state: 'planned',
+    result:
+      'Pflichtenübertragung, Qualifikationen, weitere Protokolle und Pakete, Sammelnachweise, ein Verzeichnis der Nachweise und ein Zugang für Prüfer, Störmeldungen mit und ohne Konto, Fremdfirmen und Verträge, Lager mit Verbrauch am Auftrag, Auswertungen über die Zeit, eigene Rollen und die Funktionen der DSGVO. Danach ist die bisherige Anwendung abgeschaltet, und ein Betreiber kann eine Begehung allein aus dem System bestreiten.',
+  },
+  {
+    number: '3',
+    title: 'Schlüssel, Energie, Planung',
+    state: 'planned',
+    result:
+      'DATANORM und Fahrzeuglager, die Verwaltung von Schlüsseln, eine Energieauswertung mit Bezug zur Fläche, Einsatzplanung, ein Kalender zum Abonnieren und eine Sicht auf die Kosten. Das Tagesgeschäft läuft ohne Listen daneben.',
+  },
+  {
+    number: '4',
+    title: 'Anbindungen',
+    state: 'planned',
+    result:
+      'Die Gebäudeleittechnik lesend, Messwerte und Zählerstände aus Dateien und Loggern, die Ausgabe an ein Energiemanagementsystem, die Übernahme aus CAFM-Connect, IFC und COBie und aus einem Regelwerksdienst und ein Zugang für Fremdfirmen. Daten fließen, ohne dass jemand sie abtippt.',
+  },
+  {
+    number: '5',
+    title: 'Personal und Arbeitsschutz',
+    state: 'planned',
+    result:
+      'Unterweisungen, Rufbereitschaft, die Arbeitszeit als Modul, das ausgeschaltet ausgeliefert wird, die Gefährdungsbeurteilung und Ressourcen. Die Organisation des Arbeitsschutzes im selben System.',
+  },
+  {
+    number: '6',
+    title: 'Verbund und Erweiterung',
+    state: 'planned',
+    result:
+      'Die Verbindung zur Handwerkersoftware, eine offene Schnittstelle, weitere Länder und Sonderbauten, Volltextsuche und lokale KI, die höchstens vorschlägt.',
+  },
+];
+---
+
+<Page
+  title="Stand und Fahrplan von OpenGewerk Haustechnik"
+  description="Was in OpenGewerk Haustechnik gebaut ist und was noch fehlt, je Bereich, und die sieben Phasen vom Fundament über den Pilotbetrieb bis zum Vollausbau."
+  breadcrumb="Stand"
+  parent={{ name: 'Haustechnik', path: '/haustechnik/' }}
+>
+  <section class="section section-dark">
+    <div class="wrap measure stack">
+      <h1>Wo OpenGewerk Haustechnik im Oktober 2026 steht</h1>
+      <p class="lead">
+        Gebaut wird entlang eines Pilotbetriebs, der Haustechnik eines Trägers mit rund
+        zwanzig Liegenschaften. Version 1 ist erreicht, wenn dort die bisherige
+        Anwendung abgeschaltet werden kann. Was sich später nicht nachrüsten lässt, kam
+        zuerst: das Datenmodell, die Bereiche, die Festschreibung der Nachweise und der
+        Abgleich ohne Netz.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap stack-loose">
+      <h2>Der Stand je Bereich</h2>
+      <AreaTable
+        areas={areas}
+        caption="Bereiche von OpenGewerk Haustechnik mit ihrem Entwicklungsstand"
+      />
+      <p class="muted">
+        Stand dieser Seite: Oktober 2026. Eine Fassung zum Herunterladen gibt es noch
+        nicht, sie kommt mit dem Beginn des Parallelbetriebs. Die Arbeit selbst liegt
+        offen als{' '}
+        <a href={LINKS.haustechnik + '/milestones'} rel="noopener">Issues auf GitHub</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap stack-loose">
+      <h2>Die Phasen</h2>
+      <Phases phases={phases} />
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap measure stack-loose is-centered">
+      <h2>Warum die Phasen kein Datum tragen</h2>
+      <p>
+        Ein genanntes Datum wäre eine Zahl, die niemand einhält. Was es stattdessen
+        gibt, ist Offenheit über den Stand: jede Aufgabe liegt als Issue auf GitHub,
+        jede größere Entscheidung als Architekturentscheidung mit Begründung, und der
+        Fahrplan steht ausführlich in Abschnitt 12 des Planungskonzepts. Verbindlich ist
+        das Konzept, die Issues sind die Abschrift davon.
+      </p>
+      <div class="button-row">
+        <a class="button button-primary" href={LINKS.haustechnik + '/milestones'} rel="noopener">
+          Aufgaben je Phase ansehen
+        </a>
+        <a class="button button-outline" href={LINKS.haustechnikConcept} rel="noopener">
+          Das Planungskonzept
+        </a>
+      </div>
+    </div>
+  </section>
+</Page>

@@ -1,0 +1,466 @@
+---
+import Page from '../layouts/Page.astro';
+import Screenshot from '../components/Screenshot.astro';
+import { LINKS, SITE } from '../site';
+
+import overview from '../assets/screens/haustechnik-uebersicht.png';
+import assetRecord from '../assets/screens/haustechnik-anlagenakte.png';
+import dutyType from '../assets/screens/haustechnik-pflichtart.png';
+import roundOnSite from '../assets/screens/haustechnik-rundgang-vor-ort.png';
+import evidence from '../assets/screens/haustechnik-nachweis.png';
+
+// Moments the application is built for, from section 1 of its concept. They say
+// what it is for, not what is finished: the state lives on /haustechnik/stand/.
+const situations = [
+  {
+    title: 'Montagmorgen der Technischen Leitung',
+    text: 'Welche Prüfung ist überfällig, welche wird in den nächsten 30 Tagen fällig, zu welcher Anlage gibt es eine Pflicht, aber noch keinen einzigen Nachweis, und welche Mängel sind über ihrer Frist? Eine Seite beantwortet das.',
+  },
+  {
+    title: 'Rundgang im Keller ohne Netz',
+    text: 'Punkte abarbeiten, die Warmwassertemperatur messen, einen Zähler ablesen, einen Mangel mit Foto festhalten, unterschreiben. Oben im Flur gleicht das Telefon ab.',
+  },
+  {
+    title: 'Begehung durch Behörde oder Versicherer',
+    text: 'Die Nachweise aller Aufzüge der letzten Jahre vorlegen, mit Prüfer, Datum, Ergebnis und Bescheinigung, ohne einen Ordner zu suchen.',
+  },
+  {
+    title: 'Eine neue Liegenschaft',
+    text: 'Gebäude und Räume anlegen, die Anlagen vor Ort aufnehmen, mit Foto vom Typenschild und gescannter Seriennummer, und das System schlägt die Pflichten vor, die zu den Anlagenarten gehören.',
+  },
+];
+
+// Section 13 of the concept, cut to the four kinds of tools a reader will know.
+const comparison = [
+  {
+    kind: 'Kommerzielle CAFM-Systeme',
+    weakness:
+      'Lizenz je Arbeitsplatz, Nutzer oder Fläche. Das Regelwerk ist eine zweite Lizenz bei einem Dritten, die mobile Lösung oft ein eigener Posten.',
+    approach:
+      'Keine Lizenzkosten und keine Nutzerlimits, der Pflichtenkatalog als offene Daten, die Arbeit vor Ort im Kern.',
+  },
+  {
+    kind: 'Quelloffene Instandhaltungssoftware',
+    weakness:
+      'Kein deutscher Pflichtenkatalog, Fristen sind freie Intervalle ohne Herkunft. App, Arbeit ohne Netz oder Wartungsplanung gibt es häufig nur in der bezahlten Fassung.',
+    approach:
+      'Alles in einem Repository unter der AGPL-3.0, ohne Lizenzschlüssel und ohne Mengengrenze. Pflichten mit Fundstelle, Gültigkeit und Geltungsbereich.',
+  },
+  {
+    kind: 'Mobile Checklisten-Werkzeuge',
+    weakness:
+      'Formulare ohne Liegenschaft, Anlagenakte und Pflicht. Fast alle laufen nur in der Cloud und kosten je Nutzer.',
+    approach: 'Der Rundgang hängt am selben Datenmodell wie Anlage, Pflicht und Nachweis.',
+  },
+  {
+    kind: 'Excel-Listen und Papier',
+    weakness:
+      'Ein Termin, der nie eingetragen wurde, fällt niemandem auf. Ein Nachweis lässt sich nachträglich ändern.',
+    approach:
+      '„Nie erfasst“ ist ein eigener Zustand vor „überfällig“, und ein Nachweis ist mit der Unterschrift eingefroren.',
+  },
+];
+
+const questions = [
+  {
+    question: 'Was kostet OpenGewerk Haustechnik?',
+    answer:
+      'Nichts an Lizenzgebühren. Die Software steht unter der AGPL-3.0 und läuft auf einem Server, den der Betreiber selbst stellt oder mietet. Es gibt keine Kosten je Nutzer, Arbeitsplatz oder Fläche, und auch die Pflichtenpakete kosten nichts: ein Paket gegen Geld wäre dieselbe Bezahlgrenze an anderer Stelle.',
+  },
+  {
+    question: 'Kann ich sie heute schon einsetzen?',
+    answer:
+      'Noch nicht. Es gibt noch keine Fassung zum Herunterladen, und Phase 1, der Umfang für den ersten produktiven Einsatz, ist etwa zur Hälfte gebaut. Version 1 ist erreicht, wenn der Pilotbetrieb seine bisherige Anwendung abschalten kann. Wer sich ein Bild machen will, startet die Anwendung aus dem Quelltext, mit einem Befehl über Docker Compose.',
+  },
+  {
+    question: 'Bringt sie einen vollständigen Pflichtenkatalog mit?',
+    answer:
+      'Bis Version 1 kommen die Pakete Elektro, Brandschutz und Trinkwasser, jedes vollständig für seinen Bereich, und das Landesrecht von Baden-Württemberg. Weitere Pakete und Länder folgen in späteren Phasen. Jeder Eintrag nennt seine Fundstelle und sagt, ob er fachlich abgenommen ist. Einen redaktionellen Regelwerksdienst ersetzt der Katalog nicht, und wer einen solchen Dienst lizenziert hat, soll dessen Inhalte später übernehmen können.',
+  },
+  {
+    question: 'Wo liegen die Daten?',
+    answer:
+      'Auf dem Server, auf dem die Instanz läuft. Es gibt keine Telemetrie, keinen Lizenzserver und keine Registrierung. Mehrere Betreiber auf einer Instanz, etwa bei einem Dienstleister mit mehreren Auftraggebern, sind in der Datenbank voneinander getrennt.',
+  },
+  {
+    question: 'Wie hängt sie mit der Handwerkersoftware zusammen?',
+    answer:
+      'Beide stehen auf demselben Fundament, sind aber getrennte Anwendungen mit eigener Datenbank. Die Handwerkersoftware führt Kunde, Objekt, Anlage, Auftrag und Beleg, die Haustechnik die Seite des Betreibers: Liegenschaft, Gebäude, Raum, Anlage, Pflicht und Nachweis, ohne Belege und ohne Buchhaltung. Beide laufen auf Wunsch auf demselben Server, jede unter einem eigenen Hostnamen.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'OpenGewerk Haustechnik',
+    applicationCategory: 'BusinessApplication',
+    applicationSubCategory: 'Technisches Gebäudemanagement, Betreiberverantwortung',
+    operatingSystem: 'Linux, Docker',
+    url: SITE.url + '/haustechnik/',
+    description:
+      'Self-hosted Open-Source-Software für Betreiber von Gebäuden und ihre Haustechnik. Liegenschaften, Anlagen, Betreiberpflichten mit Fundstelle, Rundgänge ohne Netz und unveränderliche Nachweise.',
+    license: 'https://www.gnu.org/licenses/agpl-3.0.html',
+    isAccessibleForFree: true,
+    inLanguage: 'de',
+    codeRepository: LINKS.haustechnik,
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'EUR',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: questions.map((entry) => ({
+      '@type': 'Question',
+      name: entry.question,
+      acceptedAnswer: { '@type': 'Answer', text: entry.answer },
+    })),
+  },
+];
+---
+
+<Page
+  title="OpenGewerk Haustechnik: Open-Source-Software für Betreiber von Gebäuden"
+  description="Anlagen, Betreiberpflichten mit Fundstelle, Rundgänge ohne Netz und Nachweise, die sich nach der Unterschrift nicht mehr ändern. Self-hosted, ohne Lizenzkosten, AGPL-3.0."
+  breadcrumb="Haustechnik"
+  schema={schema}
+>
+  <section class="section section-dark">
+    <div class="wrap measure stack">
+      <h1>Software für Betreiber von Gebäuden und ihre Haustechnik</h1>
+      <p class="lead">
+        OpenGewerk Haustechnik führt Liegenschaften, Gebäude, Räume und technische
+        Anlagen in einem Datenmodell, dazu die Pflichten, die an ihnen hängen, und die
+        Nachweise, mit denen sie erfüllt werden. Rundgänge und Prüfungen laufen auf dem
+        Telefon auch ohne Netz. Die Software läuft auf dem eigenen Server und kostet
+        keine Lizenz.
+      </p>
+      <div class="button-row hero-buttons">
+        <a class="button button-primary" href="/haustechnik/stand/">Wie weit sie ist</a>
+        <a class="button button-outline" href={LINKS.haustechnik} rel="noopener">
+          Quelltext auf GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <Screenshot
+        src={overview}
+        alt="Übersicht im Büro mit sechs Zahlen von überfällig über nie erfasst bis Mängel über Frist, darunter die Pflichten, die in den nächsten 30 Tagen fällig sind, und rechts die Pflichten ohne einen einzigen Nachweis"
+        caption="Die Übersicht der Technischen Leitung: überfällig, bald fällig, nie erfasst und Mängel über ihrer Frist."
+        eager={true}
+        draft={true}
+      />
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap">
+      <h2>Für wen sie gebaut wird</h2>
+      <p class="lead space-below">
+        Für Organisationen, die Gebäude betreiben und dafür eigenes technisches
+        Personal haben, von fünf bis zu einigen hundert Gebäuden: Kliniken und
+        Pflegeeinrichtungen, Bildungsträger und Schulträger, Wohnungsunternehmen,
+        Kommunen, kirchliche Träger und Unternehmen mit eigener Werks- oder
+        Haustechnik. Dazu Dienstleister, die den technischen Betrieb für mehrere
+        Auftraggeber führen.
+      </p>
+      <div class="card-grid-tight">
+        {
+          situations.map((entry) => (
+            <article class="card stack">
+              <h3>{entry.title}</h3>
+              <p>{entry.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="stack">
+        <h2>Die Pflicht ist der Kern, nicht die Checkliste</h2>
+        <p>
+          Eine Checkliste sagt, was jemand getan hat. Eine Pflicht sagt, was getan
+          werden muss, nach welcher Vorschrift, bis wann, wer dafür einsteht und womit
+          es bewiesen wird. Gebaut ist die Software deshalb um eine Kette: Anlage,
+          Pflicht, Termin, Vorgang, Nachweis.
+        </p>
+        <p>
+          Ein Rundgang, die Prüfung durch eine Fremdfirma und ein Wartungsauftrag sind
+          drei Wege, dieselbe Pflicht zu erfüllen, und keine drei Module mit je eigener
+          Wahrheit. Wann eine Anlage das nächste Mal dran ist, folgt aus ihren Pflichten
+          und Nachweisen und steht in keinem Feld, das jemand pflegen müsste.
+        </p>
+        <p>
+          „Nie erfasst“ ist dabei ein eigener Zustand vor „überfällig“. Eine bestätigte
+          Pflicht ohne einen einzigen Nachweis ist genau das, was in einer Tabelle als
+          leeres Feld untergeht.
+        </p>
+      </div>
+      <Screenshot
+        src={assetRecord}
+        alt="Akte eines Trinkwassererwärmers mit seinen Pflichten, dem letzten Nachweis, dem nächsten Termin und dem Zustand je Pflicht, darunter Nachweise, ein offener Mangel und rechts Stammdaten, Standort, Komponenten, Etikett und Dokumente"
+        caption="Die Akte einer Anlage: Pflichten, Nachweise und Mängel an einer Stelle."
+        draft={true}
+      />
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap split">
+      <Screenshot
+        src={dutyType}
+        alt="Pflichtart Untersuchung auf Legionellen aus dem Paket Trinkwasser mit Tätigkeit, Fundstelle, Art der Frist und Qualifikation, ihrem Geltungsbereich, den Regeln mit Gültigkeitszeitraum und dem Stand der fachlichen Abnahme"
+        caption="Eine Pflichtart im Katalog, mit Fundstelle, Regeln und Abnahme."
+        draft={true}
+      />
+      <div class="stack">
+        <h2>Pflichten sind Daten mit Fundstelle</h2>
+        <p>
+          Welche Prüfung für welche Anlagenart gilt, in welchem Abstand, durch wen und
+          nach welcher Vorschrift, steht in offenen Pflichtenpaketen: mit Fundstelle,
+          Gültigkeitszeitraum und Geltungsbereich, als Daten im Repository und nicht als
+          Code. Eine geänderte Vorschrift ist ein neuer Datensatz mit Gültigkeitsbeginn,
+          kein neues Release.
+        </p>
+        <p>
+          Das System schlägt vor, der Betreiber entscheidet. Ob eine Pflicht für eine
+          Anlage gilt, hängt an Tatsachen, die keine Software kennt, an der
+          Baugenehmigung etwa oder an der Gefährdungsbeurteilung. Ein Mensch bestätigt
+          deshalb, und wer einen Vorschlag verwirft, begründet das, denn auch diese
+          Entscheidung muss sich später belegen lassen.
+        </p>
+        <p>
+          Jeder Eintrag sagt, wann er zuletzt gegen seine Quelle geprüft wurde und ob
+          jemand vom Fach ihn abgenommen hat. Ein offener Katalog deckt weniger ab als
+          ein redaktionell gepflegter Regelwerksdienst, und er sagt das, statt es zu
+          verstecken.
+        </p>
+        <p><a href={LINKS.haustechnikPackages} rel="noopener">Die Pakete auf GitHub</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="stack">
+        <h2>Der Rundgang im Keller braucht kein Netz</h2>
+        <p>
+          Technikzentrale, Keller und Aufzugsschacht haben selten Empfang. Rundgänge und
+          Prüfungen laufen deshalb auf dem Telefon vollständig ohne Verbindung:
+          Prüfpunkt, Messwert mit Grenzwert, Zählerstand, Foto und Bemerkung, jede
+          Eingabe sofort auf dem Gerät gesichert. Mit dem nächsten Empfang gleicht das
+          Gerät ab, und ein Konflikt bekommt einen eigenen Bildschirm, statt still
+          aufgelöst zu werden.
+        </p>
+        <p>
+          Ein Punkt eines Rundgangs kann eine Pflicht erfüllen. Die monatliche
+          Funktionskontrolle im Rundgang ist dann der Nachweis dieser Pflicht, ohne
+          zweite Erfassung. Ein „nicht in Ordnung“ wird mit der Unterschrift ein Mangel
+          an der Anlage, ebenso ein Messwert außerhalb seines Grenzwerts.
+        </p>
+        <p>
+          Abgegeben wird ein Rundgang erst, wenn jeder Punkt eine Antwort hat.
+          „Entfällt“ und „nicht möglich“ sind Antworten und verlangen einen Grund.
+        </p>
+      </div>
+      <Screenshot
+        src={roundOnSite}
+        alt="Rundgang durch eine Technikzentrale auf dem Telefon, fünf von sechs Pflichtpunkten beantwortet, mit Temperaturen, Prüfpunkten und einem Zählerstand, gegliedert nach Räumen"
+        caption="Ein Rundgang vor Ort. Jede Eingabe liegt sofort auf dem Gerät, auch ohne Netz."
+        draft={true}
+      />
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap split">
+      <Screenshot
+        src={evidence}
+        alt="Festgeschriebener Nachweis zur Temperatur am Speicheraustritt mit dem eingefrorenen Stand, einem Messwert unter dem Grenzwert, Unterschrift und Gegenzeichnung mit dem Fingerabdruck der gezeigten Seite und dem Mangel, der daraus entstanden ist"
+        caption="Ein Nachweis mit Unterschrift und Gegenzeichnung. Ändern lässt er sich nicht mehr, nur berichtigen."
+        draft={true}
+      />
+      <div class="stack">
+        <h2>Ein Nachweis bleibt, wie er unterschrieben wurde</h2>
+        <p>
+          Mit der Unterschrift wird der Stand eingefroren. Sie gilt genau der Seite, die
+          gezeigt wurde, und die Datenbank lehnt jede spätere Änderung ab, auch die des
+          Administrators und gleich, auf welchem Weg sie kommt.
+        </p>
+        <p>
+          Berichtigt wird durch einen neuen Nachweis, der den alten nennt, und beide
+          bleiben lesbar. Ein Zurücksetzen, das Antworten und Unterschriften löscht, gibt
+          es nicht. Ein Nachweis entsteht aus einem Protokoll, aus einem Punkt eines
+          Rundgangs oder aus dem Bericht einer Fremdfirma, mit Prüfer, Datum und
+          Ergebnis.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="space-below">Bereiche, Rechte und Mitbestimmung</h2>
+      <div class="card-grid">
+        <article class="card stack">
+          <h3>Zuständigkeitsbereiche</h3>
+          <p>
+            Wer für die Liegenschaften im Norden zuständig ist, sieht und bearbeitet die
+            im Süden nicht, und sein Gerät hält sie nicht. Das setzt die Datenbank durch
+            und nicht die Oberfläche. Mehrere Betreiber auf einer Instanz sind
+            voneinander getrennt.
+          </p>
+        </article>
+        <article class="card stack">
+          <h3>Vier Rollen zum Start</h3>
+          <p>
+            Leitung, Technische Leitung, Objektleitung und Haustechnik, jede mit ihren
+            Rechten. Kein Recht ändert oder löscht einen Nachweis, ersetzt eine
+            Unterschrift oder überspringt eine Abnahme.
+          </p>
+        </article>
+        <article class="card stack">
+          <h3>Mitbestimmung als Bauprinzip</h3>
+          <p>
+            Die Software hält fest, wer einen Nachweis unterschrieben hat, weil das sein
+            Zweck ist. Sie wertet nicht aus, wer wie viel oder wie schnell arbeitet, und
+            sie führt keine Ranglisten.
+          </p>
+          <p>
+            Was eine Arbeitnehmervertretung vor der Einführung wissen will, steht in
+            einer <a href={LINKS.haustechnikProcedure} rel="noopener">Verfahrensbeschreibung</a>,
+            die ein Test gegen den Code hält.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap stack-loose">
+      <h2>Was sie anders macht als CAFM, Instandhaltungssoftware und Excel</h2>
+      <p class="lead">
+        Verglichen wurde mit zwölf CAFM-Systemen, zwölf quelloffenen Systemen, zehn
+        mobilen Checklisten- und Wartungswerkzeugen und den öffentlichen Vergaben seit
+        2024, Stand Oktober 2026. Angaben zu kommerziellen Systemen sind
+        Herstellerangaben.
+      </p>
+      <div class="table-scroll table-stack" tabindex="0">
+        <table>
+          <caption class="sr-only">
+            OpenGewerk Haustechnik im Vergleich zu den üblichen Werkzeugen
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Bestehende Lösung</th>
+              <th scope="col">Schwäche</th>
+              <th scope="col">OpenGewerk Haustechnik</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              comparison.map((entry) => (
+                <tr>
+                  <th scope="row">{entry.kind}</th>
+                  <td data-label="Schwäche">{entry.weakness}</td>
+                  <td data-label="OpenGewerk Haustechnik">{entry.approach}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="measure stack">
+        <h3>Wofür sie nicht die richtige Wahl ist</h3>
+        <ul class="marker-list">
+          <li>Flächenmanagement mit CAD und BIM oder Grundrisse mit anklickbaren Räumen.</li>
+          <li>
+            Mietverwaltung und Nebenkostenabrechnung, Reinigungs- und
+            Umzugsmanagement. Das ist kaufmännisches und infrastrukturelles
+            Gebäudemanagement.
+          </li>
+          <li>
+            Das Steuern von Anlagen. Eine Gebäudeleittechnik wird gelesen und nie
+            geschaltet, und auch das erst in einer späteren Phase.
+          </li>
+          <li>
+            Ausschreibungen, die eine Zertifizierung nach GEFMA 444, zertifizierte
+            Rechenzentren und eine Organisation für Schulung und Support verlangen. Dort
+            sind die etablierten Anbieter besser aufgehoben.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap measure stack-loose is-centered">
+      <h2>Dasselbe Fundament wie die Handwerkersoftware</h2>
+      <p>
+        Mandantentrennung in der Datenbank, Anmeldung mit zweitem Faktor, Rechte, der
+        Abgleich ohne Netz, das Änderungsprotokoll mit Hashkette und die Engines für
+        Regeln, Fristen und Formulare werden nicht ein zweites Mal gebaut. Sie liegen im
+        Repository der Handwerkersoftware in eigenen Paketen, und die Haustechnik bindet
+        einen festen Stand davon ein. Eine Sicherheitskorrektur dort kommt so auch hier
+        an.
+      </p>
+      <h2>Ehrlich zum Stand</h2>
+      <p>
+        OpenGewerk Haustechnik ist in Entwicklung und hat noch keine Fassung zum
+        Herunterladen. Das Fundament steht, und Phase 1, der Umfang für den ersten
+        produktiven Einsatz bei einem Träger mit rund zwanzig Liegenschaften, ist etwa
+        zur Hälfte gebaut: Liegenschaften bis zum Raum, Anlagen mit Akte, Import und
+        Etiketten, das Pflichtenverzeichnis mit seinen Fristen, Prüfungen vor Ort mit
+        Unterschrift, Nachweise, Mängel, Aufträge im Büro und die Vorlagen der
+        Rundgänge. Es fehlen unter anderem der Rundgang vor Ort, die Zähler, die
+        Fachpakete und die Benachrichtigungen.
+      </p>
+      <p class="button-row">
+        <a class="button button-primary" href="/haustechnik/stand/">Stand und Fahrplan</a>
+        <a class="button button-outline" href={LINKS.haustechnikConcept} rel="noopener">
+          Das Konzept
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap">
+      <h2>Häufige Fragen zur Haustechnik</h2>
+      <div class="qa-grid">
+        {
+          questions.map((entry) => (
+            <div>
+              <h3>{entry.question}</h3>
+              <p>{entry.answer}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Page>
+
+<style>
+  .hero-buttons {
+    margin-block-start: var(--space-m);
+  }
+
+  .space-below {
+    margin-block-end: var(--space-m);
+    max-width: 48rem;
+  }
+
+  h2 + .card-grid {
+    margin-block-start: var(--space-m);
+  }
+</style>

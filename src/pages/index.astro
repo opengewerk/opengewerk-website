@@ -3,20 +3,21 @@ import Page from '../layouts/Page.astro';
 import Screenshot from '../components/Screenshot.astro';
 import { LINKS, PROVIDER, SITE } from '../site';
 
-import customers from '../assets/screens/kundenliste.png';
-import myJobs from '../assets/screens/meine-auftraege.png';
+import customer from '../assets/screens/kundenakte.png';
 import installation from '../assets/screens/anlagenstruktur.png';
+import duties from '../assets/screens/haustechnik-pflichtenverzeichnis.png';
+import offline from '../assets/screens/haustechnik-start-ohne-netz.png';
 
 const questions = [
   {
     question: 'Was kostet OpenGewerk?',
     answer:
-      'Nichts an Lizenzgebühren. Die Software steht unter der AGPL-3.0 und läuft auf einem Server, den der Betrieb selbst stellt oder mietet. Es gibt keine Kosten pro Benutzer und pro Monat, und es gibt keine Funktion, die hinter einem größeren Tarif liegt.',
+      'Nichts an Lizenzgebühren. Beide Anwendungen stehen unter der AGPL-3.0 und laufen auf einem Server, den der Betrieb selbst stellt oder mietet. Es gibt keine Kosten pro Benutzer und pro Monat, und es gibt keine Funktion, die hinter einem größeren Tarif liegt.',
   },
   {
-    question: 'Kann ich OpenGewerk heute schon im Betrieb einsetzen?',
+    question: 'Kann ich OpenGewerk heute schon einsetzen?',
     answer:
-      'Noch nicht ganz. Gebaut ist, was der Fahrplan für den ersten produktiven Einsatz vorsieht: Kunden, Objekte, Anlagen bis zum Stromkreis und Aufträge, im Büro und auf der Baustelle, dort auch ohne Netz. Dazu Angebot und Auftragsbestätigung, der Regiebericht mit der Unterschrift des Kunden, Rechnungen mit Abschlägen und Storno, als PDF und an Unternehmen als E-Rechnung, Zeiterfassung, Dokumentenablage, Aufgaben, der Versand per E-Mail und das Prüfprotokoll nach VDE 0100-600. Die erste Fassung, 0.1.0, ist am 24.09.2026 erschienen. Vor dem ersten Einsatz im eigenen Elektrobetrieb, der das Projekt als Pilotkunde begleitet, stehen noch die fachliche Abnahme der Regeln und Grenzwerte und ein Praxistest der E-Rechnung. Die Buchhaltung kommt danach.',
+      'Noch nicht ganz. Gebaut ist, was der Fahrplan für den ersten produktiven Einsatz vorsieht: Kunden, Objekte, Anlagen bis zum Stromkreis und Aufträge, im Büro und auf der Baustelle, dort auch ohne Netz. Dazu Angebot und Auftragsbestätigung, der Regiebericht mit der Unterschrift des Kunden, Rechnungen mit Abschlägen und Storno, als PDF und an Unternehmen als E-Rechnung, Zeiterfassung, Dokumentenablage, Aufgaben, der Versand per E-Mail und das Prüfprotokoll nach VDE 0100-600. Die erste Fassung, 0.1.0, ist am 24.09.2026 erschienen, die neueste ist 0.5.0 vom 04.10.2026. Vor dem ersten Einsatz im eigenen Elektrobetrieb, der das Projekt als Pilotkunde begleitet, stehen noch die fachliche Abnahme der Regeln und Grenzwerte und ein Praxistest der E-Rechnung. Die Buchhaltung kommt danach. OpenGewerk Haustechnik ist noch nicht so weit: Phase 1 ist etwa zur Hälfte gebaut, eine Fassung zum Herunterladen gibt es noch nicht.',
   },
   {
     question: 'Wo liegen meine Daten?',
@@ -24,14 +25,14 @@ const questions = [
       'Auf dem Server, auf dem die Instanz läuft. OpenGewerk telefoniert nicht nach Hause, verlangt keine Registrierung und hat keinen Anbieter, bei dem Daten zwischengespeichert würden. Auch der Steuerberater bekommt keine Kopie, sondern einen begrenzten Zugriff auf die Instanz des Betriebs.',
   },
   {
-    question: 'Für welche Gewerke ist OpenGewerk gedacht?',
+    question: 'Für wen ist OpenGewerk gedacht?',
     answer:
-      'Kernmodul ist Elektro und Photovoltaik, dort geht die Software fachlich in die Tiefe: Anlagenakte, Stromkreisverzeichnis, Prüfprotokolle, Messgeräte-Import. Kaufmännisch passt sie auf jeden Handwerksbetrieb. Weitere Gewerke entstehen als Erweiterungen auf derselben Formular- und Fristen-Engine.',
+      'Die Handwerkersoftware hat Elektro und Photovoltaik als Kernmodul und geht dort fachlich in die Tiefe: Anlagenakte, Stromkreisverzeichnis, Prüfprotokolle, Messgeräte-Import. Kaufmännisch passt sie auf jeden Handwerksbetrieb, weitere Gewerke entstehen als Erweiterungen auf derselben Formular- und Fristen-Engine. OpenGewerk Haustechnik ist für die andere Seite gedacht: für Organisationen, die Gebäude betreiben und dafür eigene Haustechniker haben, von der Klinik bis zur Kommune.',
   },
   {
     question: 'Was braucht der Server?',
     answer:
-      'Docker und wenig Speicher, auf x86_64 wie auf ARM64. Anwendung und Datenbank zusammen bleiben im Leerlauf unter 120 MiB, gemessen mit einem Limit von einem Gigabyte. Der PDF-Renderer ist ein eigener Container, weil er als Einziger nennenswert Platz braucht; er startet von Haus aus mit und lässt sich abschalten.',
+      'Docker und wenig Speicher, auf x86_64 wie auf ARM64. Bei der Handwerkersoftware bleiben Anwendung und Datenbank zusammen im Leerlauf unter 120 MiB, gemessen mit einem Limit von einem Gigabyte. Der PDF-Renderer ist ein eigener Container, weil er als Einziger nennenswert Platz braucht; er startet von Haus aus mit und lässt sich abschalten.',
   },
 ];
 
@@ -77,7 +78,7 @@ const schema = [
     url: SITE.url + '/',
     logo: SITE.url + '/marke/logo.svg',
     description:
-      'Quelloffenes Projekt für eine self-hosted Handwerkersoftware mit Kernmodul Elektro und PV.',
+      'Quelloffenes Projekt für self-hosted Software: eine Handwerkersoftware mit Kernmodul Elektro und PV und OpenGewerk Haustechnik für Betreiber von Gebäuden.',
     // The address from the legal notice, and the places the footer links to
     // where the project itself speaks.
     email: PROVIDER.email,
@@ -96,35 +97,73 @@ const schema = [
 ---
 
 <Page
-  title="OpenGewerk: Open-Source-Handwerkersoftware zum Selbsthosten"
+  title="OpenGewerk: Open-Source-Software für Handwerk und Haustechnik"
   description={SITE.description}
   schema={schema}
 >
   <section class="section section-dark">
     <div class="wrap">
-      <h1>Handwerkersoftware für Elektro und PV, die dem Betrieb gehört</h1>
+      <h1>Software für Handwerk und Haustechnik, auf dem eigenen Server</h1>
       <p class="lead hero-lead">
-        OpenGewerk führt CRM und ERP in einem einzigen Datenmodell zusammen: Kunde,
-        Objekt, Anlage, Auftrag, Beleg, Buchung. Die Baustellen-App arbeitet offline,
-        weil im Keller und am Zählerschrank kein Netz liegt. Die Software läuft auf
-        dem Server des Betriebs, nicht bei einem Anbieter.
+        OpenGewerk baut zwei Anwendungen auf einem gemeinsamen Fundament: eine
+        Handwerkersoftware für Elektro- und PV-Betriebe und OpenGewerk Haustechnik für
+        alle, die Gebäude mit eigener Haustechnik betreiben. Beide arbeiten vor Ort auch
+        ohne Netz, laufen auf dem eigenen Server und nicht bei einem Anbieter und
+        kosten keine Lizenz.
       </p>
-      <div class="button-row hero-buttons">
-        <a class="button button-primary" href="/funktionen/">Was die Software kann</a>
-        <a class="button button-outline" href={LINKS.repository} rel="noopener">
-          Quelltext auf GitHub
-        </a>
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap">
+      <h2>Zwei Anwendungen, ein Fundament</h2>
+      <div class="card-grid">
+        <article class="card stack">
+          <h3>Handwerkersoftware für Elektro und PV</h3>
+          <p>
+            CRM und ERP in einem Datenmodell: Kunde, Objekt, Anlage, Auftrag, Beleg.
+            Angebot bis E-Rechnung, der Regiebericht mit Unterschrift, das Prüfprotokoll
+            nach VDE 0100-600 und eine Baustellen-App, die ohne Netz weiterarbeitet. Die
+            Buchhaltung folgt.
+          </p>
+          <p class="muted">
+            Erschienen als Fassung 0.5.0, vor dem ersten produktiven Einsatz.
+          </p>
+          <p class="button-row">
+            <a class="button button-primary" href="/funktionen/">Zur Handwerkersoftware</a>
+          </p>
+        </article>
+        <article class="card stack">
+          <h3>OpenGewerk Haustechnik für Betreiber</h3>
+          <p>
+            Für Kliniken, Bildungsträger, Wohnungsunternehmen, Kommunen und alle mit
+            eigener Haustechnik: Liegenschaften und Anlagen, Betreiberpflichten mit
+            Fundstelle, Rundgänge ohne Netz und Nachweise, die sich nach der Unterschrift
+            nicht mehr ändern.
+          </p>
+          <p class="muted">
+            In Phase 1, gebaut für einen Pilotbetrieb mit rund zwanzig Liegenschaften.
+          </p>
+          <p class="button-row">
+            <a class="button button-primary" href="/haustechnik/">Zur Haustechnik</a>
+          </p>
+        </article>
       </div>
+      <p class="space-above">
+        Beide stehen auf demselben Fundament: Mandantentrennung in der Datenbank,
+        Anmeldung mit zweitem Faktor, Rechte und Rollen, Abgleich ohne Netz, ein
+        Änderungsprotokoll mit Hashkette und die Engines für Regeln, Fristen und
+        Formulare. Was eine Anwendung dort verbessert, bekommt die andere mit.
+      </p>
     </div>
   </section>
 
   <section class="section">
     <div class="wrap">
       <Screenshot
-        src={customers}
-        alt="Kundenliste im Büro mit Filter nach Gewerbe, Privat und Hausverwaltung, dazu Spalten für Objekte, offene Vorgänge, Umsatz und letzten Auftrag"
-        caption="Das Büro: Kundenliste mit Objekten, offenen Vorgängen und Umsatz je Kunde."
-        eager={true}
+        src={customer}
+        alt="Kundenakte einer Hausverwaltung im Büro mit ihren Objekten, Aufträgen und Dateien, rechts Stammdaten, Ansprechpartner und Aufgaben"
+        caption="Die Handwerkersoftware im Büro: ein Kunde mit seinen Objekten, Aufträgen, Dateien und Aufgaben."
         draft={true}
       />
     </div>
@@ -132,7 +171,7 @@ const schema = [
 
   <section class="section section-tint">
     <div class="wrap">
-      <h2>Vier Punkte, an denen OpenGewerk bewusst anders ist</h2>
+      <h2>Vier Punkte, an denen die Handwerkersoftware bewusst anders ist</h2>
       <p class="lead space-below">
         Verglichen wurde mit openHandwerk, plancraft, HERO, TAIFUN und STREIT, sevdesk
         und Lexware sowie Odoo, SAP FSM und Dynamics.
@@ -148,7 +187,6 @@ const schema = [
           </p>
           <p><a href="/buchhaltung/">Zur Buchhaltung</a></p>
         </article>
-
         <article class="card stack">
           <h3>Elektro und PV als Kernmodul</h3>
           <p>
@@ -158,7 +196,6 @@ const schema = [
           </p>
           <p><a href="/elektro-und-pv/">Zum Kernmodul</a></p>
         </article>
-
         <article class="card stack">
           <h3>Kunde, Objekt, Anlage als Kern</h3>
           <p>
@@ -168,7 +205,6 @@ const schema = [
           </p>
           <p><a href="/funktionen/">Zum Funktionsumfang</a></p>
         </article>
-
         <article class="card stack">
           <h3>Der Steuerberater ist angebunden</h3>
           <p>
@@ -185,13 +221,40 @@ const schema = [
 
   <section class="section">
     <div class="wrap split">
+      <Screenshot
+        src={duties}
+        alt="Pflichtenverzeichnis im Büro mit Anlage, Pflicht, Frist, Zuständigkeit, letztem Nachweis, nächstem Termin und Zustand je Zeile, von nie erfasst über überfällig und fällig bis ruht"
+        caption="OpenGewerk Haustechnik: das Pflichtenverzeichnis über alle Anlagen, nie erfasst zuerst."
+        draft={true}
+      />
+      <div class="stack">
+        <h2>Für Betreiber ist die Pflicht der Kern, nicht die Checkliste</h2>
+        <p>
+          Wer Gebäude betreibt, muss belegen können, dass jede Anlage geprüft wurde,
+          nach welcher Vorschrift, von wem und mit welchem Ergebnis. OpenGewerk
+          Haustechnik baut deshalb um eine Kette: Anlage, Pflicht, Termin, Vorgang,
+          Nachweis.
+        </p>
+        <p>
+          Welche Pflicht für welche Anlagenart gilt, steht in offenen Paketen mit
+          Fundstelle und Gültigkeit. Das System schlägt vor, der Betreiber entscheidet,
+          und ein unterschriebener Nachweis lässt sich danach nicht mehr ändern, auch
+          nicht vom Administrator.
+        </p>
+        <p><a href="/haustechnik/">Mehr zu OpenGewerk Haustechnik</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="wrap split">
       <div class="stack">
         <h2>Offline ist der Normalfall, nicht die Ausnahme</h2>
         <p>
-          Im Keller, am Zählerschrank und auf dem Dachboden liegt kein Netz. Die
-          Baustellen-App hält ihre Daten deshalb auf dem Gerät und schickt jede
-          Änderung nach, sobald wieder Verbindung da ist. Eine Leiste über jedem
-          Bildschirm sagt, wie viele Vorgänge noch warten.
+          Im Keller, am Zählerschrank, in der Technikzentrale und auf dem Dachboden liegt
+          kein Netz. Beide Anwendungen halten ihre Daten deshalb auf dem Gerät und
+          schicken jede Änderung nach, sobald wieder Verbindung da ist. Eine Leiste über
+          dem Bildschirm sagt, wie viele Änderungen noch warten.
         </p>
         <p>
           Widersprechen sich zwei Änderungen, entscheidet nicht der Server still und
@@ -201,29 +264,29 @@ const schema = [
         <p><a href="/funktionen/">Was sonst noch drinsteckt</a></p>
       </div>
       <Screenshot
-        src={myJobs}
-        alt="Auftragsliste auf dem Telefon mit dem Hinweis, dass kein Netz vorhanden ist und drei Vorgänge auf den Abgleich warten"
-        caption="Die Baustelle: ohne Netz weiterarbeiten, der Abgleich läuft später."
+        src={offline}
+        alt="Startseite vor Ort auf dem Telefon mit dem Hinweis, dass keine Verbindung besteht und drei Änderungen auf dem Gerät warten, darunter ein begonnener Rundgang und die Arbeit des Tages"
+        caption="Vor Ort ohne Netz weiterarbeiten, der Abgleich läuft später."
         draft={true}
       />
     </div>
   </section>
 
-  <section class="section section-tint">
+  <section class="section">
     <div class="wrap split">
       <Screenshot
         src={installation}
-        alt="Anlagenakte mit Verteiler, Feldern, Stromkreisen und Betriebsmitteln in einer Baumstruktur"
-        caption="Die Anlage bis zum Stromkreis, mit allem, was daran gemessen wurde."
+        alt="Anlagenstruktur eines Zählerschranks mit Verteilern, Feldern und Stromkreisen als Baum, daneben ein Stromkreis mit Schutzeinrichtung, Leitung und Betriebsmitteln"
+        caption="Die Anlage bis zum Stromkreis, mit allem, was daran hängt."
         draft={true}
       />
       <div class="stack">
         <h2>Bis zum einzelnen Stromkreis</h2>
         <p>
-          Eine Anlage besteht aus Verteilern, Feldern, Stromkreisen und
-          Betriebsmitteln. Genau so liegt sie in OpenGewerk, und daran hängen die
-          Messwerte und die Prüfprotokolle, mit Phase 2 auch die Fristen für die
-          nächste Wiederholung.
+          In der Handwerkersoftware besteht eine Anlage aus Verteilern, Feldern,
+          Stromkreisen und Betriebsmitteln. Genau so liegt sie in OpenGewerk, und daran
+          hängen die Messwerte und die Prüfprotokolle, mit Phase 2 auch die Fristen für
+          die nächste Wiederholung.
         </p>
         <p>
           Das ist der Teil, den allgemeine Handwerkersoftware nicht hat und der sich
@@ -234,36 +297,41 @@ const schema = [
     </div>
   </section>
 
-  <section class="section">
+  <section class="section section-tint">
     <div class="wrap measure stack-loose is-centered">
       <h2>Ehrlich zum Stand</h2>
       <p>
-        OpenGewerk ist in Entwicklung und steht vor dem ersten produktiven Einsatz.
-        Was steht, steht wirklich: Datenmodell, Mandantentrennung, Rechte und Rollen,
-        Nummernkreise mit Festschreibung, ein Audit-Log mit Hashkette, die
-        Offline-Datenschicht, die Anmeldung mit zweitem Faktor und eine Oberfläche,
-        die von der Ersteinrichtung bis zur Rechnung trägt: Angebot und
-        Auftragsbestätigung mit Widerrufsbelehrung, der Regiebericht mit Unterschrift,
-        Abschlags- und Schlussrechnung, Storno und die E-Rechnung als XRechnung und
-        ZUGFeRD-PDF. Dazu kommen Zeiterfassung, Dokumentenablage, Aufgaben, der
-        Versand per E-Mail, die Anlage bis zum Stromkreis und das Prüfprotokoll nach
-        VDE 0100-600. Betrieb, nächtliche Sicherung, Rückspielen und Update laufen
-        über Docker Compose, und seit dem 24.09.2026 gibt es die erste Fassung, 0.1.0,
-        als Release mit signierten Abbildern.
+        Beide Anwendungen sind in Entwicklung. Die Handwerkersoftware steht vor dem
+        ersten produktiven Einsatz. Was steht, steht wirklich: Datenmodell,
+        Mandantentrennung, Rechte und Rollen, Nummernkreise mit Festschreibung, ein
+        Audit-Log mit Hashkette, die Offline-Datenschicht, die Anmeldung mit zweitem
+        Faktor und eine Oberfläche, die von der Ersteinrichtung bis zur Rechnung trägt:
+        Angebot und Auftragsbestätigung mit Widerrufsbelehrung, der Regiebericht mit
+        Unterschrift, Abschlags- und Schlussrechnung, Storno und die E-Rechnung als
+        XRechnung und ZUGFeRD-PDF. Dazu kommen Zeiterfassung, Dokumentenablage,
+        Aufgaben, der Versand per E-Mail, die Anlage bis zum Stromkreis und das
+        Prüfprotokoll nach VDE 0100-600. Seit dem 24.09.2026 gibt es Releases mit
+        signierten Abbildern; die neueste Fassung, 0.5.0, bringt aus Phase 2 schon
+        Fristen, Push-Nachrichten, Passkeys, die PV-Struktur und das QR-Etikett.
       </p>
       <p>
         Was fehlt, fehlt ebenso deutlich: die fachliche Abnahme der Regeln und
         Grenzwerte, ein Praxistest der E-Rechnung und danach die gesamte
-        Buchhaltung, weitere Prüfprotokolle und der Messgeräte-Import. Der Fahrplan
-        nennt beides beim Namen.
+        Buchhaltung, weitere Prüfprotokolle und der Messgeräte-Import.
+      </p>
+      <p>
+        OpenGewerk Haustechnik hat noch keine Fassung zum Herunterladen. Ihr Fundament
+        steht, und Phase 1 für den Pilotbetrieb ist etwa zur Hälfte gebaut, von den
+        Liegenschaften bis zu Nachweisen, Mängeln und den Vorlagen der Rundgänge.
       </p>
       <p class="button-row">
-        <a class="button button-outline" href="/roadmap/">Stand und Fahrplan</a>
+        <a class="button button-outline" href="/roadmap/">Stand der Handwerkersoftware</a>
+        <a class="button button-outline" href="/haustechnik/stand/">Stand der Haustechnik</a>
       </p>
     </div>
   </section>
 
-  <section class="section section-tint">
+  <section class="section">
     <div class="wrap">
       <h2>Häufige Fragen</h2>
       <div class="qa-grid">
@@ -283,8 +351,8 @@ const schema = [
     <div class="wrap measure stack-loose is-centered">
       <h2>Fachliche Rückmeldung zählt gerade mehr als Code</h2>
       <p class="lead">
-        Wer einen Elektro- oder PV-Betrieb führt, weiß Dinge, die in keinem Konzept
-        stehen. Genau diese Rückmeldung fehlt dem Projekt am meisten.
+        Wer einen Elektro- oder PV-Betrieb führt oder Gebäude betreibt, weiß Dinge, die
+        in keinem Konzept stehen. Genau diese Rückmeldung fehlt dem Projekt am meisten.
       </p>
       <div class="button-row">
         <a class="button button-primary" href="/mitmachen/">Wie man mitmacht</a>
@@ -302,8 +370,9 @@ const schema = [
     margin-block-start: var(--space-s);
   }
 
-  .hero-buttons {
+  .space-above {
     margin-block-start: var(--space-m);
+    max-width: 48rem;
   }
 
   .space-below {

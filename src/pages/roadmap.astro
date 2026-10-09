@@ -1,15 +1,7 @@
 ---
 import Page from '../layouts/Page.astro';
+import Phases, { type Phase } from '../components/Phases.astro';
 import { LINKS } from '../site';
-
-type State = 'done' | 'active' | 'open' | 'planned';
-
-interface Phase {
-  number: string;
-  title: string;
-  state: State;
-  result: string;
-}
 
 const phases: Phase[] = [
   {
@@ -17,14 +9,14 @@ const phases: Phase[] = [
     title: 'Fundament',
     state: 'done',
     result:
-      'Datenmodell, Mandantentrennung in der Datenbank, Rollen und Rechte, Nummernkreise mit Festschreibung, Audit-Log mit Hashkette, Offline-Datenschicht, Regel-Engine, dazu Betrieb, Sicherung, Rückspielen und Update über Docker Compose.',
+      'Datenmodell, Mandantentrennung in der Datenbank, Rollen und Rechte, Nummernkreise mit Festschreibung, Audit-Log mit Hashkette, Offline-Datenschicht, Regel-Engine, dazu Betrieb, Sicherung, Rückspielen und Update über Docker Compose. Seit Oktober 2026 liegt das Fundament in eigenen Paketen, auf denen auch OpenGewerk Haustechnik aufbaut.',
   },
   {
     number: '1',
     title: 'MVP für den Pilotbetrieb',
     state: 'active',
     result:
-      'Am Ende arbeitet der Pilotbetrieb produktiv damit. Gebaut ist alles, was der Fahrplan dafür nennt: Anmeldung, Ersteinrichtung und Benutzerverwaltung, die Oberfläche von Kunde bis Auftrag samt Anlagenstruktur und Stromkreisverzeichnis, Angebot, Kostenvoranschlag und Auftragsbestätigung mit Belehrungen, der Regiebericht mit Unterschrift und eigenen Feldern, Abschlags- und Schlussrechnung mit Storno und die E-Rechnung als XRechnung und ZUGFeRD-PDF, dazu Zeiterfassung, Dokumentenablage, Aufgaben, der Versand per E-Mail, das Prüfprotokoll nach VDE 0100-600 und Releases mit signierten Abbildern; die erste Fassung, 0.1.0, ist am 24.09.2026 erschienen. Offen sind die fachkundige Abnahme der Regelpakete und Grenzwerte und ein Praxistest der E-Rechnung bei einem echten Empfänger.',
+      'Am Ende arbeitet der Pilotbetrieb produktiv damit. Gebaut ist alles, was der Fahrplan dafür nennt: Anmeldung, Ersteinrichtung und Benutzerverwaltung, die Oberfläche von Kunde bis Auftrag samt Anlagenstruktur und Stromkreisverzeichnis, Angebot, Kostenvoranschlag und Auftragsbestätigung mit Belehrungen, der Regiebericht mit Unterschrift und eigenen Feldern, Abschlags- und Schlussrechnung mit Storno und die E-Rechnung als XRechnung und ZUGFeRD-PDF, dazu Zeiterfassung, Dokumentenablage, Aufgaben, der Versand per E-Mail, das Prüfprotokoll nach VDE 0100-600 und Releases mit signierten Abbildern. Erschienen sind die Fassungen 0.1.0 vom 24.09.2026 bis 0.5.0 vom 04.10.2026. Offen sind die fachkundige Abnahme der Regelpakete und Grenzwerte und ein Praxistest der E-Rechnung bei einem echten Empfänger.',
   },
   {
     number: '1b',
@@ -36,9 +28,9 @@ const phases: Phase[] = [
   {
     number: '2',
     title: 'Elektro- und PV-Kern',
-    state: 'planned',
+    state: 'started',
     result:
-      'Der fachliche Teil in der Breite: die übrigen Prüfprotokolle vom E-Check bis VDE-AR-N 4105, die Abnahme mit Gewährleistung und Mängeln, der Messgeräte-Import so weit, wie der Machbarkeitsnachweis ihn trägt, PV-Dokumentation, Wartungsverträge, Fristen für Wiederholungsprüfungen und das QR-Etikett. Dazu Plantafel, Serviceaufträge, Material und Fahrzeuglager, Personal und die Funktionen der DSGVO. Betrieb mit mehreren Monteuren.',
+      'Der fachliche Teil in der Breite: die übrigen Prüfprotokolle vom E-Check bis VDE-AR-N 4105, die Abnahme mit Gewährleistung und Mängeln, der Messgeräte-Import so weit, wie der Machbarkeitsnachweis ihn trägt, PV-Dokumentation, Wartungsverträge, Fristen für Wiederholungsprüfungen und das QR-Etikett. Dazu Plantafel, Serviceaufträge, Material und Fahrzeuglager, Personal und die Funktionen der DSGVO. Betrieb mit mehreren Monteuren. Mit 0.5.0 erschienen sind davon die Fristen-Engine, Push-Nachrichten auf die Geräte, das Änderungsprotokoll im Büro, Passkeys, Tags an Kunden und Objekten, der Zugang zum Objekt, die PV-Struktur mit dem Scanner für Seriennummern, das QR-Etikett je Anlage, Artikel und Lieferanten und mehrere Betriebe auf einer Instanz.',
   },
   {
     number: '3',
@@ -76,24 +68,16 @@ const phases: Phase[] = [
       'Anlagenbuchhaltung, Bilanz und GuV, Auswertungen, Volltextsuche, eine offene Schnittstelle für Drittanbieter und weitere Gewerke als Erweiterungen auf derselben Formular- und Fristen-Engine.',
   },
 ];
-
-// English key for the compiler, German label for the reader.
-const badgeFor: Record<State, { className: string; label: string }> = {
-  done: { className: 'badge-done', label: 'abgeschlossen' },
-  active: { className: 'badge-partial', label: 'läuft' },
-  open: { className: 'badge-planned', label: 'offen' },
-  planned: { className: 'badge-planned', label: 'geplant' },
-};
 ---
 
 <Page
-  title="Stand und Fahrplan von OpenGewerk"
-  description="Wie weit OpenGewerk ist und was als Nächstes kommt: sechs Phasen vom Fundament über den MVP im Pilotbetrieb bis zu Buchhaltung, Kanzlei-Anbindung und Kundenportal."
+  title="Stand und Fahrplan der Handwerkersoftware OpenGewerk"
+  description="Wie weit die Handwerkersoftware OpenGewerk ist und was als Nächstes kommt: vom Fundament über den MVP im Pilotbetrieb bis zu Buchhaltung, Kanzlei-Anbindung und Kundenportal."
   breadcrumb="Stand"
 >
   <section class="section section-dark">
     <div class="wrap measure stack">
-      <h1>Wo das Projekt im September 2026 steht</h1>
+      <h1>Wo die Handwerkersoftware im Oktober 2026 steht</h1>
       <p class="lead">
         OpenGewerk wird entlang eines Pilotbetriebs gebaut, eines Elektro- und
         PV-Unternehmens. Version 1 ist erreicht, wenn dessen Aufträge vollständig in
@@ -101,26 +85,17 @@ const badgeFor: Record<State, { className: string; label: string }> = {
         trotzdem zuerst: Datenmodell, Offline-Schicht, Festschreibung und
         Mandantentrennung.
       </p>
+      <p>
+        Wie weit OpenGewerk Haustechnik ist, die Anwendung für Betreiber von Gebäuden,
+        steht auf <a href="/haustechnik/stand/">ihrer eigenen Seite</a>.
+      </p>
     </div>
   </section>
 
   <section class="section section-tint">
     <div class="wrap stack-loose">
       <h2>Die Phasen</h2>
-      <ol class="phases">
-        {
-          phases.map((phase) => (
-            <li class="card">
-              <div class="phase-head">
-                <span class="phase-number">{phase.number}</span>
-                <h3>{phase.title}</h3>
-                <span class:list={['badge', badgeFor[phase.state].className]}>{badgeFor[phase.state].label}</span>
-              </div>
-              <p>{phase.result}</p>
-            </li>
-          ))
-        }
-      </ol>
+      <Phases phases={phases} />
     </div>
   </section>
 
@@ -151,45 +126,3 @@ const badgeFor: Record<State, { className: string; label: string }> = {
   </section>
 </Page>
 
-<style>
-  /* A list of cards is structure, not running text, so it keeps the full page
-   * width instead of the reading measure that every other list in a section
-   * gets. And the top margin is spelled out here rather than left to the stack:
-   * a scoped style in an Astro component sits in no cascade layer and therefore
-   * beats every layer in the stylesheet, so a bare `margin: 0` would silently
-   * cancel the gap the stack put there. */
-  .phases {
-    list-style: none;
-    margin: var(--space-m) 0 0;
-    padding: 0;
-    max-width: none;
-    display: grid;
-    gap: var(--space-s);
-  }
-
-  .phase-head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem 0.9rem;
-    margin-block-end: var(--space-xs);
-  }
-
-  .phase-number {
-    display: inline-grid;
-    place-items: center;
-    min-width: 2.4rem;
-    height: 2.4rem;
-    padding-inline: 0.4rem;
-    border-radius: var(--radius-s);
-    background: var(--slate);
-    color: var(--ink-on-dark);
-    font-weight: 600;
-    font-size: var(--font-s);
-  }
-
-  .phase-head h3 {
-    margin: 0;
-    flex: 1 1 12rem;
-  }
-</style>

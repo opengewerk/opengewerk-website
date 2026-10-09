@@ -1,0 +1,66 @@
+---
+// The state of an application per area, as a table with a badge in the middle.
+// Kept in one component so the two pages that say what is built say it in the
+// same form, and in one list per page so a page cannot claim two different
+// things about the same feature in two places.
+
+export type AreaState = 'done' | 'partial' | 'planned';
+
+export interface Area {
+  title: string;
+  state: AreaState;
+  detail: string;
+}
+
+interface Props {
+  areas: Area[];
+  /** Read out by a screen reader before the table, which has no visible heading of its own. */
+  caption: string;
+}
+
+const { areas, caption } = Astro.props;
+
+// The state is an English key, the label next to it is what the page shows.
+// Keeping them apart is what lets the state be checked by the compiler while
+// the wording stays free.
+const badgeFor: Record<AreaState, { className: string; label: string }> = {
+  done: { className: 'badge-done', label: 'gebaut' },
+  partial: { className: 'badge-partial', label: 'teilweise' },
+  planned: { className: 'badge-planned', label: 'geplant' },
+};
+---
+
+<div class="table-scroll table-stack" tabindex="0">
+  <table>
+    <caption class="sr-only">{caption}</caption>
+    <thead>
+      <tr>
+        <th scope="col">Bereich</th>
+        <th scope="col">Stand</th>
+        <th scope="col">Was dahintersteckt</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        areas.map((area) => (
+          <tr>
+            <th scope="row">{area.title}</th>
+            <td>
+              <span class:list={['badge', badgeFor[area.state].className]}>
+                {badgeFor[area.state].label}
+              </span>
+            </td>
+            <td data-label="Was dahintersteckt">{area.detail}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  table th[scope='row'] {
+    white-space: nowrap;
+    font-weight: 600;
+  }
+</style>
