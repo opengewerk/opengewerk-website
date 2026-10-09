@@ -5,7 +5,7 @@ import { LINKS } from '../site';
 
 <Page
   title="Bei OpenGewerk mitmachen"
-  description="Wie man zu OpenGewerk beiträgt: fachliche Rückmeldung aus dem Betriebsalltag, Discussions, Discord, Reddit, Issues und Quelltext. Gesucht wird gerade vor allem Praxiswissen."
+  description="Wie man zu OpenGewerk beiträgt: fachliche Rückmeldung aus Betrieb und Gebäudebetrieb, Discussions, Discord, Reddit, Issues und Quelltext. Gesucht wird gerade vor allem Praxiswissen."
   breadcrumb="Mitmachen"
 >
   <section class="section section-dark">
@@ -13,9 +13,9 @@ import { LINKS } from '../site';
       <h1>Praxiswissen zählt hier mehr als Quelltext</h1>
       <p class="lead">
         Das Projekt hat keinen Mangel an Programmierarbeit, es hat einen Mangel an
-        Rückmeldung aus dem Alltag. Wer einen Betrieb führt, in einer Kanzlei arbeitet
-        oder jeden Tag misst und protokolliert, weiß Dinge, die in keinem Konzept
-        stehen.
+        Rückmeldung aus dem Alltag. Wer einen Betrieb führt, Gebäude betreibt, in einer
+        Kanzlei arbeitet oder jeden Tag misst und protokolliert, weiß Dinge, die in
+        keinem Konzept stehen.
       </p>
     </div>
   </section>
@@ -35,6 +35,20 @@ import { LINKS } from '../site';
           <p>
             <a href={LINKS.repository + '/issues'} rel="noopener">Das Issue dazu</a> ist
             mit „Hilfe gesucht" gekennzeichnet.
+          </p>
+        </article>
+
+        <article class="card stack">
+          <h3>Pflichtenpakete abnehmen</h3>
+          <p>
+            Für OpenGewerk Haustechnik entstehen die Pakete Elektro, Brandschutz und
+            Trinkwasser und das Landesrecht von Baden-Württemberg: welche Prüfung für
+            welche Anlage gilt, in welchem Abstand und nach welcher Fundstelle. Jeder
+            Eintrag wartet auf eine fachkundige Abnahme, und die kann nur jemand vom Fach
+            geben.
+          </p>
+          <p>
+            <a href={LINKS.haustechnikPackages} rel="noopener">Die Pakete auf GitHub</a>
           </p>
         </article>
 
@@ -81,8 +95,11 @@ import { LINKS } from '../site';
 
         <article class="card stack">
           <h3>Issues</h3>
-          <p>Konkrete Fehler und Wünsche, über die Vorlagen im Repository.</p>
-          <p><a href={LINKS.issues} rel="noopener">Issue anlegen</a></p>
+          <p>Konkrete Fehler und Wünsche, über die Vorlagen im Repository der Anwendung.</p>
+          <p>
+            <a href={LINKS.issues} rel="noopener">Für die Handwerkersoftware</a>,{' '}
+            <a href={LINKS.haustechnik + '/issues/new/choose'} rel="noopener">für die Haustechnik</a>
+          </p>
         </article>
 
         <article class="card stack">
@@ -101,7 +118,7 @@ import { LINKS } from '../site';
         <article class="card stack">
           <h3>Quelltext</h3>
           <p>
-            Beitragsregeln und Verhaltenskodex gelten für alle vier Repositories.
+            Beitragsregeln und Verhaltenskodex gelten für alle Repositories des Projekts.
             Dokumentation und Oberfläche sind deutsch, der Code ist englisch.
           </p>
           <p><a href={LINKS.contributing} rel="noopener">Beitragsregeln lesen</a></p>
@@ -122,7 +139,8 @@ import { LINKS } from '../site';
         <a class="button button-primary" href={LINKS.repository} rel="noopener">
           Quelltext ansehen
         </a>
-        <a class="button button-outline" href="/roadmap/">Stand des Projekts</a>
+        <a class="button button-outline" href="/roadmap/">Stand der Handwerkersoftware</a>
+        <a class="button button-outline" href="/haustechnik/stand/">Stand der Haustechnik</a>
       </div>
     </div>
   </section>

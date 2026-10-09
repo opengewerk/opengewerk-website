@@ -5,10 +5,10 @@
 export const SITE = {
   name: 'OpenGewerk',
   url: 'https://opengewerk.de',
-  tagline: 'Self-hosted Handwerkersoftware für Elektro und PV',
+  tagline: 'Self-hosted Software für Handwerk und Haustechnik',
   /** What the project is in two sentences. The front page and llms.txt both open with it. */
   description:
-    'Quelloffene Handwerkersoftware für Elektro und PV. CRM, Aufträge, Belege und Buchhaltung in einem Datenmodell, offline auf der Baustelle, auf dem eigenen Server. AGPL-3.0.',
+    'Quelloffene Software auf dem eigenen Server: die Handwerkersoftware für Elektro und PV und OpenGewerk Haustechnik für Betreiber von Gebäuden. Offline vor Ort, ohne Lizenzkosten, AGPL-3.0.',
   /** Falls back as the Open Graph image wherever a page brings none. */
   socialImage: '/marke/social.png',
 } as const;
@@ -48,6 +48,13 @@ export const LINKS = {
     'https://github.com/opengewerk/.github/blob/main/CONTRIBUTING.md',
   license: 'https://github.com/opengewerk/opengewerk/blob/main/LICENSE',
   kanzlei: 'https://github.com/opengewerk/opengewerk-kanzlei',
+  haustechnik: 'https://github.com/opengewerk/opengewerk-haustechnik',
+  haustechnikConcept:
+    'https://github.com/opengewerk/opengewerk-haustechnik/blob/main/docs/konzept/Planungskonzept.md',
+  haustechnikProcedure:
+    'https://github.com/opengewerk/opengewerk-haustechnik/blob/main/docs/verfahrensbeschreibung/Verfahrensbeschreibung.md',
+  haustechnikPackages:
+    'https://github.com/opengewerk/opengewerk-haustechnik/tree/main/pakete',
   apiSpec: 'https://github.com/opengewerk/opengewerk-api-spec',
 } as const;
 
@@ -56,8 +63,13 @@ export const LINKS = {
 export const NAVIGATION = [
   {
     href: '/funktionen/',
-    label: 'Funktionen',
-    hint: 'Was gebaut ist, was teilweise steht und was noch fehlt.',
+    label: 'Handwerk',
+    hint: 'Die Handwerkersoftware: was gebaut ist, was teilweise steht und was noch fehlt.',
+  },
+  {
+    href: '/haustechnik/',
+    label: 'Haustechnik',
+    hint: 'Für Betreiber von Gebäuden: Anlagen, Pflichten, Rundgänge und Nachweise.',
   },
   {
     href: '/elektro-und-pv/',
@@ -82,7 +94,7 @@ export const NAVIGATION = [
   {
     href: '/roadmap/',
     label: 'Stand',
-    hint: 'Die sechs Phasen und wo das Projekt gerade steht.',
+    hint: 'Die Phasen der Handwerkersoftware und wo sie gerade steht.',
   },
   {
     href: '/mitmachen/',

@@ -1,22 +1,13 @@
 ---
 import Page from '../layouts/Page.astro';
 import Screenshot from '../components/Screenshot.astro';
+import AreaTable, { type Area } from '../components/AreaTable.astro';
 import { LINKS } from '../site';
 
 import job from '../assets/screens/auftrag.png';
 import conflict from '../assets/screens/abgleich-und-konflikt.png';
-import signIn from '../assets/screens/anmeldung.png';
+import accounts from '../assets/screens/zugaenge.png';
 
-type State = 'done' | 'partial' | 'planned';
-
-interface Area {
-  title: string;
-  state: State;
-  detail: string;
-}
-
-// Status per area, kept in one list so the page cannot claim two different
-// things about the same feature in two places.
 const areas: Area[] = [
   {
     title: 'Kunde, Objekt, Anlage',
@@ -31,7 +22,7 @@ const areas: Area[] = [
   {
     title: 'Anmeldung und Zugänge',
     state: 'done',
-    detail: 'Anmeldung mit Passwort und zweitem Faktor, Wiederherstellungscodes, Passwort ändern und per Link zurückholen, Rollen vom Inhaber bis zum Monteur, Einladung über einen Einmal-Link, Geräteliste mit Widerruf. Passkeys sind vorerst abgeschaltet und kommen mit Phase 2 wieder.',
+    detail: 'Anmeldung mit Passwort und zweitem Faktor, Wiederherstellungscodes, Passwort ändern und per Link zurückholen, Rollen vom Inhaber bis zum Monteur, Einladung über einen Einmal-Link, Geräteliste mit Widerruf, Passkeys mit Bestätigung durch Passwort und zweiten Faktor. Eine Instanz trägt mehrere Betriebe, gewechselt wird in der Kopfleiste ohne neue Anmeldung.',
   },
   {
     title: 'Offline und Abgleich',
@@ -46,7 +37,7 @@ const areas: Area[] = [
   {
     title: 'Audit-Log',
     state: 'done',
-    detail: 'Jede Änderung auf Feldebene, mit einer Hashkette darüber. Die Sicherung hält den Kopf der Kette fest, ein Prüflauf hält ihn gegen die laufende Datenbank.',
+    detail: 'Jede Änderung auf Feldebene, mit einer Hashkette darüber. Die Sicherung hält den Kopf der Kette fest, ein Prüflauf hält ihn gegen die laufende Datenbank. Der Inhaber sieht das Protokoll im Büro.',
   },
   {
     title: 'Angebot und Auftragsbestätigung',
@@ -74,14 +65,24 @@ const areas: Area[] = [
     detail: 'Dateien und Fotos an Kunde, Objekt, Anlage und Auftrag. Fotos werden auf dem Gerät verkleinert und warten ohne Netz, bis sie hochgehen, und eine neue Fassung legt sich über die alte, statt sie zu ersetzen.',
   },
   {
-    title: 'Aufgaben und E-Mail',
+    title: 'Aufgaben, E-Mail und Push',
     state: 'done',
-    detail: 'Aufgaben mit Fälligkeit und verantwortlicher Person an Kunde, Objekt oder Auftrag, mit einer Erinnerung am Morgen. Belege, unterschriebene Regieberichte und Einladungen gehen per E-Mail hinaus, über den Mailserver, den der Betrieb im Büro einträgt.',
+    detail: 'Aufgaben mit Fälligkeit und verantwortlicher Person an Kunde, Objekt oder Auftrag, mit einer Erinnerung am Morgen. Belege, unterschriebene Regieberichte und Einladungen gehen per E-Mail hinaus, über den Mailserver, den der Betrieb im Büro einträgt. Push-Nachrichten erreichen Büro und Baustelle auch dann, wenn OpenGewerk gerade nicht offen ist.',
+  },
+  {
+    title: 'Fristen',
+    state: 'partial',
+    detail: 'Eine Fristen-Engine für alle Bereiche: eine Frist entsteht von selbst, erinnert mit eigenem Vorlauf die zuständige Person und entfällt, wenn sich ihr Anlass erledigt hat. Die erste Art ist die Wiedervorlage eines Angebots, die Fristen der Wiederholungsprüfungen folgen mit Phase 2.',
+  },
+  {
+    title: 'Tags und Zugang zum Objekt',
+    state: 'done',
+    detail: 'Tags an Kunden und Objekten, etwa nach Gewerk, Region oder Kundentyp, und der Zugang zum Objekt mit Schlüsseln und Codes, die versiegelt gespeichert werden.',
   },
   {
     title: 'Anlagenstruktur',
     state: 'done',
-    detail: 'Verteiler, Feld, Stromkreis und Betriebsmittel unter der Anlage, im Büro angelegt und auf der Baustelle auch ohne Netz ergänzt, mit dem Stromkreisverzeichnis als PDF. Die PV-Struktur und das QR-Etikett kommen mit Phase 2.',
+    detail: 'Verteiler, Feld, Stromkreis und Betriebsmittel unter der Anlage, im Büro angelegt und auf der Baustelle auch ohne Netz ergänzt, mit dem Stromkreisverzeichnis als PDF. Dazu die PV-Struktur mit Wechselrichtern, Strings und Modulen, deren Seriennummern die Kamera einliest, und ein QR-Etikett je Anlage, das auf ihre Akte führt.',
   },
   {
     title: 'Prüfprotokolle',
@@ -91,7 +92,7 @@ const areas: Area[] = [
   {
     title: 'Installation und Sicherung',
     state: 'done',
-    detail: 'Start mit einem Befehl, der die Konfiguration selbst ausfüllt, eine Sicherung jede Nacht mit Anzeige im Büro, Rückspielen und Update. Seit der ersten Fassung, 0.1.0, kommt OpenGewerk als Release mit signierten Abbildern für x86_64 und ARM64.',
+    detail: 'Start mit einem Befehl, der die Konfiguration selbst ausfüllt, eine Sicherung jede Nacht mit Anzeige im Büro, Rückspielen und Update. Seit der ersten Fassung, 0.1.0, kommt OpenGewerk als Release mit signierten Abbildern für x86_64 und ARM64, seit 0.4.0 auch über Docker Hub. Die neueste Fassung ist 0.5.0 vom 04.10.2026.',
   },
   {
     title: 'Buchhaltung',
@@ -100,29 +101,20 @@ const areas: Area[] = [
   },
   {
     title: 'Plantafel und Material',
-    state: 'planned',
-    detail: 'Disposition mit Drag and Drop, Artikelstamm, Lager und Fahrzeuglager, DATANORM und IDS-Connect.',
+    state: 'partial',
+    detail: 'Gebaut sind Artikel und Lieferanten mit der Preiseinheit des Großhandels; der Import aus DATANORM 4 steht auf dem Server und bekommt noch einen Bildschirm. Disposition mit Drag and Drop, Lager und Fahrzeuglager und IDS-Connect fehlen noch.',
   },
 ];
-
-// The state is an English key, the label next to it is what the page shows.
-// Keeping them apart is what lets the state be checked by the compiler while
-// the wording stays free.
-const badgeFor: Record<State, { className: string; label: string }> = {
-  done: { className: 'badge-done', label: 'gebaut' },
-  partial: { className: 'badge-partial', label: 'teilweise' },
-  planned: { className: 'badge-planned', label: 'geplant' },
-};
 ---
 
 <Page
-  title="Funktionen von OpenGewerk: CRM, Aufträge, Belege und Offline-Baustelle"
-  description="Was OpenGewerk heute kann und was noch fehlt: Kunde, Objekt und Anlage, Aufträge, Angebot, Regiebericht, Rechnung und E-Rechnung, Zeiterfassung, Prüfprotokoll, Offline-Abgleich, Rollen und ein Audit-Log mit Hashkette."
+  title="Funktionen der Handwerkersoftware OpenGewerk: CRM, Aufträge, Belege, Baustelle"
+  description="Was die Handwerkersoftware OpenGewerk heute kann und was noch fehlt: Kunde, Objekt und Anlage, Aufträge, Angebot, Regiebericht, Rechnung und E-Rechnung, Zeiterfassung, Prüfprotokoll, Offline-Abgleich und Rollen."
   breadcrumb="Funktionen"
 >
   <section class="section section-dark">
     <div class="wrap measure stack">
-      <h1>Was OpenGewerk kann, und was noch nicht</h1>
+      <h1>Was die Handwerkersoftware kann, und was noch nicht</h1>
       <p class="lead">
         Diese Seite führt beides auf. Eine Liste, die nur die Absicht nennt, hilft
         niemandem bei der Entscheidung, ob die Software für den eigenen Betrieb schon
@@ -134,37 +126,12 @@ const badgeFor: Record<State, { className: string; label: string }> = {
   <section class="section section-tint">
     <div class="wrap stack-loose">
       <h2>Der Stand je Bereich</h2>
-      <div class="table-scroll table-stack" tabindex="0">
-        <table>
-          <caption class="sr-only">
-            Funktionsbereiche von OpenGewerk mit ihrem Entwicklungsstand
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Bereich</th>
-              <th scope="col">Stand</th>
-              <th scope="col">Was dahintersteckt</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              areas.map((area) => (
-                <tr>
-                  <th scope="row">{area.title}</th>
-                  <td>
-                    <span class:list={['badge', badgeFor[area.state].className]}>
-                      {badgeFor[area.state].label}
-                    </span>
-                  </td>
-                  <td data-label="Was dahintersteckt">{area.detail}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
-      </div>
+      <AreaTable
+        areas={areas}
+        caption="Funktionsbereiche der Handwerkersoftware mit ihrem Entwicklungsstand"
+      />
       <p class="muted">
-        Stand dieser Seite: September 2026. Der Fahrplan dahinter steht unter{' '}
+        Stand dieser Seite: Oktober 2026, Fassung 0.5.0. Der Fahrplan dahinter steht unter{' '}
         <a href="/roadmap/">Stand und Fahrplan</a>, die Arbeit selbst liegt offen als{' '}
         <a href={LINKS.repository + '/issues'} rel="noopener">Issues auf GitHub</a>.
       </p>
@@ -191,7 +158,7 @@ const badgeFor: Record<State, { className: string; label: string }> = {
       </div>
       <Screenshot
         src={job}
-        alt="Auftragsansicht im Büro mit Kunde, Objekt, Anlage, Vorgängen und Belegen an einer Stelle"
+        alt="Auftrag im Büro mit der Kette der Belege von Angebot bis Rechnung, den Belegen mit ihrem Status, Notizen von der Baustelle, Zeiten, Dateien und rechts Kunde, Objekt, Anlage, Monteuren und Aufgaben"
         caption="Der Auftrag im Büro, mit allem, was an ihm hängt."
         draft={true}
       />
@@ -202,7 +169,7 @@ const badgeFor: Record<State, { className: string; label: string }> = {
     <div class="wrap split">
       <Screenshot
         src={conflict}
-        alt="Konfliktbildschirm mit drei Spalten: Stand auf dem Gerät, Stand auf dem Server und die Entscheidung"
+        alt="Abgleich im Büro mit einer abgelehnten Änderung und einem Konflikt an einer Anlage, je Feld der Wert auf dem Gerät, im System und der, den das Gerät zuletzt sah, darunter die beiden Entscheidungen"
         caption="Ein Konflikt bekommt einen Bildschirm und eine Entscheidung, keine stille Regel."
         draft={true}
       />
@@ -244,9 +211,9 @@ const badgeFor: Record<State, { className: string; label: string }> = {
         </p>
       </div>
       <Screenshot
-        src={signIn}
-        alt="Anmeldemaske mit Auswahl des Betriebs nach erfolgreicher Anmeldung"
-        caption="Anmeldung und Betriebswahl. Eine Instanz kann mehrere Betriebe tragen."
+        src={accounts}
+        alt="Zugänge des Betriebs mit den Rollen je Konto, Zustand, letzter Anmeldung, Geräten und Sperren, darunter eine offene Einladung"
+        caption="Zugänge mit Rollen, Geräten und Einladungen. Die Rolle Inhaber verlangt einen zweiten Faktor."
         draft={true}
       />
     </div>
@@ -281,9 +248,3 @@ const badgeFor: Record<State, { className: string; label: string }> = {
   </section>
 </Page>
 
-<style>
-  table th[scope='row'] {
-    white-space: nowrap;
-    font-weight: 600;
-  }
-</style>

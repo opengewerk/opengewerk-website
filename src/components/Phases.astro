@@ -1,0 +1,89 @@
+---
+// The phases of a roadmap as a list of cards, each with its number, its title,
+// a badge for its state and what it delivers. Both applications have a roadmap,
+// and one component keeps the two pages from drifting apart in how they look.
+
+export type PhaseState = 'done' | 'active' | 'started' | 'open' | 'planned';
+
+export interface Phase {
+  number: string;
+  title: string;
+  state: PhaseState;
+  result: string;
+}
+
+interface Props {
+  phases: Phase[];
+}
+
+const { phases } = Astro.props;
+
+// English key for the compiler, German label for the reader.
+const badgeFor: Record<PhaseState, { className: string; label: string }> = {
+  done: { className: 'badge-done', label: 'abgeschlossen' },
+  active: { className: 'badge-partial', label: 'läuft' },
+  started: { className: 'badge-partial', label: 'begonnen' },
+  open: { className: 'badge-planned', label: 'offen' },
+  planned: { className: 'badge-planned', label: 'geplant' },
+};
+---
+
+<ol class="phases">
+  {
+    phases.map((phase) => (
+      <li class="card">
+        <div class="phase-head">
+          <span class="phase-number">{phase.number}</span>
+          <h3>{phase.title}</h3>
+          <span class:list={['badge', badgeFor[phase.state].className]}>
+            {badgeFor[phase.state].label}
+          </span>
+        </div>
+        <p>{phase.result}</p>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  /* A list of cards is structure, not running text, so it keeps the full page
+   * width instead of the reading measure that every other list in a section
+   * gets. And the top margin is spelled out here rather than left to the stack:
+   * a scoped style in an Astro component sits in no cascade layer and therefore
+   * beats every layer in the stylesheet, so a bare `margin: 0` would silently
+   * cancel the gap the stack put there. */
+  .phases {
+    list-style: none;
+    margin: var(--space-m) 0 0;
+    padding: 0;
+    max-width: none;
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .phase-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.9rem;
+    margin-block-end: var(--space-xs);
+  }
+
+  .phase-number {
+    display: inline-grid;
+    place-items: center;
+    min-width: 2.4rem;
+    height: 2.4rem;
+    padding-inline: 0.4rem;
+    border-radius: var(--radius-s);
+    background: var(--slate);
+    color: var(--ink-on-dark);
+    font-weight: 600;
+    font-size: var(--font-s);
+  }
+
+  .phase-head h3 {
+    margin: 0;
+    flex: 1 1 12rem;
+  }
+</style>

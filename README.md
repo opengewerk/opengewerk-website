@@ -11,6 +11,8 @@
 
 Bis September 2026 lag unter opengewerk.de eine einzige Datei mit 3,3 kB, die sagte, es gebe noch keinen lauffähigen Code. Das stimmte zu dem Zeitpunkt, an dem sie geschrieben wurde, und zwei Tage später nicht mehr. Dieses Repository löst sie ab: eine statische Seite mit einer Seite je Thema, damit ein Suchender überhaupt etwas findet und ein Betrieb einschätzen kann, ob das Projekt für ihn in Frage kommt.
 
+Seit Oktober 2026 stellt sie zwei Anwendungen vor: die Handwerkersoftware mit ihren Seiten von "Handwerk" bis "Stand" und OpenGewerk Haustechnik unter `/haustechnik/` mit ihrem Stand unter `/haustechnik/stand/`. Die Startseite ist das Dach über beiden.
+
 Die Seite ist bewusst ehrlich über den Stand. Jede Seite nennt, was gebaut ist und was nicht, und die Vergleichsseite nennt auch die Fälle, in denen ein anderes Produkt heute die bessere Wahl ist.
 
 ## Aufbau
@@ -19,7 +21,7 @@ Die Seite ist bewusst ehrlich über den Stand. Jede Seite nennt, was gebaut ist 
 | --- | --- |
 | `src/pages/` | Eine Datei je Route. Die Dateinamen sind deutsch, weil sie die Adresse sind, die ein Besucher liest |
 | `src/layouts/Page.astro` | Der einzige Rahmen. Titel, Beschreibung, Canonical, Open Graph und die strukturierten Daten stehen dort und nirgends sonst |
-| `src/components/` | Kopf, Fuß und der Rahmen für die Oberflächenbilder |
+| `src/components/` | Kopf, Fuß, der Rahmen für die Oberflächenbilder und die beiden Bausteine der Stand-Seiten: die Tabelle mit dem Stand je Bereich und die Liste der Phasen. Beide Anwendungen nutzen sie, damit ihre Seiten gleich aussehen |
 | `src/site.ts` | Name, Adresse, Navigation, ausgehende Verweise und die Anbieterangaben. Alles, was auf mehr als einer Seite steht |
 | `src/last-modified.ts` | Wann eine Seite zuletzt geändert wurde, gelesen aus der Git-Historie ihrer Datei |
 | `src/styles/global.css` | Ein Stylesheet. Tokens, Layout-Bänder, Bausteine |
@@ -61,11 +63,11 @@ Die Seite trägt von einem 390 px breiten Telefon bis zu einem 3440 px breiten U
 
 ## Bilder der Oberfläche
 
-Die Bilder unter `src/assets/screens/` sind **Entwürfe** aus dem Oberflächen-Entwurf vom 19.09.2026, keine Fotos einer laufenden Installation. Wo ein Bild nicht zeigt, was gebaut ist, trägt es die Marke „Entwurf": weil es den Bildschirm noch nicht gibt, oder weil es ihn gibt und er anders aussieht als im Entwurf. Das ist die Aufgabe des Attributs `draft` an der Komponente `Screenshot`. Ohne die Marke darf nur ein Bild stehen, das der gebauten Oberfläche entspricht.
+Die Bilder unter `src/assets/screens/` sind **Tafeln** aus den beiden Canvas der Oberfläche, keine Fotos einer laufenden Installation: die Bilder der Handwerkersoftware aus `.Branding/mockup-previews`, die der Haustechnik mit dem Vorsatz `haustechnik-` aus `.Branding/mockup-previews-haustechnik` und, für das Telefon, aus den Renders ihres Canvas. Wo ein Bild nicht zeigt, was gebaut ist, trägt es die Marke „Entwurf": weil es den Bildschirm noch nicht gibt, oder weil es ihn gibt und er anders aussieht als im Entwurf. Das ist die Aufgabe des Attributs `draft` an der Komponente `Screenshot`. Ohne die Marke darf nur ein Bild stehen, das der gebauten Oberfläche entspricht.
 
-Seit dem 21.09.2026 trägt jedes verwendete Bild die Marke. Beim Abgleich mit dem Code passte keines der Artboards zur gebauten Oberfläche: die Kundenliste zeigt Umsatz und offene Vorgänge, die Baustelle „Meine Aufträge" mit Uhrzeiten, der Auftrag eine Zeiterfassung, die Anmeldung einen Passkey-Knopf, und nichts davon gibt es so. Wer die Marke wieder ablegen will, nimmt eine Aufnahme der echten Oberfläche, etwa aus der Vorschau des Anwendungsrepositories.
+Seit dem 21.09.2026 trägt jedes verwendete Bild die Marke. Beim Abgleich mit dem Code passte damals keines der Artboards vom 19.09.2026 zur gebauten Oberfläche. Im Oktober 2026 kamen an ihre Stelle die Tafeln, denen die Bildschirme seit 0.2.0 folgen, und die Marke blieb, so entschieden am 09.10.2026: eine Tafel bleibt ein Entwurf, auch wo der Bildschirm gebaut ist. Wer die Marke ablegen will, nimmt eine Aufnahme der echten Oberfläche, etwa aus der Vorschau des Anwendungsrepositories.
 
-Sie liegen als 1x-Export vor. Der Bildrahmen hört deshalb bei 1280 px auf: darüber würde die Aufnahme nur weich, nicht größer. Wer die Artboards neu exportiert, exportiert am besten in 2x, dann kann die Grenze fallen.
+Sie liegen als 2x-Export vor, die Tafeln des Büros 2560 px breit, die des Telefons 780 px. Der Bildrahmen fragt deshalb Breiten bis 2560 px an, und ein scharfer Bildschirm bekommt doppelt so viele Pixel wie der Rahmen. Ein neues Bild kommt ebenso in 2x, sonst wird es auf einem solchen Bildschirm weich.
 
 ## Marke
 
