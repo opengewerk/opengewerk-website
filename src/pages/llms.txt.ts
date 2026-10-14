@@ -27,6 +27,11 @@ const lines = [
     absolute('/haustechnik/stand/'),
     'Was in OpenGewerk Haustechnik gebaut ist und die Phasen bis zum Vollausbau.',
   ),
+  entry(
+    'Vertrag zur Auftragsverarbeitung',
+    absolute('/haustechnik/auftragsverarbeitung/'),
+    'Vorlage für den Vertrag nach Art. 28 DSGVO zwischen einem Betreiber und dem Dienstleister, der seine Instanz betreibt, mit den technischen und organisatorischen Maßnahmen als Anlage. Nicht rechtlich geprüft.',
+  ),
   '',
   '## Projekt',
   '',
