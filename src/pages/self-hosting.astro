@@ -237,9 +237,11 @@ const schema = [
       <h2>OpenGewerk Haustechnik auf derselben Maschine</h2>
       <p>
         <a href="/haustechnik/">OpenGewerk Haustechnik</a> startet genauso, mit{' '}
-        <code>sh docker/start.sh</code> aus einem Checkout ihres{' '}
-        <a href={LINKS.haustechnik} rel="noopener">Repositorys</a>, und bringt dieselbe
-        Ersteinrichtung, dieselbe nächtliche Sicherung und dasselbe Update mit. Sie hat
+        <code>sh docker/start.sh</code> aus dem Paket einer Fassung von ihrer{' '}
+        <a href={LINKS.haustechnik + '/releases'} rel="noopener">Release-Seite</a>, und
+        bringt dieselbe Ersteinrichtung, dieselbe nächtliche Sicherung und dasselbe
+        Update mit. Seit 0.1.0 vom 15.10.2026 sind ihre Abbilder signiert, gebaut wird
+        auf der Maschine nichts. Sie hat
         ein eigenes Compose-Projekt, einen eigenen Port, eine eigene Datenbank und
         eigene Volumes und läuft deshalb neben der Handwerkersoftware auf demselben
         Server.
@@ -247,8 +249,7 @@ const schema = [
       <p>
         Davor gehört ein eigener Hostname: ein Browser hält Cookies je Hostname und
         nicht je Port, zwei Anwendungen unter einem Namen würden sich gegenseitig
-        abmelden. Signierte Abbilder zum Herunterladen kommen mit ihrer ersten Fassung,
-        bis dahin baut der Befehl das Abbild auf der Maschine.
+        abmelden.
       </p>
     </div>
   </section>
