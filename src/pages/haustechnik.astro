@@ -70,12 +70,12 @@ const questions = [
   {
     question: 'Kann ich sie heute schon einsetzen?',
     answer:
-      'Noch nicht. Es gibt noch keine Fassung zum Herunterladen, und Phase 1, der Umfang für den ersten produktiven Einsatz, ist etwa zur Hälfte gebaut. Version 1 ist erreicht, wenn der Pilotbetrieb seine bisherige Anwendung abschalten kann. Wer sich ein Bild machen will, startet die Anwendung aus dem Quelltext, mit einem Befehl über Docker Compose.',
+      'Ja, als frühe Fassung. Phase 1, der Umfang für den ersten produktiven Einsatz, ist als Fassung 0.1.0 am 15.10.2026 erschienen, die neueste ist 0.1.3 vom selben Tag. Installiert wird aus dem Paket der Release-Seite mit einem Befehl, die Abbilder sind signiert. Der Pilotbetrieb arbeitet damit zunächst neben seiner bisherigen Anwendung. Version 1 ist erreicht, wenn er diese abschalten kann; dafür fehlt noch Phase 2, unter anderem Störmeldungen, Lager, Fremdfirmen, weitere Pakete und die Funktionen der DSGVO.',
   },
   {
     question: 'Bringt sie einen vollständigen Pflichtenkatalog mit?',
     answer:
-      'Bis Version 1 kommen die Pakete Elektro, Brandschutz und Trinkwasser, jedes vollständig für seinen Bereich, und das Landesrecht von Baden-Württemberg. Weitere Pakete und Länder folgen in späteren Phasen. Jeder Eintrag nennt seine Fundstelle und sagt, ob er fachlich abgenommen ist. Einen redaktionellen Regelwerksdienst ersetzt der Katalog nicht, und wer einen solchen Dienst lizenziert hat, soll dessen Inhalte später übernehmen können.',
+      'Dabei sind die Pakete Elektro, Brandschutz, Trinkwasser, Messstellen und Allgemein und das Landesrecht von Baden-Württemberg. Bis Version 1 kommen Raumluft und Kälte, Heizung sowie Förderanlagen und Arbeitsmittel dazu, jedes vollständig für seinen Bereich. Weitere Länder folgen in späteren Phasen. Jeder Eintrag nennt seine Fundstelle und sagt, ob er fachlich abgenommen ist. Einen redaktionellen Regelwerksdienst ersetzt der Katalog nicht, und wer einen solchen Dienst lizenziert hat, soll dessen Inhalte später übernehmen können.',
   },
   {
     question: 'Wo liegen die Daten?',
@@ -425,15 +425,21 @@ const schema = [
       </p>
       <h2>Ehrlich zum Stand</h2>
       <p>
-        OpenGewerk Haustechnik ist in Entwicklung und hat noch keine Fassung zum
-        Herunterladen. Das Fundament steht, und Phase 1, der Umfang für den ersten
-        produktiven Einsatz bei einem Träger mit rund zwanzig Liegenschaften, ist etwa
-        zur Hälfte gebaut: Liegenschaften bis zum Raum, Anlagen mit Akte, Import und
-        Etiketten, das Pflichtenverzeichnis mit seinen Fristen, Prüfungen vor Ort mit
-        Unterschrift, Nachweise, Mängel, Aufträge im Büro und die Rundgänge mit
-        Vorlage, Plan, dem Rundgang vor Ort und der Gegenzeichnung im Büro. Es fehlen
-        unter anderem der Auftrag vor Ort, die Zähler, die Fachpakete und die
-        Benachrichtigungen.
+        Phase 1, der Umfang für den ersten produktiven Einsatz bei einem Träger mit rund
+        zwanzig Liegenschaften, ist fertig und als Fassung 0.1.0 am 15.10.2026
+        erschienen, die neueste ist 0.1.3. Darin stehen Liegenschaften bis zum Raum,
+        Anlagen mit Akte, Import, Etiketten und Zählern, das Pflichtenverzeichnis mit
+        Vorschlägen aus den Paketen und seinen Fristen, Prüfungen vor Ort mit
+        Unterschrift, Nachweise mit PDF, Mängel, Aufträge im Büro und vor Ort, die
+        Rundgänge ohne Netz, Dokumente, Erinnerungen per E-Mail und Push und der Import
+        aus der bisherigen Anwendung.
+      </p>
+      <p>
+        Es fehlt, was Phase 2 bringt, bevor der Pilotbetrieb seine bisherige Anwendung
+        abschaltet: unter anderem Störmeldungen auch ohne Konto, der Leistungsnachweis,
+        Lager, Fremdfirmen und Verträge, die Pflichtenübertragung, weitere Pakete,
+        eigene Rollen und die Funktionen der DSGVO. Vor der Fassung mit der ersten Seite
+        ohne Anmeldung kommt eine externe Sicherheitsprüfung.
       </p>
       <p class="button-row">
         <a class="button button-primary" href="/haustechnik/stand/">Stand und Fahrplan</a>

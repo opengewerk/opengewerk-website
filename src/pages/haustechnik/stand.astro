@@ -4,47 +4,48 @@ import AreaTable, { type Area } from '../../components/AreaTable.astro';
 import Phases, { type Phase } from '../../components/Phases.astro';
 import { LINKS } from '../../site';
 
-// What is built, per area, as the closed and open issues of phase 1 say it.
+// What is built, per area: phase 1 as released with 0.1.0, and what the open
+// issues of phase 2 add to it.
 const areas: Area[] = [
   {
     title: 'Fundament und Betrieb',
     state: 'done',
-    detail: 'Mandantentrennung in der Datenbank, Anmeldung mit zweitem Faktor, Rollen und Rechte, Abgleich ohne Netz, Änderungsprotokoll mit Hashkette und Nummernkreise. Start mit einem Befehl über Docker Compose, eine Sicherung jede Nacht, Rückspielen und Update, auf Wunsch neben der Handwerkersoftware auf demselben Server.',
+    detail: 'Mandantentrennung in der Datenbank, Anmeldung mit zweitem Faktor, Rollen und Rechte, Abgleich ohne Netz, Änderungsprotokoll mit Hashkette und Nummernkreise. Installiert wird aus dem Paket einer Fassung mit einem Befehl, die Abbilder sind signiert. Dazu eine Sicherung jede Nacht, Rückspielen und Update, auf Wunsch neben der Handwerkersoftware auf demselben Server.',
   },
   {
     title: 'Bereiche und Zugänge',
     state: 'done',
-    detail: 'Zuständigkeitsbereiche, die die Datenbank durchsetzt, Zugänge mit Rolle und Bereichen und die Vertretung. Ein Gerät hält nur, was in den Bereichen seiner Person liegt.',
+    detail: 'Zuständigkeitsbereiche, die die Datenbank durchsetzt, auch für ein einzelnes Gebäude, Zugänge mit Rolle und Bereichen und die Vertretung. Ein Gerät hält nur, was in den Bereichen seiner Person liegt. Eigene Rollen des Betreibers kommen mit Phase 2.',
   },
   {
     title: 'Liegenschaften und Räume',
-    state: 'partial',
-    detail: 'Liegenschaften mit Ansprechpartnern, Gebäude, Geschosse und Räume im Büro und vor Ort, dazu die Seite eines Raums. Das Lagebild je Gebäude, die Zahlen über alle Liegenschaften und die Zeitachse fehlen noch.',
+    state: 'done',
+    detail: 'Liegenschaften mit Ansprechpartnern, Gebäude, Geschosse und Räume im Büro und vor Ort, die Seite eines Raums, das Lagebild je Gebäude, die Zahlen über alle Liegenschaften und die Zeitachse. Ein Gebäude lässt sich mit allem darin in eine andere Liegenschaft verlegen.',
   },
   {
     title: 'Anlagen und Anlagenakte',
-    state: 'partial',
-    detail: 'Das Anlagenverzeichnis über alle Gebäude, die Akte einer Anlage, Anlegen und Ändern mit Prüfung auf Dubletten, der Import aus Tabellen mit Vorschau, die Bestandsaufnahme vor Ort ohne Netz und Etiketten mit Druck, Scan und Sperre. Der Tausch einer Anlage fehlt noch.',
+    state: 'done',
+    detail: 'Das Anlagenverzeichnis über alle Gebäude, die Akte einer Anlage, Anlegen und Ändern mit Prüfung auf Dubletten, der Import aus Tabellen mit Vorschau, die Bestandsaufnahme vor Ort ohne Netz, Etiketten mit Druck, Scan und Sperre und der Tausch einer Anlage. Eigene Anlagenarten und Felder des Betreibers kommen mit Phase 2.',
   },
   {
     title: 'Katalog und Pakete',
     state: 'partial',
-    detail: 'Das Format der Pakete mit Lader und Prüfungen, der Katalog im Büro und auf dem Gerät mit dem Stand der Abnahme, das Paket Allgemein mit einer Anlagenart je Kostengruppe und die Messstellen. Die Fachpakete Elektro, Brandschutz und Trinkwasser bringen die Prüfungen aus Verordnungen, Unfallverhütungsvorschriften und Technischen Regeln, beim Trinkwasser die Untersuchung auf Legionellen mit dem Maßnahmenwert; was private Normen sagen, kommt nach der rechtlichen Prüfung dazu. Das Landesrecht von Baden-Württemberg kommt noch.',
+    detail: 'Das Format der Pakete mit Lader und Prüfungen, der Katalog im Büro und auf dem Gerät mit dem Stand der Abnahme und die Pakete Allgemein, Messstellen, Elektro, Brandschutz und Trinkwasser mit den Prüfungen aus Verordnungen, Unfallverhütungsvorschriften und Technischen Regeln, dazu das Landesrecht von Baden-Württemberg. Was private Normen sagen, kommt nach der rechtlichen Prüfung dazu. Phase 2 bringt die Pakete Raumluft und Kälte, Heizung sowie Förderanlagen und Arbeitsmittel.',
   },
   {
     title: 'Pflichten und Fristen',
     state: 'partial',
-    detail: 'Das Pflichtenverzeichnis, eigene Pflichten des Betreibers und die Fristen im Büro mit ihren Einstellungen. Die Vorschläge aus dem Katalog zum Bestätigen oder Verwerfen und die Übersicht der Betreiberverantwortung fehlen noch.',
+    detail: 'Das Pflichtenverzeichnis, die Vorschläge aus dem Katalog zum Bestätigen oder Verwerfen, eigene Pflichten des Betreibers, die Übersicht der Betreiberverantwortung und die Fristen mit ihren Einstellungen. Die schriftliche Pflichtenübertragung und die Qualifikationen der Mitarbeiter kommen mit Phase 2.',
   },
   {
     title: 'Prüfungen und Nachweise',
     state: 'partial',
-    detail: 'Prüfung und Wartung aus einem fälligen Termin, das Protokoll vor Ort mit Unterschrift auch ohne Netz, der Bericht einer Fremdfirma als Nachweis und im Büro das Ansehen, Berichtigen und für ungültig Erklären eines Nachweises. Das PDF aus dem eingefrorenen Stand fehlt noch.',
+    detail: 'Prüfung und Wartung aus einem fälligen Termin, das Protokoll vor Ort mit Unterschrift auch ohne Netz, der Bericht einer Fremdfirma als Nachweis, das PDF aus dem eingefrorenen Stand und im Büro das Ansehen, Berichtigen und für ungültig Erklären eines Nachweises. Sammelnachweise, das Nachweisverzeichnis, ein lesender Zugang für Prüfer und die Aufbewahrung mit Löschvorschlag kommen mit Phase 2.',
   },
   {
     title: 'Rundgänge',
-    state: 'partial',
-    detail: 'Vorlagen im Büro mit Kapiteln und Punkten, in Fassungen und mit Punkten, die eine Pflicht erfüllen, der Plan mit der Zuteilung in der Übersicht der Woche, der Rundgang vor Ort ohne Netz bis zur Unterschrift und im Büro die Gegenzeichnung und das Schließen offener Rundgänge mit Grund. Das PDF aus dem eingefrorenen Stand fehlt noch.',
+    state: 'done',
+    detail: 'Vorlagen im Büro mit Kapiteln und Punkten, in Fassungen und mit Punkten, die eine Pflicht erfüllen, der Plan mit der Zuteilung in der Übersicht der Woche, der Rundgang vor Ort ohne Netz bis zur Unterschrift, das PDF aus dem eingefrorenen Stand und im Büro die Gegenzeichnung und das Schließen offener Rundgänge mit Grund.',
   },
   {
     title: 'Mängel',
@@ -54,27 +55,42 @@ const areas: Area[] = [
   {
     title: 'Aufträge',
     state: 'partial',
-    detail: 'Aufträge im Büro aus einem Mangel oder einem Termin, mit Dringlichkeit, weiteren Beteiligten und der Abnahme. Der Auftrag vor Ort mit Notizen, Fotos und Unterschrift fehlt noch.',
+    detail: 'Aufträge im Büro aus einem Mangel oder einem Termin, mit Dringlichkeit, weiteren Beteiligten und der Abnahme, und vor Ort mit Notizen, Fotos, Dauer und Unterschrift. Der Leistungsnachweis mit der Unterschrift des Auftraggebers und das Material aus dem Lager kommen mit Phase 2.',
   },
   {
     title: 'Dokumente',
     state: 'done',
-    detail: 'Eine Ablage mit Fassungen an Ort, Anlage und Vorgang.',
+    detail: 'Eine Ablage mit Fassungen an Ort, Anlage und Vorgang. Dokumente mit Gültigkeit kommen mit Phase 2.',
   },
   {
     title: 'Zähler',
-    state: 'planned',
+    state: 'done',
     detail: 'Messstellen mit Ständen und Verbrauch, Tausch, Stilllegung und Sperre, die Ablesung vor Ort im Rundgang und als eigene Runde.',
   },
   {
     title: 'Benachrichtigungen und Suche',
-    state: 'planned',
-    detail: 'Benachrichtigungen per E-Mail und Push, die Suche nach Name, Nummer und Kennzeichen, Aufgaben und die Hilfe an den Bildschirmen.',
+    state: 'done',
+    detail: 'Erinnerungen an Fristen per E-Mail und Push, je Fristart einstellbar, die Suche nach Name, Nummer und Kennzeichen, Aufgaben und die Hilfe an den Bildschirmen.',
   },
   {
     title: 'Übernahme aus Altbeständen',
+    state: 'done',
+    detail: 'Der Importweg aus der Anwendung, die der Pilotbetrieb bisher nutzt: laufende Fristen, alte Nachweise, Zähler und Vorlagen.',
+  },
+  {
+    title: 'Störmeldungen',
     state: 'planned',
-    detail: 'Der Importweg aus der Anwendung, die der Pilotbetrieb heute nutzt: laufende Fristen, alte Nachweise, Zähler und Vorlagen.',
+    detail: 'Meldungen mit Konto und ohne, über das Etikett an der Anlage, mit Eingang, Annahme und Rückmeldung an den Melder.',
+  },
+  {
+    title: 'Lager, Fremdfirmen und Verträge',
+    state: 'planned',
+    detail: 'Artikel, Lieferanten und Bestand, die Entnahme am Auftrag per Scan, Fremdfirmen mit Einweisung vor Ort, Verträge und Gewährleistung.',
+  },
+  {
+    title: 'Auswertungen und Datenschutz',
+    state: 'planned',
+    detail: 'Auswertungen über die Zeit ohne Auswertung je Person, Auskunft und Datenexport je Person, die Verfahrensbeschreibung als erzeugtes Dokument und eine Vorlage für eine Betriebs- oder Dienstvereinbarung.',
   },
 ];
 
@@ -90,16 +106,16 @@ const phases: Phase[] = [
   {
     number: '1',
     title: 'MVP für den Pilotbetrieb',
-    state: 'active',
+    state: 'done',
     result:
-      'Liegenschaft bis Raum mit Import, Anlagen mit Akte und Etiketten, die Bestandsaufnahme vor Ort, das Pflichtenverzeichnis mit Vorschlägen und Übersicht, der Nachweis aus Protokoll oder Bericht, Rundgänge mobil und ohne Netz, Mängel, Aufträge, Zähler, Dokumente, Benachrichtigungen, die Pakete Elektro, Brandschutz, Trinkwasser und Landesrecht und der Importweg aus der bisherigen Anwendung. Am Ende arbeitet der Pilotbetrieb produktiv damit, und der Parallelbetrieb beginnt.',
+      'Liegenschaft bis Raum mit Import, Anlagen mit Akte und Etiketten, die Bestandsaufnahme vor Ort, das Pflichtenverzeichnis mit Vorschlägen und Übersicht, der Nachweis aus Protokoll oder Bericht, Rundgänge mobil und ohne Netz, Mängel, Aufträge, Zähler, Dokumente, Benachrichtigungen, die Pakete Elektro, Brandschutz, Trinkwasser und Landesrecht und der Importweg aus der bisherigen Anwendung. Am Ende arbeitet der Pilotbetrieb produktiv damit, und der Parallelbetrieb beginnt. Erschienen als Fassung 0.1.0 am 15.10.2026.',
   },
   {
     number: '2',
     title: 'Betreiberpflichten vollständig',
-    state: 'planned',
+    state: 'active',
     result:
-      'Pflichtenübertragung, Qualifikationen, weitere Protokolle und Pakete, Sammelnachweise, ein Verzeichnis der Nachweise und ein Zugang für Prüfer, Störmeldungen mit und ohne Konto, Fremdfirmen und Verträge, Lager mit Verbrauch am Auftrag, Auswertungen über die Zeit, eigene Rollen und die Funktionen der DSGVO. Danach ist die bisherige Anwendung abgeschaltet, und ein Betreiber kann eine Begehung allein aus dem System bestreiten.',
+      'Pflichtenübertragung, Qualifikationen, weitere Protokolle und Pakete, Sammelnachweise, ein Verzeichnis der Nachweise und ein Zugang für Prüfer, Störmeldungen mit und ohne Konto, Fremdfirmen und Verträge, der Leistungsnachweis, Lager mit Verbrauch am Auftrag, Auswertungen über die Zeit, eigene Rollen, Dokumente mit Gültigkeit, die Funktionen der DSGVO und die Verfahrensbeschreibung. Danach ist die bisherige Anwendung abgeschaltet, und ein Betreiber kann eine Begehung allein aus dem System bestreiten.',
   },
   {
     number: '3',
@@ -143,10 +159,10 @@ const phases: Phase[] = [
       <h1>Wo OpenGewerk Haustechnik im Oktober 2026 steht</h1>
       <p class="lead">
         Gebaut wird entlang eines Pilotbetriebs, der Haustechnik eines Trägers mit rund
-        zwanzig Liegenschaften. Version 1 ist erreicht, wenn dort die bisherige
-        Anwendung abgeschaltet werden kann. Was sich später nicht nachrüsten lässt, kam
-        zuerst: das Datenmodell, die Bereiche, die Festschreibung der Nachweise und der
-        Abgleich ohne Netz.
+        zwanzig Liegenschaften. Phase 1 ist abgeschlossen und als Fassung 0.1.0 am
+        15.10.2026 erschienen, die neueste ist 0.1.3 vom selben Tag. Damit beginnt dort
+        der Parallelbetrieb neben der bisherigen Anwendung. Version 1 ist erreicht, wenn
+        diese abgeschaltet werden kann, und darauf arbeitet Phase 2 hin.
       </p>
     </div>
   </section>
@@ -159,9 +175,10 @@ const phases: Phase[] = [
         caption="Bereiche von OpenGewerk Haustechnik mit ihrem Entwicklungsstand"
       />
       <p class="muted">
-        Stand dieser Seite: Oktober 2026. Eine Fassung zum Herunterladen gibt es noch
-        nicht, sie kommt mit dem Beginn des Parallelbetriebs. Die Arbeit selbst liegt
-        offen als{' '}
+        Stand dieser Seite: Oktober 2026. Jede Fassung liegt mit ihrem Paket und ihren
+        Änderungen auf der{' '}
+        <a href={LINKS.haustechnik + '/releases'} rel="noopener">Release-Seite</a>. Die
+        Arbeit selbst liegt offen als{' '}
         <a href={LINKS.haustechnik + '/milestones'} rel="noopener">Issues auf GitHub</a>.
       </p>
     </div>
