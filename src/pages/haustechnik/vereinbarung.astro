@@ -1,0 +1,489 @@
+---
+import Page from '../../layouts/Page.astro';
+import { LINKS } from '../../site';
+
+// The template of an agreement with a works council (opengewerk-haustechnik#359),
+// a copy of docs/vereinbarung/Vereinbarung-Vorlage.md there. A rule that begins
+// with "Zusage" is one the application keeps; its evidence is an entry of
+// appendix A of the description of the processing, and a test there holds that
+// each names a test. Printed from the browser, only the agreement comes out.
+const evidence = `${LINKS.haustechnikProcedure}#anhang-a-belege`;
+---
+
+<Page
+  title="Betriebs- oder Dienstvereinbarung über OpenGewerk Haustechnik"
+  description="Vorlage für eine Betriebs- oder Dienstvereinbarung über die Einführung und Anwendung von OpenGewerk Haustechnik, mit Hinweisen für Betriebsverfassungsgesetz, Personalvertretungsrecht und kirchliches Recht."
+  breadcrumb="Vereinbarung"
+  parent={{ name: 'Haustechnik', path: '/haustechnik/' }}
+>
+  <section class="section section-dark no-print">
+    <div class="wrap measure stack is-column">
+      <h1>Betriebs- oder Dienstvereinbarung</h1>
+      <p class="lead">
+        Eine Vorlage für die Vereinbarung zwischen einem Betreiber und seiner
+        Arbeitnehmervertretung über die Einführung und Anwendung von OpenGewerk
+        Haustechnik. Sie verweist auf die Verfahrensbeschreibung, statt sie abzuschreiben,
+        und was die Anwendung selbst hält, steht darin als Zusage mit ihrem Test.
+      </p>
+      <div class="note stack">
+        <p><strong>Nicht rechtlich geprüft.</strong></p>
+        <p>
+          Diese Vorlage ist im Projekt entstanden, und noch hat sie kein Fachanwalt
+          gesehen. Sie ersetzt keine Rechtsberatung. Wer sie verwendet, lässt sie vor der
+          Unterschrift prüfen. Sobald die Prüfung stattgefunden hat, steht das hier.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section no-print">
+    <div class="wrap measure stack-loose legal is-column">
+      <div>
+        <h2>Warum es eine Vereinbarung braucht</h2>
+        <p>
+          OpenGewerk Haustechnik hält fest, wer was wann geändert und unterschrieben hat.
+          Damit ist sie geeignet, Verhalten und Leistung von Beschäftigten zu überwachen,
+          und ihre Einführung und Anwendung unterliegt der Mitbestimmung, wo es eine
+          Arbeitnehmervertretung gibt. Auf die Absicht kommt es nicht an, die Eignung
+          genügt.
+        </p>
+      </div>
+
+      <div>
+        <h2>Welches Recht gilt</h2>
+        <ul class="marker-list">
+          <li>
+            In einem Betrieb der Privatwirtschaft: § 87 Abs. 1 Nr. 6 BetrVG; die
+            Vereinbarung ist eine Betriebsvereinbarung nach § 77 BetrVG.
+          </li>
+          <li>
+            In einer Dienststelle des Bundes: § 80 Abs. 1 Nr. 21 BPersVG; die Vereinbarung
+            ist eine Dienstvereinbarung nach § 63 BPersVG.
+          </li>
+          <li>
+            In einer Dienststelle eines Landes oder einer Kommune: das
+            Personalvertretungsgesetz des Landes, das eine entsprechende Vorschrift für
+            technische Einrichtungen kennt.
+          </li>
+          <li>
+            In einer Einrichtung der katholischen Kirche: die Mitarbeitervertretungsordnung,
+            wie das Bistum sie in Kraft gesetzt hat; in der Rahmenordnung ist es § 36 Abs. 1
+            Nr. 9 MAVO.
+          </li>
+          <li>
+            In einer Einrichtung der evangelischen Kirche: das Mitarbeitervertretungsgesetz
+            der EKD oder der Landeskirche; der Tatbestand der technischen Einrichtungen
+            steht in § 40, unter einem Buchstaben, der je nach Fassung verschieden ist.
+          </li>
+        </ul>
+        <p>
+          Wo die Vorlage „Arbeitnehmervertretung“ sagt, steht im Text der Vereinbarung der
+          Betriebsrat, der Personalrat oder die Mitarbeitervertretung, und wo sie
+          „Arbeitgeber“ sagt, die Dienststelle oder die Einrichtung.
+        </p>
+      </div>
+
+      <div>
+        <h2>So wird die Vorlage benutzt</h2>
+        <ul class="marker-list">
+          <li>
+            Die <a href={LINKS.haustechnikProcedure} rel="noopener">Verfahrensbeschreibung</a> erzeugt die Leitung des Betreibers in der Anwendung unter „Einstellungen“,
+            „Datenschutz“, mit dem, was bei ihm eingestellt ist. Sie ist Anlage 1.
+          </li>
+          <li>
+            Eine Regelung, die mit <strong>Zusage</strong> beginnt, hält die Anwendung
+            selbst. Daneben steht ihr Beleg aus <a href={evidence} rel="noopener">Anhang A der Verfahrensbeschreibung</a>, ein
+            Test, der bei jeder Änderung am Quelltext läuft und rot wird, sobald die Zusage
+            nicht mehr stimmt. Alle anderen Regelungen hält der Arbeitgeber.
+          </li>
+          <li>
+            Die Linien füllen beide Seiten aus. Kursiv gesetzte Hinweise sagen, was die
+            Parteien selbst regeln; sie werden ersetzt oder gestrichen.
+          </li>
+          <li>
+            Gedruckt aus dem Browser kommt nur die Vereinbarung aufs Papier, ohne diese
+            Erklärung.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tint print-plain">
+    <div class="wrap measure is-column">
+      <article class="contract legal" aria-labelledby="vereinbarung">
+        <h2 id="vereinbarung">Vereinbarung über die Einführung und Anwendung von OpenGewerk Haustechnik</h2>
+        <p class="print-only">
+          Vorlage von opengewerk.de für OpenGewerk Haustechnik, Stand 19.10.2026. Nicht
+          rechtlich geprüft.
+        </p>
+
+        <div class="parties">
+          <p>zwischen</p>
+          <dl class="fields">
+            <dt>Arbeitgeber, Dienststelle oder Einrichtung</dt><dd><span class="blank"></span></dd>
+            <dt>vertreten durch</dt><dd><span class="blank"></span></dd>
+          </dl>
+          <p>und</p>
+          <dl class="fields">
+            <dt>Arbeitnehmervertretung</dt><dd><span class="blank"></span></dd>
+            <dt>vertreten durch</dt><dd><span class="blank"></span></dd>
+          </dl>
+        </div>
+
+        <h3>§ 1 Gegenstand und Geltungsbereich</h3>
+        <p>
+          (1) Diese Vereinbarung regelt die Einführung und Anwendung von OpenGewerk
+          Haustechnik beim Arbeitgeber, in der Instanz <span class="blank"></span>.
+        </p>
+        <p>
+          (2) Sie gilt für alle Beschäftigten, die einen Zugang zu dieser Instanz haben, und
+          für alle, über die die Anwendung Daten hält, auch ohne Zugang.
+        </p>
+
+        <h3>§ 2 Zweck</h3>
+        <p>
+          (1) Die Anwendung dient der Erfüllung der Pflichten des Arbeitgebers als
+          Betreiber von Gebäuden und technischen Anlagen: Prüfungen, Wartungen und
+          Rundgänge planen und nachweisen, Mängel und Störungen bearbeiten, Fristen halten.
+        </p>
+        <p>
+          (2) Die Anwendung wird nicht dazu eingesetzt, Verhalten oder Leistung der
+          Beschäftigten zu überwachen oder zu beurteilen. <em class="hint">Die Parteien
+          regeln hier, ob und in welchen Fällen Daten aus der Anwendung für
+          arbeitsrechtliche Maßnahmen verwendet werden dürfen, etwa nur mit Beteiligung der
+          Arbeitnehmervertretung.</em>
+        </p>
+
+        <h3>§ 3 Verfahrensbeschreibung</h3>
+        <p>
+          (1) Welche Daten über Beschäftigte die Anwendung hält, wer sie sieht, welche
+          Auswertungen es gibt und welche nicht und wie lange aufbewahrt wird, beschreibt
+          die Verfahrensbeschreibung in Anlage 1, in der Fassung vom <span class="blank short"></span>.
+        </p>
+        <p>
+          (2) <strong>Zusage:</strong> Die Leitung erzeugt die Verfahrensbeschreibung in der
+          Anwendung, und jede erzeugte Fassung bleibt dort mit ihrem Tag; die Anwendung kann
+          eine erzeugte Fassung nicht ändern und nicht entfernen. <span class="proof">Beleg B394</span>
+        </p>
+        <p>
+          (3) <strong>Zusage:</strong> Die Verfahrensbeschreibung nennt keine Person, die
+          beim Arbeitgeber arbeitet; sie kann der Arbeitnehmervertretung deshalb vollständig
+          übergeben werden. <span class="proof">Beleg B396</span>
+        </p>
+        <p>
+          (4) Ändert der Arbeitgeber eine Einstellung, die Abschnitt 2 der
+          Verfahrensbeschreibung unter „Bei diesem Betreiber“ nennt, oder spielt er eine
+          neue Fassung der Anwendung ein, unterrichtet er die Arbeitnehmervertretung vorher
+          und übergibt ihr danach die neu erzeugte Verfahrensbeschreibung. Die Liste unter
+          „Datenschutz“ nennt, welche Abschnitte sich gegenüber der vorherigen geändert
+          haben. <em class="hint">Die Parteien regeln hier, welche dieser Änderungen der
+          Zustimmung bedürfen.</em>
+        </p>
+
+        <h3>§ 4 Keine Auswertung je Person</h3>
+        <p>
+          (1) <strong>Zusage:</strong> Die Auswertungen über die Zeit zählen je Gebäude,
+          Liegenschaft und Bereich und nie je Person; keine Antwort und keine Tabelle nennt
+          eine Person oder gruppiert nach einer. <span class="proof">Beleg B321</span>
+        </p>
+        <p>
+          (2) <strong>Zusage:</strong> Der Server beantwortet keine Adresse für eine
+          Statistik, eine Rangliste oder eine Liste des Verzugs je Person. <span class="proof">Beleg B40</span>
+        </p>
+        <p>
+          (3) <strong>Zusage:</strong> Die Übersicht am Anfang des Büros nennt keine Person
+          und zählt nichts je Person. <span class="proof">Beleg B158</span>
+        </p>
+        <p>
+          (4) <strong>Zusage:</strong> Eingegrenzt auf eine Person nennen das
+          Pflichtenverzeichnis und die Fristen keine Zahl, weder wie viele Pflichten oder
+          Fristen diese Person hat noch wie viele davon überfällig sind. <span class="proof">Belege B81, B10, B97</span>
+        </p>
+        <p>
+          (5) Eine Zahl je Gebäude kann auf eine Person schließen lassen, wenn für ein
+          Gebäude nur eine Person zuständig ist (Abschnitt 5 der Verfahrensbeschreibung). Der
+          Arbeitgeber zieht aus den Auswertungen keine solchen Schlüsse. <em class="hint">Die
+          Parteien regeln hier, wer die Auswertungen liest.</em>
+        </p>
+
+        <h3>§ 5 Änderungsprotokoll</h3>
+        <p>
+          (1) <strong>Zusage:</strong> Das Änderungsprotokoll liest nur die Leitung;
+          Technische Leitung, Objektleitung und Haustechnik werden abgelehnt. <span class="proof">Belege B3, B14</span>
+        </p>
+        <p>
+          (2) <strong>Zusage:</strong> Das Änderungsprotokoll als Tabelle bekommt nur, wer
+          das Protokoll einsehen und Zugänge ansehen darf, und das ist nur die Leitung. <span class="proof">Belege B3, B217</span>
+        </p>
+        <p>
+          (3) Die Leitung sieht das Änderungsprotokoll nur aus einem Anlass ein, der mit dem
+          Zweck nach § 2 zusammenhängt, etwa um einen Fehler in einem Nachweis aufzuklären. <em class="hint">Die Parteien regeln hier, ob die Arbeitnehmervertretung dabei
+          beteiligt wird.</em>
+        </p>
+
+        <h3>§ 6 Zugänge, Rollen und Tabellen</h3>
+        <p>
+          (1) <strong>Zusage:</strong> Wer beim Arbeitgeber arbeitet, mit Rollen, Sperre,
+          Anmeldungen und Geräten, sieht und entscheidet nur die Leitung. <span class="proof">Belege B1, B2, B12</span>
+        </p>
+        <p>
+          (2) <strong>Zusage:</strong> Die Leitung arbeitet nur mit einem zweiten Faktor. <span class="proof">Beleg B36</span>
+        </p>
+        <p>
+          (3) <strong>Zusage:</strong> Eine eigene Rolle des Arbeitgebers bekommt nie das
+          Recht, das Änderungsprotokoll einzusehen, die Zugänge anzusehen oder zu verwalten,
+          den Mailserver anzusehen oder einzurichten, Pflichten zu übertragen oder Auskunft,
+          Verfahrensbeschreibung und Verzeichnis zu erzeugen. <span class="proof">Belege B382, B383, B384</span>
+        </p>
+        <p>
+          (4) <strong>Zusage:</strong> Eine Tabelle, die aus einer Liste der Anwendung
+          ausgegeben wird, nennt eine Person nur der Leitung; alle anderen bekommen sie ohne
+          die Person. <span class="proof">Belege B1, B186, B188, B197, B200, B203, B207, B208, B213</span>
+        </p>
+        <p>
+          (5) <strong>Zusage:</strong> Die Zugänge als Tabelle bekommt nur die Leitung. <span class="proof">Belege B1, B216</span>
+        </p>
+        <p>
+          (6) Legt der Arbeitgeber eine eigene Rolle an oder ändert er eine, nennt die
+          nächste erzeugte Verfahrensbeschreibung sie mit ihren Rechten (§ 3 Abs. 4).
+        </p>
+
+        <h3>§ 7 Benachrichtigungen</h3>
+        <p>
+          (1) <strong>Zusage:</strong> Push-Nachrichten kommen nur auf ein Gerät, auf dem die
+          Person sie selbst eingeschaltet hat, und welche Anlässe als Push kommen, wählt jede
+          Person für sich. Die eine Ausnahme ist ein Auftrag der Dringlichkeit „sofort“: er
+          erreicht die Person, die ihn führt, auch wenn sie Zuteilungen abgeschaltet hat. <span class="proof">Belege B234, B235, B236, B237, B253</span>
+        </p>
+        <p>
+          (2) Niemand wird angehalten, Push auf einem privaten Gerät einzuschalten. <em class="hint">Die Parteien regeln hier, ob dienstliche Geräte gestellt
+          werden.</em>
+        </p>
+
+        <h3>§ 8 Arbeitszeit und Standort</h3>
+        <p>
+          (1) Die Anwendung erfasst keine Arbeitszeit und keinen Standort (Abschnitt 6 der
+          Verfahrensbeschreibung).
+        </p>
+        <p>
+          (2) Bringt eine spätere Fassung der Anwendung eine Erfassung der Arbeitszeit oder
+          des Standorts, wird sie erst eingeschaltet, wenn die Parteien darüber eine
+          Vereinbarung getroffen haben.
+        </p>
+
+        <h3>§ 9 Aufbewahrung und Löschung</h3>
+        <p>
+          (1) Wie lange die Anwendung Daten aufbewahrt, steht in Abschnitt 7 der
+          Verfahrensbeschreibung, mit den Einstellungen dieses Betreibers in Abschnitt 2.
+        </p>
+        <p>
+          (2) <strong>Zusage:</strong> Nach einer Frist, die die Leitung unter „Zugänge“
+          einstellt, entfernt die Anwendung nach dem Ende eines Zugangs von selbst die Geräte
+          und Passkeys der Person und, wo ihr Konto nirgends sonst arbeitet, auch
+          E-Mail-Adresse, zweiten Faktor und Passwort; der Name bleibt in dem, was sie
+          unterschrieben hat. <span class="proof">Beleg B392</span>
+        </p>
+        <p>(3) Die Frist nach Absatz 2 beträgt <span class="blank short"></span> Tage.</p>
+
+        <h3>§ 10 Rechte der Arbeitnehmervertretung</h3>
+        <p>
+          (1) Die Arbeitnehmervertretung erhält jede erzeugte Verfahrensbeschreibung (§ 3)
+          und kann vom Arbeitgeber verlangen, dass er eine neue erzeugt.
+        </p>
+        <p>
+          (2) Die Anwendung ist quelloffen. Jede Zusage dieser Vereinbarung lässt sich am
+          Quelltext und an ihrem Test nachprüfen; die Arbeitnehmervertretung kann dazu <em class="hint">eine sachverständige Person nach den Regeln ihres Rechts</em> hinzuziehen.
+        </p>
+        <p>
+          (3) Wird eine Zusage dieser Vereinbarung in einer Fassung der Anwendung nicht mehr
+          gehalten, unterrichtet der Arbeitgeber die Arbeitnehmervertretung, sobald er davon
+          weiß.
+        </p>
+
+        <h3>§ 11 Inkrafttreten und Kündigung</h3>
+        <p>(1) Diese Vereinbarung tritt am <span class="blank short"></span> in Kraft.</p>
+        <p>
+          (2) Sie kann mit einer Frist von <span class="blank short"></span> Monaten zum <span class="blank short"></span> gekündigt werden. <em class="hint">Die Parteien
+          regeln hier, ob und wie sie bis zu einer neuen Vereinbarung nachwirkt.</em>
+        </p>
+
+        <div class="signatures">
+          <dl class="fields">
+            <dt>Ort, Tag</dt><dd><span class="blank"></span></dd>
+            <dt>für den Arbeitgeber</dt><dd><span class="blank tall"></span></dd>
+          </dl>
+          <dl class="fields">
+            <dt>Ort, Tag</dt><dd><span class="blank"></span></dd>
+            <dt>für die Arbeitnehmervertretung</dt><dd><span class="blank tall"></span></dd>
+          </dl>
+        </div>
+      </article>
+
+      <article class="contract legal annex" aria-labelledby="anlage-1">
+        <h2 id="anlage-1">Anlage 1: Verfahrensbeschreibung</h2>
+        <p>
+          Die Verfahrensbeschreibung, die die Leitung unter „Einstellungen“, „Datenschutz“
+          erzeugt hat, in der Fassung vom <span class="blank short"></span>.
+        </p>
+      </article>
+
+      <p class="muted no-print stand">
+        Stand der Vorlage: 19.10.2026. Nicht rechtlich geprüft. Die Vorlage liegt auch im <a href={`${LINKS.haustechnik}/blob/main/docs/vereinbarung/Vereinbarung-Vorlage.md`} rel="noopener">Repository</a>,
+        wo ein Test jede Zusage gegen Anhang A der Verfahrensbeschreibung hält.
+      </p>
+    </div>
+  </section>
+</Page>
+
+<style>
+  .legal h2 {
+    font-size: var(--font-h3);
+    margin-block-end: var(--space-xs);
+  }
+
+  .legal :is(p, ul) + p {
+    margin-block-start: var(--space-xs);
+  }
+
+  .contract {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: var(--space-m);
+  }
+
+  .contract + .contract {
+    margin-block-start: var(--space-l);
+  }
+
+  .contract h3 {
+    font-size: var(--font-l);
+    margin-block: var(--space-m) var(--space-xs);
+  }
+
+  .parties > * + * {
+    margin-block-start: var(--space-xs);
+  }
+
+  /* The evidence of a promise, an entry of appendix A of the description. */
+  .proof {
+    font-size: var(--font-s);
+    color: var(--ink-muted);
+    white-space: nowrap;
+  }
+
+  /* What the parties settle themselves, to be replaced or struck. */
+  .hint {
+    color: var(--ink-muted);
+  }
+
+  /* A line to write on, as in the template of the contract. */
+  .blank {
+    display: inline-block;
+    min-width: 12rem;
+    max-width: 100%;
+    height: 1.2em;
+    vertical-align: bottom;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .blank.short {
+    min-width: 4rem;
+  }
+
+  .blank.tall {
+    height: 3em;
+  }
+
+  dd > .blank {
+    display: block;
+    width: 100%;
+  }
+
+  .fields {
+    display: grid;
+    grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+    gap: 0.5rem var(--space-s);
+    align-items: end;
+  }
+
+  .fields dt {
+    font-size: var(--font-s);
+    color: var(--ink-muted);
+  }
+
+  @media (width < 36rem) {
+    .fields {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.25rem;
+    }
+
+    .fields dd + dt {
+      margin-block-start: 0.5rem;
+    }
+
+    .proof {
+      white-space: normal;
+    }
+  }
+
+  .signatures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: var(--space-m);
+    margin-block-start: var(--space-l);
+  }
+
+  .signatures .fields {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.25rem;
+  }
+
+  .stand {
+    margin-block-start: var(--space-m);
+  }
+
+  .print-only {
+    display: none;
+  }
+
+  /* Printed from the browser, the page becomes the agreement: no header, no
+   * footer, no explanation, no tinted band, and the annex on a page of its own. */
+  @media print {
+    :global(.header),
+    :global(.footer),
+    :global(.skip-link),
+    .no-print {
+      display: none !important;
+    }
+
+    .print-only {
+      display: block;
+    }
+
+    .print-plain {
+      background: none;
+      padding: 0;
+    }
+
+    .contract {
+      border: 0;
+      padding: 0;
+      font-size: 10.5pt;
+    }
+
+    .annex {
+      break-before: page;
+    }
+
+    .contract h3 {
+      break-after: avoid;
+    }
+
+    .signatures,
+    .fields {
+      break-inside: avoid;
+    }
+  }
+</style>
