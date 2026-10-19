@@ -70,12 +70,12 @@ const questions = [
   {
     question: 'Kann ich sie heute schon einsetzen?',
     answer:
-      'Ja, als frühe Fassung. Phase 1, der Umfang für den ersten produktiven Einsatz, ist als Fassung 0.1.0 am 15.10.2026 erschienen, die neueste ist 0.1.3 vom selben Tag. Installiert wird aus dem Paket der Release-Seite mit einem Befehl, die Abbilder sind signiert. Der Pilotbetrieb arbeitet damit zunächst neben seiner bisherigen Anwendung. Version 1 ist erreicht, wenn er diese abschalten kann; dafür fehlt noch Phase 2, unter anderem Störmeldungen, Lager, Fremdfirmen, weitere Pakete und die Funktionen der DSGVO.',
+      'Ja, als frühe Fassung. Phase 1, der Umfang für den ersten produktiven Einsatz, ist als Fassung 0.1.0 am 15.10.2026 erschienen, die neueste ist 0.1.8 vom 19.10.2026. Installiert wird aus dem Paket der Release-Seite mit einem Befehl, die Abbilder sind signiert. Der Pilotbetrieb arbeitet damit zunächst neben seiner bisherigen Anwendung. Version 1 ist erreicht, wenn er diese abschalten kann, und das ist das Ziel von Phase 2. Was sie bringt, von Störmeldungen über Lager und Fremdfirmen bis zu weiteren Paketen und den Funktionen der DSGVO, ist zum größten Teil gebaut und in Zwischenfassungen erschienen; vor ihrem Abschluss steht noch eine externe Sicherheitsprüfung.',
   },
   {
     question: 'Bringt sie einen vollständigen Pflichtenkatalog mit?',
     answer:
-      'Dabei sind die Pakete Elektro, Brandschutz, Trinkwasser, Messstellen und Allgemein und das Landesrecht von Baden-Württemberg. Bis Version 1 kommen Raumluft und Kälte, Heizung sowie Förderanlagen und Arbeitsmittel dazu, jedes vollständig für seinen Bereich. Weitere Länder folgen in späteren Phasen. Jeder Eintrag nennt seine Fundstelle und sagt, ob er fachlich abgenommen ist. Einen redaktionellen Regelwerksdienst ersetzt der Katalog nicht, und wer einen solchen Dienst lizenziert hat, soll dessen Inhalte später übernehmen können.',
+      'Dabei sind die Pakete Elektro, Brandschutz, Trinkwasser, Raumluft und Kälte, Heizung sowie Förderanlagen und Arbeitsmittel, dazu Messstellen und Allgemein und das Landesrecht von Baden-Württemberg. Weitere Länder folgen in späteren Phasen. Jeder Eintrag nennt seine Fundstelle und sagt, ob er fachlich abgenommen ist. Einen redaktionellen Regelwerksdienst ersetzt der Katalog nicht, und wer einen solchen Dienst lizenziert hat, soll dessen Inhalte später übernehmen können.',
   },
   {
     question: 'Wo liegen die Daten?',
@@ -426,7 +426,7 @@ const schema = [
       <p>
         Phase 1, der Umfang für den ersten produktiven Einsatz bei einem Träger mit rund
         zwanzig Liegenschaften, ist fertig und als Fassung 0.1.0 am 15.10.2026
-        erschienen, die neueste ist 0.1.3. Darin stehen Liegenschaften bis zum Raum,
+        erschienen, die neueste ist 0.1.8. Darin stehen Liegenschaften bis zum Raum,
         Anlagen mit Akte, Import, Etiketten und Zählern, das Pflichtenverzeichnis mit
         Vorschlägen aus den Paketen und seinen Fristen, Prüfungen vor Ort mit
         Unterschrift, Nachweise mit PDF, Mängel, Aufträge im Büro und vor Ort, die
@@ -434,11 +434,15 @@ const schema = [
         aus der bisherigen Anwendung.
       </p>
       <p>
-        Es fehlt, was Phase 2 bringt, bevor der Pilotbetrieb seine bisherige Anwendung
-        abschaltet: unter anderem Störmeldungen auch ohne Konto, der Leistungsnachweis,
-        Lager, Fremdfirmen und Verträge, die Pflichtenübertragung, weitere Pakete,
-        eigene Rollen und die Funktionen der DSGVO. Vor der Fassung mit der ersten Seite
-        ohne Anmeldung kommt eine externe Sicherheitsprüfung.
+        Seitdem erscheint, was aus Phase 2 fertig ist, in Zwischenfassungen: Störmeldungen
+        mit und ohne Konto, der Leistungsnachweis, Lager, Fremdfirmen und Verträge, die
+        Pflichtenübertragung, die Pakete Raumluft und Kälte, Heizung sowie Förderanlagen
+        und Arbeitsmittel, eigene Rollen und die Funktionen der DSGVO. Gebaut und für die
+        nächste Fassung bereit sind die Elektro-Struktur einer Anlage bis zum Stromkreis,
+        die Messwerte je Stromkreis mit den Grenzwerten aus dem Paket Elektro und die
+        PV-Struktur mit Wechselrichtern, Strings und Modulen. Bevor der Pilotbetrieb seine
+        bisherige Anwendung abschaltet, fehlen noch eine externe Sicherheitsprüfung und die
+        Fassung, die Phase 2 abschließt.
       </p>
       <p class="button-row">
         <a class="button button-primary" href="/haustechnik/stand/">Stand und Fahrplan</a>
