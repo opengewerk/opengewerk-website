@@ -4,8 +4,8 @@ import AreaTable, { type Area } from '../../components/AreaTable.astro';
 import Phases, { type Phase } from '../../components/Phases.astro';
 import { LINKS } from '../../site';
 
-// What is built, per area: phase 1 as released with 0.1.0, and what the open
-// issues of phase 2 add to it.
+// What is built, per area: phase 1 as released with 0.1.0, and what phase 2
+// has added since, in interim releases or on main for the next one.
 const areas: Area[] = [
   {
     title: 'Fundament und Betrieb',
@@ -15,7 +15,7 @@ const areas: Area[] = [
   {
     title: 'Bereiche und Zugänge',
     state: 'done',
-    detail: 'Zuständigkeitsbereiche, die die Datenbank durchsetzt, auch für ein einzelnes Gebäude, Zugänge mit Rolle und Bereichen und die Vertretung. Ein Gerät hält nur, was in den Bereichen seiner Person liegt. Eigene Rollen des Betreibers kommen mit Phase 2.',
+    detail: 'Zuständigkeitsbereiche, die die Datenbank durchsetzt, auch für ein einzelnes Gebäude, Zugänge mit Rolle und Bereichen und die Vertretung. Ein Gerät hält nur, was in den Bereichen seiner Person liegt. Dazu eigene Rollen des Betreibers, die Rollen Melder und Prüfer und das Ende eines Zugangs als Frist.',
   },
   {
     title: 'Liegenschaften und Räume',
@@ -25,22 +25,22 @@ const areas: Area[] = [
   {
     title: 'Anlagen und Anlagenakte',
     state: 'done',
-    detail: 'Das Anlagenverzeichnis über alle Gebäude, die Akte einer Anlage, Anlegen und Ändern mit Prüfung auf Dubletten, der Import aus Tabellen mit Vorschau, die Bestandsaufnahme vor Ort ohne Netz, Etiketten mit Druck, Scan und Sperre und der Tausch einer Anlage. Eigene Anlagenarten und Felder des Betreibers kommen mit Phase 2.',
+    detail: 'Das Anlagenverzeichnis über alle Gebäude, die Akte einer Anlage, Anlegen und Ändern mit Prüfung auf Dubletten, der Import aus Tabellen mit Vorschau, die Bestandsaufnahme vor Ort ohne Netz, Etiketten mit Druck, Scan und Sperre und der Tausch einer Anlage. Dazu eigene Anlagenarten und Felder des Betreibers und das Anlagenbuch mit allen Nachweisen und dem Lebenszyklus einer Anlage. Gebaut und für die nächste Fassung bereit: unter einer Niederspannungsanlage Verteiler, Felder, Stromkreise und Betriebsmittel mit dem Stromkreisverzeichnis, unter einer PV-Anlage Wechselrichter, Strings und Module, beides im Büro und vor Ort auch ohne Netz aufgenommen.',
   },
   {
     title: 'Katalog und Pakete',
     state: 'partial',
-    detail: 'Das Format der Pakete mit Lader und Prüfungen, der Katalog im Büro und auf dem Gerät mit dem Stand der Abnahme und die Pakete Allgemein, Messstellen, Elektro, Brandschutz und Trinkwasser mit den Prüfungen aus Verordnungen, Unfallverhütungsvorschriften und Technischen Regeln, dazu das Landesrecht von Baden-Württemberg. Was private Normen sagen, kommt nach der rechtlichen Prüfung dazu. Phase 2 bringt die Pakete Raumluft und Kälte, Heizung sowie Förderanlagen und Arbeitsmittel.',
+    detail: 'Das Format der Pakete mit Lader und Prüfungen, der Katalog im Büro und auf dem Gerät mit dem Stand der Abnahme und die Pakete Allgemein, Messstellen, Elektro, Brandschutz, Trinkwasser, Raumluft und Kälte, Heizung sowie Förderanlagen und Arbeitsmittel mit den Prüfungen aus Verordnungen, Unfallverhütungsvorschriften und Technischen Regeln, dazu das Landesrecht von Baden-Württemberg. Was private Normen sagen, kommt nach der rechtlichen Prüfung dazu.',
   },
   {
     title: 'Pflichten und Fristen',
-    state: 'partial',
-    detail: 'Das Pflichtenverzeichnis, die Vorschläge aus dem Katalog zum Bestätigen oder Verwerfen, eigene Pflichten des Betreibers, die Übersicht der Betreiberverantwortung und die Fristen mit ihren Einstellungen. Die schriftliche Pflichtenübertragung und die Qualifikationen der Mitarbeiter kommen mit Phase 2.',
+    state: 'done',
+    detail: 'Das Pflichtenverzeichnis, die Vorschläge aus dem Katalog zum Bestätigen oder Verwerfen, eigene Pflichten des Betreibers, die Übersicht der Betreiberverantwortung und die Fristen mit ihren Einstellungen. Dazu die schriftliche Pflichtenübertragung, die Qualifikationen der Mitarbeiter und Pflichten, die nur einmal fällig sind.',
   },
   {
     title: 'Prüfungen und Nachweise',
-    state: 'partial',
-    detail: 'Prüfung und Wartung aus einem fälligen Termin, das Protokoll vor Ort mit Unterschrift auch ohne Netz, der Bericht einer Fremdfirma als Nachweis, das PDF aus dem eingefrorenen Stand und im Büro das Ansehen, Berichtigen und für ungültig Erklären eines Nachweises. Sammelnachweise, das Nachweisverzeichnis, ein lesender Zugang für Prüfer und die Aufbewahrung mit Löschvorschlag kommen mit Phase 2.',
+    state: 'done',
+    detail: 'Prüfung und Wartung aus einem fälligen Termin, das Protokoll vor Ort mit Unterschrift auch ohne Netz, der Bericht einer Fremdfirma als Nachweis, das PDF aus dem eingefrorenen Stand und im Büro das Ansehen, Berichtigen und für ungültig Erklären eines Nachweises. Dazu Sammelvorgänge, das Nachweisverzeichnis, ein lesender Zugang für Prüfer von außen, das höher signierte PDF und das Löschen eines Nachweises nach Ablauf seiner Aufbewahrung. Gebaut und für die nächste Fassung bereit: die Prüfung der elektrischen Anlage misst je Stromkreis, gegen Grenzwerte, die im Paket Elektro als Regeln mit Norm, Ausgabe und Abschnitt stehen.',
   },
   {
     title: 'Rundgänge',
@@ -50,17 +50,17 @@ const areas: Area[] = [
   {
     title: 'Mängel',
     state: 'done',
-    detail: 'Mängel mit Klasse, Frist und Stand, von Hand im Büro oder vor Ort gemeldet, mit der Nachprüfung, und die Mängelklassen im Paketformat.',
+    detail: 'Mängel mit Klasse, Frist und Stand, von Hand im Büro oder vor Ort gemeldet, mit der Nachprüfung, und die Mängelklassen im Paketformat. Ein Mangel, der eine Anlage unsicher macht, setzt sie außer Betrieb, bis er behoben ist, und der Mängelbericht kommt als PDF. Mit der nächsten Fassung nennt ein Mangel aus einer Messung auch seinen Stromkreis.',
   },
   {
     title: 'Aufträge',
-    state: 'partial',
-    detail: 'Aufträge im Büro aus einem Mangel oder einem Termin, mit Dringlichkeit, weiteren Beteiligten und der Abnahme, und vor Ort mit Notizen, Fotos, Dauer und Unterschrift. Der Leistungsnachweis mit der Unterschrift des Auftraggebers und das Material aus dem Lager kommen mit Phase 2.',
+    state: 'done',
+    detail: 'Aufträge im Büro aus einem Mangel oder einem Termin, mit Dringlichkeit, weiteren Beteiligten und der Abnahme, und vor Ort mit Notizen, Fotos, Dauer und Unterschrift. Dazu der Leistungsnachweis mit der Unterschrift des Auftraggebers, das Material aus dem Lager, der Einsatz einer Fremdfirma und die Einordnung nach DIN 31051.',
   },
   {
     title: 'Dokumente',
     state: 'done',
-    detail: 'Eine Ablage mit Fassungen an Ort, Anlage und Vorgang. Dokumente mit Gültigkeit kommen mit Phase 2.',
+    detail: 'Eine Ablage mit Fassungen an Ort, Anlage und Vorgang, Dokumente mit Gültigkeit, die Soll-Dokumente je Anlagenart aus den Paketen und Unterlagen, die sich vor Ort für unterwegs auf das Gerät holen lassen.',
   },
   {
     title: 'Zähler',
@@ -79,17 +79,17 @@ const areas: Area[] = [
   },
   {
     title: 'Störmeldungen',
-    state: 'planned',
+    state: 'done',
     detail: 'Meldungen mit Konto und ohne, über das Etikett an der Anlage, mit Eingang, Annahme und Rückmeldung an den Melder.',
   },
   {
     title: 'Lager, Fremdfirmen und Verträge',
-    state: 'planned',
+    state: 'done',
     detail: 'Artikel, Lieferanten und Bestand, die Entnahme am Auftrag per Scan, Fremdfirmen mit Einweisung vor Ort, Verträge und Gewährleistung.',
   },
   {
     title: 'Auswertungen und Datenschutz',
-    state: 'planned',
+    state: 'done',
     detail: 'Auswertungen über die Zeit ohne Auswertung je Person, Auskunft und Datenexport je Person, die Verfahrensbeschreibung als erzeugtes Dokument und eine Vorlage für eine Betriebs- oder Dienstvereinbarung.',
   },
 ];
@@ -115,7 +115,7 @@ const phases: Phase[] = [
     title: 'Betreiberpflichten vollständig',
     state: 'active',
     result:
-      'Pflichtenübertragung, Qualifikationen, weitere Protokolle und Pakete, Sammelnachweise, ein Verzeichnis der Nachweise und ein Zugang für Prüfer, Störmeldungen mit und ohne Konto, Fremdfirmen und Verträge, der Leistungsnachweis, Lager mit Verbrauch am Auftrag, Auswertungen über die Zeit, eigene Rollen, Dokumente mit Gültigkeit, die Funktionen der DSGVO und die Verfahrensbeschreibung. Danach ist die bisherige Anwendung abgeschaltet, und ein Betreiber kann eine Begehung allein aus dem System bestreiten.',
+      'Pflichtenübertragung, Qualifikationen, weitere Protokolle und Pakete, Sammelnachweise, ein Verzeichnis der Nachweise und ein Zugang für Prüfer, Störmeldungen mit und ohne Konto, Fremdfirmen und Verträge, der Leistungsnachweis, Lager mit Verbrauch am Auftrag, Auswertungen über die Zeit, eigene Rollen, Dokumente mit Gültigkeit, die Funktionen der DSGVO und die Verfahrensbeschreibung. Danach ist die bisherige Anwendung abgeschaltet, und ein Betreiber kann eine Begehung allein aus dem System bestreiten. Was davon fertig ist, erscheint in Zwischenfassungen, 0.1.4 bis 0.1.8 vom 16. bis 19.10.2026. Offen sind noch eine externe Sicherheitsprüfung und die Fassung, die Phase 2 abschließt.',
   },
   {
     number: '3',
@@ -160,9 +160,10 @@ const phases: Phase[] = [
       <p class="lead">
         Gebaut wird entlang eines Pilotbetriebs, der Haustechnik eines Trägers mit rund
         zwanzig Liegenschaften. Phase 1 ist abgeschlossen und als Fassung 0.1.0 am
-        15.10.2026 erschienen, die neueste ist 0.1.3 vom selben Tag. Damit beginnt dort
-        der Parallelbetrieb neben der bisherigen Anwendung. Version 1 ist erreicht, wenn
-        diese abgeschaltet werden kann, und darauf arbeitet Phase 2 hin.
+        15.10.2026 erschienen. Damit hat dort der Parallelbetrieb neben der bisherigen
+        Anwendung begonnen. Version 1 ist erreicht, wenn diese abgeschaltet werden kann,
+        und darauf arbeitet Phase 2 hin. Was aus ihr fertig ist, erscheint vorab in
+        Zwischenfassungen, die neueste ist 0.1.8 vom 19.10.2026.
       </p>
     </div>
   </section>
