@@ -1,6 +1,12 @@
 ---
 import Page from '../../layouts/Page.astro';
+import { partA } from '../../measures-part-a';
 import { LINKS } from '../../site';
+
+// Part A of annex 1 is the one the application makes the measures of an
+// operator from (opengewerk-haustechnik#358), read from its template at build
+// time.
+const sections = await partA();
 
 // The template stays on one page so that printing it from the browser gives the
 // contract and nothing else: everything around it is marked .no-print, and the
@@ -414,187 +420,27 @@ import { LINKS } from '../../site';
         <p>
           Nach Art. 32 DSGVO. Teil A beschreibt, was die Anwendung mitbringt, auf jeder
           Instanz gleich, für den Stand <span class="blank"></span> (Fassung oder Datum).
-          Er folgt der Verfahrensbeschreibung und dem Quelltext; wo die
-          Verfahrensbeschreibung eine Zusage macht, hält sie ein Test. Teil B füllt der
-          Auftragsverarbeiter für seinen Betrieb aus.
+          Er ist derselbe Text, aus dem eine Instanz die Maßnahmen eines Betreibers
+          erzeugt, und jede Aussage darin nennt dort ihren Beleg aus der
+          Verfahrensbeschreibung, den ein Test gegen den Quelltext hält. Teil B füllt der
+          Auftragsverarbeiter für seinen Betrieb aus; in einer Instanz trägt er ihn im
+          Bereich der Instanz unter „Maßnahmen“ ein.
         </p>
 
         <h3>Teil A: Was die Anwendung mitbringt</h3>
 
-        <h4>A.1 Anmeldung</h4>
-        <ul class="marker-list">
-          <li>
-            Ein Konto entsteht nur bei der Ersteinrichtung, über eine Einladung oder über die
-            Kommandozeile des Servers. Eine offene Registrierung gibt es nicht. Der Link
-            einer Einladung gilt sieben Tage.
-          </li>
-          <li>Angemeldet wird mit Passwort oder Passkey. Das Passwort steht nur als Hash in der Datenbank (Argon2id).</li>
-          <li>
-            Der zweite Faktor, ein Code aus einer App, ist Pflicht für die Rolle Leitung und
-            für die Verwaltung der Instanz und für alle anderen empfohlen. Er und seine
-            Wiederherstellungscodes stehen verschlüsselt in der Datenbank (AES-256-GCM).
-          </li>
-          <li>Versuche der Anmeldung werden je Netzadresse und Weg für kurze Zeit gezählt und begrenzt.</li>
-          <li>
-            Eine Sitzung endet nach zwölf Stunden, ein Gerät für die Arbeit ohne Netz bleibt
-            dreißig Tage angemeldet. Jede Person sieht und beendet ihre Sitzungen, die
-            Leitung meldet Geräte ihrer Beschäftigten ab. Wird eine Zugehörigkeit gesperrt,
-            endet sofort, was die Person dort offen hat.
-          </li>
-          <li>
-            Das Cookie der Sitzung geht nur über eine verschlüsselte Verbindung, und Anfragen,
-            die von einer fremden Seite kommen, nimmt der Server nicht an.
-          </li>
-        </ul>
-
-        <h4>A.2 Rechte und Trennung</h4>
-        <ul class="marker-list">
-          <li>Vier Rollen mit festen Rechten. Der Server prüft das Recht an jeder Adresse, die er beantwortet.</li>
-          <li>
-            Die Datenbank trennt die Betreiber einer Instanz Zeile für Zeile, auch gegenüber
-            dem Eigentümer der Tabellen. Zwei Betreiber auf derselben Instanz sehen nichts
-            voneinander.
-          </li>
-          <li>
-            Zuständigkeitsbereiche setzt ebenfalls die Datenbank durch: eine Person sieht nur
-            die Liegenschaften ihrer Bereiche, und ihr Gerät hält nur diese.
-          </li>
-          <li>
-            Wer die Instanz verwaltet, sieht je Betreiber den Namen, wer ihn leitet, und wie
-            viele dort arbeiten, und nichts von dem, was in ihm steht.
-          </li>
-          <li>Das Änderungsprotokoll und die Zugänge sieht nur die Leitung.</li>
-          <li>
-            Eine Tabelle zum Herunterladen bekommt nur, wer die Liste sehen darf, und eine
-            Person nennt sie nur der Leitung.
-          </li>
-        </ul>
-
-        <h4>A.3 Übertragung</h4>
-        <ul class="marker-list">
-          <li>
-            Die Anwendung verlangt eine verschlüsselte Verbindung: das Cookie der Sitzung ist
-            darauf beschränkt, der Server setzt Strict-Transport-Security, und Dateien und
-            Unterschriften lassen sich ohne sie nicht festschreiben. Die Verschlüsselung
-            selbst stellt der vorgeschaltete Webserver her (B.4).
-          </li>
-          <li>
-            Eine Content-Security-Policy erlaubt dem Browser nur Verbindungen zur eigenen
-            Instanz. Inhalte von fremden Servern, Telemetrie und einen Lizenzserver gibt es
-            nicht.
-          </li>
-          <li>
-            E-Mails an ein Konto gehen über den Mailserver der Instanz, E-Mails eines
-            Betreibers über dessen eigenen. Das Passwort eines Mailservers steht versiegelt in
-            der Datenbank (AES-256-GCM) und wird nie wieder angezeigt.
-          </li>
-          <li>
-            Eine Benachrichtigung nennt, was ansteht, und den Tag, aber keinen Namen, keinen
-            Ort und keinen eingetippten Text. Eine Push-Nachricht ist auf dem Weg über den
-            Push-Dienst verschlüsselt.
-          </li>
-          <li>
-            Die Geräte gleichen über dieselbe verschlüsselte Verbindung ab. Wer einen Datensatz
-            zuletzt geändert hat, wann und von welchem Gerät, bekommt kein Gerät.
-          </li>
-        </ul>
-
-        <h4>A.4 Integrität und Eingabekontrolle</h4>
-        <ul class="marker-list">
-          <li>
-            Jede Änderung an einem Datensatz steht im Änderungsprotokoll, Feld für Feld mit
-            dem Wert davor und danach, mit Person, Zeitpunkt, Gerät und Weg.
-          </li>
-          <li>
-            Das Protokoll wird nur ergänzt. Keinen Eintrag ändert oder löscht jemand, auch
-            nicht der Eigentümer der Tabellen; jeder Eintrag verweist über einen
-            Fingerabdruck auf seinen Vorgänger, und eine Prüfung der Kette findet einen
-            Eintrag, der an der Anwendung vorbei verändert wurde.
-          </li>
-          <li>
-            Ein Nachweis wird beim Festschreiben eingefroren, mit einer Prüfsumme (SHA-256)
-            über seinen Stand, die der Server berechnet. Berichtigt wird er durch einen neuen
-            Nachweis, der den alten nennt.
-          </li>
-          <li>Unterschrieben wird im Namen des angemeldeten Kontos. Die Person setzt der Server ein, nicht das Gerät.</li>
-          <li>
-            Was jemand entfernt, wird als entfernt markiert und nicht gelöscht; die Anwendung
-            hat in der Datenbank kein Recht, eine solche Zeile zu löschen.
-          </li>
-          <li>Abgelegte Dateien liegen unter der Prüfsumme ihres Inhalts, und das Rückspielen einer Sicherung prüft jede Datei dagegen.</li>
-        </ul>
-
-        <h4>A.5 Verfügbarkeit und Wiederherstellung</h4>
-        <ul class="marker-list">
-          <li>
-            Jede Nacht sichert die Instanz Datenbank und Dateispeicher zusammen in ein Archiv
-            und holt eine verpasste Sicherung nach. Nach der Vorgabe bleiben vierzehn
-            Generationen.
-          </li>
-          <li>
-            Ein Archiv lässt sich an einen öffentlichen Schlüssel verschlüsseln (age), dessen
-            privater Teil an einem anderen Ort liegt. Ohne Schlüssel entsteht es
-            unverschlüsselt.
-          </li>
-          <li>
-            Zum Rückspielen und zum Prüfen eines Archivs gibt es je einen Befehl. Wann zuletzt
-            gesichert wurde, zeigen die Einstellungen; ist die letzte Sicherung älter als zwei
-            Tage, steht im Büro eine rote Leiste.
-          </li>
-          <li>
-            Ein Update spielt zuerst die Migrationen ein und tauscht erst danach die laufenden
-            Container. Scheitert eine Migration, arbeitet die Instanz auf dem Stand davor
-            weiter.
-          </li>
-          <li>Ohne Netz arbeiten die Geräte vor Ort weiter und gleichen ab, sobald es wieder Netz gibt.</li>
-        </ul>
-
-        <h4>A.6 Geräte der Nutzer</h4>
-        <ul class="marker-list">
-          <li>Ein Gerät hält nur, was seine Person nach ihren Bereichen sieht.</li>
-          <li>Beim Abmelden löscht die Anwendung die lokale Ablage des Geräts, für jeden Betreiber, bei dem die Person angemeldet war.</li>
-          <li>
-            Die lokale Ablage verschlüsselt die Anwendung nicht eigens. Sie ist so geschützt
-            wie das Gerät und sein Browser; Sperre und Verschlüsselung des Geräts sind Sache
-            dessen, der es stellt.
-          </li>
-        </ul>
-
-        <h4>A.7 Datenschutz durch Technikgestaltung</h4>
-        <ul class="marker-list">
-          <li>
-            Keine Statistik, keine Rangliste und keine Zahl je Person. Arbeitszeit und Standort
-            erhebt die Anwendung nicht.
-          </li>
-          <li>Push schaltet jede Person für sich selbst ein und wählt die Anlässe; der Betreiber hat dafür keinen Schalter.</li>
-        </ul>
-
-        <h4>A.8 Regelmäßige Überprüfung</h4>
-        <ul class="marker-list">
-          <li>
-            Jede Zusage der Verfahrensbeschreibung hat einen Test, der bei jeder Änderung am
-            Quelltext läuft, und ein Test hält die Verfahrensbeschreibung selbst gegen den
-            Quelltext.
-          </li>
-          <li>Jede Änderung durchläuft vor der Übernahme eine Prüfung auf Sicherheit und eine statische Analyse des Quelltexts.</li>
-          <li>
-            Eine Sicherheitslücke wird über ein privates Formular gemeldet, behoben und als
-            Advisory veröffentlicht. Die Korrektur bekommt die neueste Fassung.
-          </li>
-        </ul>
-
-        <h4>A.9 Was die Anwendung noch nicht selbst kann</h4>
-        <ul class="marker-list">
-          <li>
-            Sie löscht nichts nach Ablauf einer Frist: weder einen Nachweis am Ende seiner
-            Aufbewahrung noch die Angaben eines Kontos, wenn die Person den Betreiber
-            verlassen hat. Eine Zugehörigkeit lässt sich sperren, ein Konto löschen lässt
-            sich nicht.
-          </li>
-          <li>Personenbezogene Werte im Änderungsprotokoll werden nicht geschwärzt.</li>
-          <li>Ein Verzeichnis der Verarbeitungstätigkeiten und diese Beschreibung erzeugt sie noch nicht selbst.</li>
-        </ul>
-        <p>Das Planungskonzept sieht all das für die nächste Phase vor.</p>
+        {
+          sections.map((section) => (
+            <>
+              <h4>{section.title}</h4>
+              <ul class="marker-list">
+                {section.statements.map((statement) => (
+                  <li>{statement}</li>
+                ))}
+              </ul>
+            </>
+          ))
+        }
 
         <h3>Teil B: Was der Auftragsverarbeiter beim Betrieb sicherstellt</h3>
 
@@ -692,7 +538,7 @@ import { LINKS } from '../../site';
         </div>
       </article>
 
-      <p class="muted no-print stand">Stand der Vorlage: 14.10.2026. Nicht rechtlich geprüft.</p>
+      <p class="muted no-print stand">Stand der Vorlage: 19.10.2026. Nicht rechtlich geprüft.</p>
     </div>
   </section>
 </Page>
