@@ -28,6 +28,11 @@ const lines = [
     'Was in OpenGewerk Haustechnik gebaut ist und die Phasen bis zum Vollausbau.',
   ),
   entry(
+    'Betriebs- oder Dienstvereinbarung',
+    absolute('/haustechnik/vereinbarung/'),
+    'Vorlage für eine Betriebs- oder Dienstvereinbarung über die Einführung und Anwendung von OpenGewerk Haustechnik, mit Hinweisen für Betriebsverfassungsgesetz, Personalvertretungsrecht und kirchliches Recht. Nicht rechtlich geprüft.',
+  ),
+  entry(
     'Vertrag zur Auftragsverarbeitung',
     absolute('/haustechnik/auftragsverarbeitung/'),
     'Vorlage für den Vertrag nach Art. 28 DSGVO zwischen einem Betreiber und dem Dienstleister, der seine Instanz betreibt, mit den technischen und organisatorischen Maßnahmen als Anlage. Nicht rechtlich geprüft.',
