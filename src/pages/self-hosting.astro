@@ -109,6 +109,26 @@ const schema = [
           Befehl, dann baut er die Abbilder selbst.
         </p>
       </div>
+      <h2>Davor gehört ein Reverse Proxy mit HTTPS</h2>
+      <p>
+        Die Instanz lauscht nur auf <code>127.0.0.1</code>, denn eine Anwendung, die
+        Rechnungen führt, steht nicht unverschlüsselt im Netz. Davor gehört ein Reverse
+        Proxy mit TLS, und für die beiden üblichen liegen vollständige Vorlagen im Paket
+        unter <code>docker/proxy/</code>:{' '}
+        <a href={LINKS.repository + '/blob/main/docker/proxy/apache.conf'} rel="noopener">apache.conf</a>{' '}
+        für Apache und{' '}
+        <a href={LINKS.repository + '/blob/main/docker/proxy/nginx.conf'} rel="noopener">nginx.conf</a>{' '}
+        für nginx. Sie leiten HTTP auf HTTPS um, nehmen das Zertifikat von certbot,
+        reichen Host, Protokoll und die Adresse des Browsers an die Instanz weiter,
+        lassen große Anfragen nur dort durch, wo Dateien kommen, und geben einem langen
+        Druck Zeit. Anzupassen sind der Name und, wer ihn geändert hat, der Port; jede
+        dieser Zeilen trägt einen Kommentar.
+      </p>
+      <p>
+        Was darüber hinaus zu wissen ist, auch für einen anderen Proxy wie Caddy, steht
+        im README im Abschnitt{' '}
+        <a href={LINKS.repository + '#reverse-proxy'} rel="noopener">Reverse Proxy</a>.
+      </p>
     </div>
   </section>
 
@@ -250,6 +270,15 @@ const schema = [
         Davor gehört ein eigener Hostname: ein Browser hält Cookies je Hostname und
         nicht je Port, zwei Anwendungen unter einem Namen würden sich gegenseitig
         abmelden.
+      </p>
+      <p>
+        Auch die Haustechnik bringt Vorlagen für den Reverse Proxy im Paket mit,{' '}
+        <a href={LINKS.haustechnik + '/blob/main/docker/proxy/apache.conf'} rel="noopener">apache.conf</a>{' '}
+        und{' '}
+        <a href={LINKS.haustechnik + '/blob/main/docker/proxy/nginx.conf'} rel="noopener">nginx.conf</a>,
+        schon mit eigenem Namen, eigenem Port und den Grenzen für ihre Fotos, Nachweise
+        und Tabellen. Was dabei zu wissen ist, steht in ihrem README im Abschnitt{' '}
+        <a href={LINKS.haustechnik + '#reverse-proxy'} rel="noopener">Reverse Proxy</a>.
       </p>
     </div>
   </section>
