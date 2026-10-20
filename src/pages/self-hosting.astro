@@ -2,6 +2,10 @@
 import Page from '../layouts/Page.astro';
 import { LINKS } from '../site';
 
+// Where each application explains its reverse proxy at length.
+const proxyGuide = LINKS.repository + '/blob/main/docs/betrieb.md#reverse-proxy';
+const proxyGuideHaustechnik = LINKS.haustechnik + '/blob/main/docs/betrieb.md#reverse-proxy';
+
 const services = [
   { service: 'Anwendung', image: '291 MB', memory: '81 MiB unter einem Limit von 1 GB' },
   { service: 'PostgreSQL 18', image: '433 MB', memory: '33 MiB' },
@@ -126,8 +130,8 @@ const schema = [
       </p>
       <p>
         Was darüber hinaus zu wissen ist, auch für einen anderen Proxy wie Caddy, steht
-        im README im Abschnitt{' '}
-        <a href={LINKS.repository + '#reverse-proxy'} rel="noopener">Reverse Proxy</a>.
+        in der Anleitung zum Betrieb im Abschnitt{' '}
+        <a href={proxyGuide} rel="noopener">Reverse Proxy</a>.
       </p>
     </div>
   </section>
@@ -277,8 +281,8 @@ const schema = [
         und{' '}
         <a href={LINKS.haustechnik + '/blob/main/docker/proxy/nginx.conf'} rel="noopener">nginx.conf</a>,
         schon mit eigenem Namen, eigenem Port und den Grenzen für ihre Fotos, Nachweise
-        und Tabellen. Was dabei zu wissen ist, steht in ihrem README im Abschnitt{' '}
-        <a href={LINKS.haustechnik + '#reverse-proxy'} rel="noopener">Reverse Proxy</a>.
+        und Tabellen. Was dabei zu wissen ist, steht in ihrer Anleitung zum Betrieb im
+        Abschnitt <a href={proxyGuideHaustechnik} rel="noopener">Reverse Proxy</a>.
       </p>
     </div>
   </section>
