@@ -4,8 +4,8 @@ import AreaTable, { type Area } from '../../components/AreaTable.astro';
 import Phases, { type Phase } from '../../components/Phases.astro';
 import { LINKS } from '../../site';
 
-// What is built, per area: phase 1 as released with 0.1.0, and what phase 2
-// has added since, in interim releases or on main for the next one.
+// What is built, per area: phase 1 as released with 0.1.0, and phase 2 as
+// released in interim releases and with 0.2.0.
 const areas: Area[] = [
   {
     title: 'Fundament und Betrieb',
@@ -25,7 +25,7 @@ const areas: Area[] = [
   {
     title: 'Anlagen und Anlagenakte',
     state: 'done',
-    detail: 'Das Anlagenverzeichnis über alle Gebäude, die Akte einer Anlage, Anlegen und Ändern mit Prüfung auf Dubletten, der Import aus Tabellen mit Vorschau, die Bestandsaufnahme vor Ort ohne Netz, Etiketten mit Druck, Scan und Sperre und der Tausch einer Anlage. Dazu eigene Anlagenarten und Felder des Betreibers und das Anlagenbuch mit allen Nachweisen und dem Lebenszyklus einer Anlage. Gebaut und für die nächste Fassung bereit: unter einer Niederspannungsanlage Verteiler, Felder, Stromkreise und Betriebsmittel mit dem Stromkreisverzeichnis, unter einer PV-Anlage Wechselrichter, Strings und Module, beides im Büro und vor Ort auch ohne Netz aufgenommen.',
+    detail: 'Das Anlagenverzeichnis über alle Gebäude, die Akte einer Anlage, Anlegen und Ändern mit Prüfung auf Dubletten, der Import aus Tabellen mit Vorschau, die Bestandsaufnahme vor Ort ohne Netz, Etiketten mit Druck, Scan und Sperre und der Tausch einer Anlage. Dazu eigene Anlagenarten und Felder des Betreibers und das Anlagenbuch mit allen Nachweisen und dem Lebenszyklus einer Anlage. Dazu unter einer Niederspannungsanlage Verteiler, Felder, Stromkreise und Betriebsmittel mit dem Stromkreisverzeichnis, unter einer PV-Anlage Wechselrichter, Strings und Module, beides im Büro und vor Ort auch ohne Netz aufgenommen.',
   },
   {
     title: 'Katalog und Pakete',
@@ -40,7 +40,7 @@ const areas: Area[] = [
   {
     title: 'Prüfungen und Nachweise',
     state: 'done',
-    detail: 'Prüfung und Wartung aus einem fälligen Termin, das Protokoll vor Ort mit Unterschrift auch ohne Netz, der Bericht einer Fremdfirma als Nachweis, das PDF aus dem eingefrorenen Stand und im Büro das Ansehen, Berichtigen und für ungültig Erklären eines Nachweises. Dazu Sammelvorgänge, das Nachweisverzeichnis, ein lesender Zugang für Prüfer von außen, das höher signierte PDF und das Löschen eines Nachweises nach Ablauf seiner Aufbewahrung. Gebaut und für die nächste Fassung bereit: die Prüfung der elektrischen Anlage misst je Stromkreis, gegen Grenzwerte, die im Paket Elektro als Regeln mit Norm, Ausgabe und Abschnitt stehen.',
+    detail: 'Prüfung und Wartung aus einem fälligen Termin, das Protokoll vor Ort mit Unterschrift auch ohne Netz, der Bericht einer Fremdfirma als Nachweis, das PDF aus dem eingefrorenen Stand und im Büro das Ansehen, Berichtigen und für ungültig Erklären eines Nachweises. Dazu Sammelvorgänge, das Nachweisverzeichnis, ein lesender Zugang für Prüfer von außen, das höher signierte PDF und das Löschen eines Nachweises nach Ablauf seiner Aufbewahrung. Jedes PDF mit einer Unterschrift signiert die Instanz selbst, und „PDF prüfen“ sagt zu einem vorgelegten PDF, ob es ein aufbewahrter Druck ist und ob es seit der Signatur unverändert ist. Die Prüfung der elektrischen Anlage misst je Stromkreis, gegen Grenzwerte, die im Paket Elektro als Regeln mit Norm, Ausgabe und Abschnitt stehen.',
   },
   {
     title: 'Rundgänge',
@@ -90,7 +90,7 @@ const areas: Area[] = [
   {
     title: 'Auswertungen und Datenschutz',
     state: 'done',
-    detail: 'Auswertungen über die Zeit ohne Auswertung je Person, Auskunft und Datenexport je Person, die Verfahrensbeschreibung als erzeugtes Dokument und eine Vorlage für eine Betriebs- oder Dienstvereinbarung.',
+    detail: 'Auswertungen über die Zeit ohne Auswertung je Person, Auskunft und Datenexport je Person, Löschfristen auch für das, was an keinem Nachweis hängt, die Verfahrensbeschreibung als erzeugtes Dokument und eine Vorlage für eine Betriebs- oder Dienstvereinbarung.',
   },
 ];
 
@@ -115,7 +115,7 @@ const phases: Phase[] = [
     title: 'Betreiberpflichten vollständig',
     state: 'active',
     result:
-      'Pflichtenübertragung, Qualifikationen, weitere Protokolle und Pakete, Sammelnachweise, ein Verzeichnis der Nachweise und ein Zugang für Prüfer, Störmeldungen mit und ohne Konto, Fremdfirmen und Verträge, der Leistungsnachweis, Lager mit Verbrauch am Auftrag, Auswertungen über die Zeit, eigene Rollen, Dokumente mit Gültigkeit, die Funktionen der DSGVO und die Verfahrensbeschreibung. Danach ist die bisherige Anwendung abgeschaltet, und ein Betreiber kann eine Begehung allein aus dem System bestreiten. Was davon fertig ist, erscheint in Zwischenfassungen, 0.1.4 bis 0.1.9 vom 16. bis 20.10.2026; 0.1.9 bringt die Korrekturen aus der externen Sicherheitsprüfung. Offen sind noch deren Abschluss und die Fassung, die Phase 2 abschließt.',
+      'Pflichtenübertragung, Qualifikationen, weitere Protokolle und Pakete, Sammelnachweise, ein Verzeichnis der Nachweise und ein Zugang für Prüfer, Störmeldungen mit und ohne Konto, Fremdfirmen und Verträge, der Leistungsnachweis, Lager mit Verbrauch am Auftrag, Auswertungen über die Zeit, eigene Rollen, Dokumente mit Gültigkeit, die Funktionen der DSGVO und die Verfahrensbeschreibung. Danach ist die bisherige Anwendung abgeschaltet, und ein Betreiber kann eine Begehung allein aus dem System bestreiten. Erschienen in den Zwischenfassungen 0.1.4 bis 0.1.10 und als Fassung 0.2.0 am 21.10.2026, nach einer externen Sicherheitsprüfung in zwei Teilen. Offen ist noch die Umstellung im Pilotbetrieb an einem Stichtag.',
   },
   {
     number: '3',
@@ -162,8 +162,8 @@ const phases: Phase[] = [
         zwanzig Liegenschaften. Phase 1 ist abgeschlossen und als Fassung 0.1.0 am
         15.10.2026 erschienen. Damit hat dort der Parallelbetrieb neben der bisherigen
         Anwendung begonnen. Version 1 ist erreicht, wenn diese abgeschaltet werden kann,
-        und darauf arbeitet Phase 2 hin. Was aus ihr fertig ist, erscheint vorab in
-        Zwischenfassungen, die neueste ist 0.1.9 vom 20.10.2026.
+        und dafür ist Phase 2 da. Sie ist als Fassung 0.2.0 am 21.10.2026 erschienen;
+        umgestellt wird an einem Stichtag, der noch festgelegt wird.
       </p>
     </div>
   </section>
